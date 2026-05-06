@@ -90,28 +90,47 @@
           <select id="product" required>
             <option value="">상품을 선택해 주세요</option>
             <optgroup label="서양란">
-              <option value="서양란 화이트">서양란 화이트</option>
-              <option value="서양란 핑크">서양란 핑크</option>
-              <option value="서양란 옐로우">서양란 옐로우</option>
+              <option value="서양란 화이트" data-price="99000" data-price2="109000">서양란 화이트 (99,000 / 109,000원)</option>
+              <option value="서양란 핑크" data-price="99000" data-price2="109000">서양란 핑크 (99,000 / 109,000원)</option>
+              <option value="서양란 옐로우" data-price="99000" data-price2="109000">서양란 옐로우 (99,000 / 109,000원)</option>
             </optgroup>
             <optgroup label="화환">
-              <option value="3단 화환 A">3단 화환 A</option>
-              <option value="3단 화환 고급형">3단 화환 고급형</option>
+              <option value="3단 화환 A" data-price="69000">3단 화환 A (69,000원)</option>
+              <option value="3단 화환 고급형" data-price="89000">3단 화환 고급형 (89,000원)</option>
             </optgroup>
             <optgroup label="근조">
-              <option value="3단 근조 A">3단 근조 A</option>
-              <option value="3단 근조 고급형">3단 근조 고급형</option>
+              <option value="3단 근조 A" data-price="69000">3단 근조 A (69,000원)</option>
+              <option value="3단 근조 고급형" data-price="89000">3단 근조 고급형 (89,000원)</option>
             </optgroup>
             <optgroup label="기타">
-              <option value="관엽식물(공기정화식물)">관엽식물 (공기정화식물)</option>
-              <option value="테이블용">테이블용</option>
+              <option value="관엽식물(공기정화식물)" data-price="99000" data-price2="109000">관엽식물 (99,000 / 109,000원)</option>
+              <option value="테이블용" data-price="65000">테이블용 (65,000원)</option>
               <option value="기타 문의">기타 문의</option>
             </optgroup>
           </select>
         </div>
+
+        <!-- 사이즈 선택 (두 가격대 상품용) -->
+        <div class="form-group" id="grade-group" style="display:none;">
+          <label for="grade">사이즈 선택 *</label>
+          <select id="grade" onchange="calcPrice()">
+            <option value="99000">기본형 (99,000원)</option>
+            <option value="109000">고급형 (109,000원)</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <label for="quantity">수량</label>
-          <input type="number" id="quantity" placeholder="수량을 입력해 주세요" min="1" value="1" />
+          <input type="number" id="quantity" placeholder="수량을 입력해 주세요" min="1" value="1" oninput="calcPrice()" />
+        </div>
+
+        <!-- 가격 표시 -->
+        <div id="price-display" style="display:none; background: var(--light-pink); border-radius: 10px; padding: 16px 20px; margin-bottom: 18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:14px; color:var(--gray);">예상 금액</span>
+            <span id="price-total" style="font-size:22px; font-weight:700; color:var(--green);"></span>
+          </div>
+          <p style="font-size:11px; color:#aaa; margin-top:6px;">※ 배송비 별도 / 최종 금액은 확인 후 안내드립니다</p>
         </div>
         <div class="form-group">
           <label for="delivery-date">희망 배송일</label>
@@ -188,6 +207,32 @@
   </footer>
 
   <script>
+    function calcPrice() {
+      const select = document.getElementById('product');
+      const selected = select.options[select.selectedIndex];
+      const price1 = selected.getAttribute('data-price');
+      const price2 = selected.getAttribute('data-price2');
+      const qty = parseInt(document.getElementById('quantity').value) || 1;
+      const gradeGroup = document.getElementById('grade-group');
+      const priceDisplay = document.getElementById('price-display');
+
+      if (!price1) { gradeGroup.style.display = 'none'; priceDisplay.style.display = 'none'; return; }
+
+      if (price2) {
+        gradeGroup.style.display = 'block';
+        const gradePrice = parseInt(document.getElementById('grade').value);
+        const total = gradePrice * qty;
+        document.getElementById('price-total').textContent = total.toLocaleString() + '원';
+      } else {
+        gradeGroup.style.display = 'none';
+        const total = parseInt(price1) * qty;
+        document.getElementById('price-total').textContent = total.toLocaleString() + '원';
+      }
+      priceDisplay.style.display = 'block';
+    }
+
+    document.getElementById('product').addEventListener('change', calcPrice);
+
     const placeholders = {
       '조문': `예시)\n고인: 홍길동\n발인일: 2025년 5월 10일\n장소: OO병원 장례식장 1호실\n리본 문구: 삼가 고인의 명복을 빕니다\n보내는 분: OO회사 임직원 일동`,
       '결혼': `예시)\n행사명: 홍길동 · 김영희 결혼식\n행사일: 2025년 5월 10일\n장소: OO웨딩홀\n리본 문구: 결혼을 진심으로 축하합니다\n보내는 분: OO 드림`,

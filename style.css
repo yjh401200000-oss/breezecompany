@@ -554,6 +554,105 @@ footer {
   color: #777;
 }
 
+/* ===== 라이트박스 ===== */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.lightbox-overlay.active {
+  display: flex;
+}
+
+.lightbox-inner {
+  position: relative;
+  max-width: 560px;
+  width: 100%;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: popIn 0.25s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.88); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.lightbox-img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  background: #f9f9f9;
+}
+
+.lightbox-body {
+  padding: 24px 28px 28px;
+}
+
+.lightbox-body h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+
+.lightbox-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 14px;
+}
+
+.lightbox-body p {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.9;
+  margin-bottom: 10px;
+}
+
+.lightbox-body .desc-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: rgba(0,0,0,0.45);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.lightbox-close:hover { background: rgba(0,0,0,0.7); }
+
+.product-card img {
+  cursor: zoom-in;
+  transition: opacity 0.2s;
+}
+
+.product-card img:hover { opacity: 0.88; }
+
 /* ===== 카카오톡 플로팅 버튼 ===== */
 .kakao-float {
   position: fixed;

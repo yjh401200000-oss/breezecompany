@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>주문/문의 - 브리즈컴퍼니</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-main">🌸 브리즈컴퍼니</span>
+        <span class="logo-sub">Breeze Company</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="index.html">홈</a></li>
+          <li><a href="products.html">상품소개</a></li>
+          <li><a href="price.html">가격표</a></li>
+          <li><a href="order.html" class="active">주문/문의</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 페이지 타이틀 -->
+  <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--light-pink) 100%); padding: 60px 24px; text-align: center;">
+    <h1 style="font-size: 36px; font-weight: 700; color: var(--dark); margin-bottom: 10px;">주문 / 문의</h1>
+    <p style="color: var(--gray); font-size: 15px;">원하시는 상품을 아래 양식으로 문의해 주세요</p>
+  </div>
+
+  <!-- 주문 섹션 -->
+  <section style="background: var(--white);">
+    <div class="order-container">
+
+      <!-- 주문 안내 -->
+      <div class="order-info-box">
+        <h3>📋 주문 안내</h3>
+        <div class="info-row">
+          <span class="label">주문 방법</span>
+          <span class="value">아래 주문서 작성 후 계좌 입금 → 확인 후 배송</span>
+        </div>
+        <div class="info-row">
+          <span class="label">운영 시간</span>
+          <span class="value">평일 09:00 ~ 18:00 (주말·공휴일 별도 문의)</span>
+        </div>
+        <div class="info-row">
+          <span class="label">배송 안내</span>
+          <span class="value">주문 확인 후 당일 배송 가능</span>
+        </div>
+        <div class="info-row">
+          <span class="label">취소/변경</span>
+          <span class="value">제작 시작 전까지 취소 가능 (제작 후 취소 불가)</span>
+        </div>
+
+        <!-- 계좌 정보 -->
+        <div class="account-box">
+          <h4>💳 입금 계좌 정보</h4>
+          <div class="info-row">
+            <span class="label">은행</span>
+            <span class="value">㈜카카오뱅크</span>
+          </div>
+          <div class="info-row">
+            <span class="label">예금주</span>
+            <span class="value">신아영 (브리즈컴퍼니)</span>
+          </div>
+          <div class="info-row">
+            <span class="label">계좌번호</span>
+            <span class="value" style="font-weight: 700; color: var(--green); font-size: 16px;">3333-35-4274740</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 주문 폼 -->
+      <div class="order-form">
+        <h3>✉️ 주문 / 문의 양식</h3>
+        <div class="form-group">
+          <label for="name">이름 *</label>
+          <input type="text" id="name" placeholder="성함을 입력해 주세요" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">연락처 *</label>
+          <input type="tel" id="phone" placeholder="010-0000-0000" required />
+        </div>
+        <div class="form-group">
+          <label for="product">상품 선택 *</label>
+          <select id="product" required>
+            <option value="">상품을 선택해 주세요</option>
+            <optgroup label="서양란">
+              <option value="서양란 화이트">서양란 화이트</option>
+              <option value="서양란 핑크">서양란 핑크</option>
+              <option value="서양란 옐로우">서양란 옐로우</option>
+            </optgroup>
+            <optgroup label="화환">
+              <option value="3단 화환 A">3단 화환 A</option>
+              <option value="3단 화환 고급형">3단 화환 고급형</option>
+            </optgroup>
+            <optgroup label="근조">
+              <option value="3단 근조 A">3단 근조 A</option>
+              <option value="3단 근조 고급형">3단 근조 고급형</option>
+            </optgroup>
+            <optgroup label="기타">
+              <option value="관엽식물(공기정화식물)">관엽식물 (공기정화식물)</option>
+              <option value="테이블용">테이블용</option>
+              <option value="기타 문의">기타 문의</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="quantity">수량</label>
+          <input type="number" id="quantity" placeholder="수량을 입력해 주세요" min="1" value="1" />
+        </div>
+        <div class="form-group">
+          <label for="delivery-date">희망 배송일</label>
+          <input type="date" id="delivery-date" />
+        </div>
+        <div class="form-group">
+          <label for="address">배송 주소</label>
+          <input type="text" id="address" placeholder="배송받으실 주소를 입력해 주세요" />
+        </div>
+        <div class="form-group">
+          <label for="purpose">용도 선택</label>
+          <select id="purpose" onchange="updatePlaceholder()">
+            <option value="">용도를 선택해 주세요</option>
+            <option value="조문">🕊️ 근조 / 장례식장</option>
+            <option value="결혼">💒 결혼 축하</option>
+            <option value="개업">🎊 개업 / 취임 축하</option>
+            <option value="생일">🎂 생일 / 기념일</option>
+            <option value="기타">📝 기타</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">요청사항 / 문의내용</label>
+          <textarea id="message" placeholder="용도를 먼저 선택하시면 예시 문구가 나타납니다."></textarea>
+        </div>
+        <button class="form-submit" onclick="submitOrder()">주문 / 문의 접수하기</button>
+      </div>
+
+      <!-- 완료 메시지 (숨김) -->
+      <div id="success-msg" style="display:none; background: var(--light-pink); border-radius: 14px; padding: 36px; text-align: center; margin-top: 24px;">
+        <div style="font-size: 48px; margin-bottom: 16px;">🌸</div>
+        <h3 style="font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 10px;">접수가 완료되었습니다!</h3>
+        <p style="color: var(--gray); line-height: 1.8;">
+          주문/문의를 보내주셔서 감사합니다.<br />
+          확인 후 빠르게 연락드리겠습니다.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 푸터 -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo">
+            <span class="logo-main">🌸 브리즈컴퍼니</span>
+          </div>
+          <p style="margin-top:10px;">꽃으로 전하는 특별한 마음<br />소중한 순간을 함께합니다.</p>
+        </div>
+        <div class="footer-links">
+          <h4>메뉴</h4>
+          <ul>
+            <li><a href="index.html">홈</a></li>
+            <li><a href="products.html">상품소개</a></li>
+            <li><a href="price.html">가격표</a></li>
+            <li><a href="order.html">주문/문의</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>사업자 정보</h4>
+          <ul>
+            <li><span style="color:#aaa; font-size:13px;">상호: 브리즈컴퍼니</span></li>
+            <li><span style="color:#aaa; font-size:13px;">대표: 신아영</span></li>
+            <li><span style="color:#aaa; font-size:13px;">사업자번호: 539-37-01600</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 브리즈컴퍼니. All rights reserved.</p>
+        <p class="biz-info">사업자등록번호: 539-37-01600 | 대표: 신아영</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const placeholders = {
+      '조문': `예시)\n고인: 홍길동\n발인일: 2025년 5월 10일\n장소: OO병원 장례식장 1호실\n리본 문구: 삼가 고인의 명복을 빕니다\n보내는 분: OO회사 임직원 일동`,
+      '결혼': `예시)\n행사명: 홍길동 · 김영희 결혼식\n행사일: 2025년 5월 10일\n장소: OO웨딩홀\n리본 문구: 결혼을 진심으로 축하합니다\n보내는 분: OO 드림`,
+      '개업': `예시)\n상호명: OO상회\n행사일: 2025년 5월 10일\n장소: 서울시 OO구 OO동\n리본 문구: 개업을 진심으로 축하드립니다\n보내는 분: OO 일동`,
+      '생일': `예시)\n받는 분: 홍길동\n행사일: 2025년 5월 10일\n배송 주소: 서울시 OO구 OO동\n리본 문구: 생일을 진심으로 축하해요\n보내는 분: OO 드림`,
+      '기타': `리본 문구, 특별 요청사항, 기타 문의사항을 자유롭게 입력해 주세요.`,
+      '': `용도를 먼저 선택하시면 예시 문구가 나타납니다.`
+    };
+
+    function updatePlaceholder() {
+      const purpose = document.getElementById('purpose').value;
+      document.getElementById('message').placeholder = placeholders[purpose] || placeholders[''];
+    }
+
+    function submitOrder() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const product = document.getElementById('product').value;
+
+      if (!name || !phone || !product) {
+        alert('이름, 연락처, 상품은 필수 입력 항목입니다.');
+        return;
+      }
+
+      document.querySelector('.order-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+      window.scrollTo({ top: document.getElementById('success-msg').offsetTop - 100, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>

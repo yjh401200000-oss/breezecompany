@@ -161,15 +161,30 @@
       <!-- 완료 메시지 (숨김) -->
       <div id="success-msg" style="display:none; background: var(--light-pink); border-radius: 14px; padding: 36px; text-align: center; margin-top: 24px;">
         <div style="font-size: 48px; margin-bottom: 16px;">🌸</div>
-        <h3 style="font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 10px;">접수가 완료되었습니다!</h3>
-        <p style="color: var(--gray); line-height: 1.8;">
-          주문/문의를 보내주셔서 감사합니다.<br />
-          확인 후 빠르게 연락드리겠습니다.
+        <h3 style="font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 10px;">주문 내용이 복사되었습니다!</h3>
+        <p style="color: var(--gray); line-height: 1.9; margin-bottom: 20px;">
+          카카오톡 채팅창이 열립니다.<br />
+          채팅창에서 <strong>붙여넣기 (Ctrl+V)</strong> 후 전송해 주세요!
         </p>
+        <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank"
+          style="display:inline-block; background:#FEE500; color:#3C1E1E; font-weight:700; font-size:15px; padding: 14px 28px; border-radius:30px; text-decoration:none;">
+          💬 카카오톡 채널 바로가기
+        </a>
       </div>
 
     </div>
   </section>
+
+  <!-- 카카오톡 플로팅 버튼 -->
+  <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="kakao-float">
+    <div class="kakao-float-btn">
+      <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="16" cy="14.5" rx="13" ry="11" fill="#3C1E1E"/>
+        <text x="16" y="19" text-anchor="middle" font-size="13" fill="#FEE500" font-weight="bold" font-family="Arial">K</text>
+      </svg>
+    </div>
+    <span class="kakao-float-label">카카오톡 문의</span>
+  </a>
 
   <!-- 푸터 -->
   <footer>
@@ -251,15 +266,41 @@
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const product = document.getElementById('product').value;
+      const quantity = document.getElementById('quantity').value;
+      const deliveryDate = document.getElementById('delivery-date').value;
+      const address = document.getElementById('address').value.trim();
+      const purpose = document.getElementById('purpose').value;
+      const message = document.getElementById('message').value.trim();
+      const priceEl = document.getElementById('price-total');
+      const price = priceEl ? priceEl.textContent : '';
 
       if (!name || !phone || !product) {
         alert('이름, 연락처, 상품은 필수 입력 항목입니다.');
         return;
       }
 
-      document.querySelector('.order-form').style.display = 'none';
-      document.getElementById('success-msg').style.display = 'block';
-      window.scrollTo({ top: document.getElementById('success-msg').offsetTop - 100, behavior: 'smooth' });
+      const purposeMap = { '조문': '근조/장례식장', '결혼': '결혼 축하', '개업': '개업/취임 축하', '생일': '생일/기념일', '기타': '기타' };
+
+      const kakaoMsg =
+`[브리즈컴퍼니 주문 문의]
+──────────────────
+👤 이름: ${name}
+📞 연락처: ${phone}
+🌸 상품: ${product}
+📦 수량: ${quantity}개${price ? `\n💰 예상금액: ${price}` : ''}${deliveryDate ? `\n📅 희망배송일: ${deliveryDate}` : ''}${address ? `\n📍 배송주소: ${address}` : ''}${purpose ? `\n🎯 용도: ${purposeMap[purpose] || purpose}` : ''}${message ? `\n📝 요청사항:\n${message}` : ''}
+──────────────────`;
+
+      navigator.clipboard.writeText(kakaoMsg).then(() => {
+        document.querySelector('.order-form').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+        window.scrollTo({ top: document.getElementById('success-msg').offsetTop - 100, behavior: 'smooth' });
+        setTimeout(() => { window.open('https://pf.kakao.com/_ixazxkn/chat', '_blank'); }, 500);
+      }).catch(() => {
+        document.querySelector('.order-form').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+        window.scrollTo({ top: document.getElementById('success-msg').offsetTop - 100, behavior: 'smooth' });
+        window.open('https://pf.kakao.com/_ixazxkn/chat', '_blank');
+      });
     }
   </script>
 

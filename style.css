@@ -554,6 +554,51 @@ footer {
   color: #777;
 }
 
+/* ===== 카카오톡 플로팅 버튼 ===== */
+.kakao-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.kakao-float-btn {
+  width: 56px;
+  height: 56px;
+  background: #FEE500;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kakao-float:hover .kakao-float-btn {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+}
+
+.kakao-float-btn img {
+  width: 32px;
+  height: 32px;
+}
+
+.kakao-float-label {
+  background: rgba(0,0,0,0.65);
+  color: white;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
 /* ===== 반응형 ===== */
 @media (max-width: 768px) {
   .hero h1 { font-size: 32px; }

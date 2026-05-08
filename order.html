@@ -4,18 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>주문/문의 - 브리즈컴퍼니</title>
+  <meta name="description" content="브리즈컴퍼니 주문 및 문의 — 원하시는 상품을 양식으로 문의해 주시면 카카오톡 채널로 빠르게 도와드립니다." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 헤더 -->
-  <header>
+  <!-- ── HEADER ── -->
+  <header id="site-header">
     <div class="nav-container">
       <a href="index.html" class="logo">
         <span class="logo-main">🌸 브리즈컴퍼니</span>
         <span class="logo-sub">Breeze Company</span>
       </a>
-      <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="mainNav">
         <ul>
           <li><a href="index.html">홈</a></li>
           <li><a href="products.html">상품소개</a></li>
@@ -26,38 +30,41 @@
     </div>
   </header>
 
-  <!-- 페이지 타이틀 -->
-  <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--light-pink) 100%); padding: 60px 24px; text-align: center;">
-    <h1 style="font-size: 36px; font-weight: 700; color: var(--dark); margin-bottom: 10px;">주문 / 문의</h1>
-    <p style="color: var(--gray); font-size: 15px;">원하시는 상품을 아래 양식으로 문의해 주세요</p>
+  <!-- ── PAGE BANNER ── -->
+  <div class="page-banner">
+    <p class="eyebrow">Order &amp; Inquiry</p>
+    <h1>주문 / 문의</h1>
+    <p>양식을 작성하시면 카카오톡 채널로 빠르게 연결해 드립니다</p>
   </div>
 
-  <!-- 주문 섹션 -->
-  <section style="background: var(--white);">
-    <div class="order-container">
+  <!-- ── ORDER LAYOUT ── -->
+  <section style="background: var(--bz-surface-2);">
+    <div class="order-layout">
 
-      <!-- 주문 안내 -->
-      <div class="order-info-box">
-        <h3>📋 주문 안내</h3>
-        <div class="info-row">
-          <span class="label">주문 방법</span>
-          <span class="value">아래 주문서 작성 후 계좌 입금 → 확인 후 배송</span>
-        </div>
-        <div class="info-row">
-          <span class="label">운영 시간</span>
-          <span class="value">평일 09:00 ~ 18:00 (주말·공휴일 별도 문의)</span>
-        </div>
-        <div class="info-row">
-          <span class="label">배송 안내</span>
-          <span class="value">주문 확인 후 당일 배송 가능</span>
-        </div>
-        <div class="info-row">
-          <span class="label">취소/변경</span>
-          <span class="value">제작 시작 전까지 취소 가능 (제작 후 취소 불가)</span>
+      <!-- ── LEFT: INFO PANEL ── -->
+      <div class="order-info-panel">
+
+        <div class="info-card reveal">
+          <h3>📋 주문 안내</h3>
+          <div class="info-row">
+            <span class="label">주문 방법</span>
+            <span class="value">아래 주문서 작성 후<br />계좌 입금 → 확인 후 배송</span>
+          </div>
+          <div class="info-row">
+            <span class="label">운영 시간</span>
+            <span class="value">평일 09:00 ~ 18:00<br />(주말·공휴일 별도 문의)</span>
+          </div>
+          <div class="info-row">
+            <span class="label">배송 안내</span>
+            <span class="value">주문 확인 후 당일 배송 가능</span>
+          </div>
+          <div class="info-row">
+            <span class="label">취소/변경</span>
+            <span class="value">제작 시작 전까지 취소 가능<br />(제작 후 취소 불가)</span>
+          </div>
         </div>
 
-        <!-- 계좌 정보 -->
-        <div class="account-box">
+        <div class="account-card reveal">
           <h4>💳 입금 계좌 정보</h4>
           <div class="info-row">
             <span class="label">은행</span>
@@ -67,159 +74,185 @@
             <span class="label">예금주</span>
             <span class="value">신아영 (브리즈컴퍼니)</span>
           </div>
-          <div class="info-row">
-            <span class="label">계좌번호</span>
-            <span class="value" style="font-weight: 700; color: var(--green); font-size: 16px;">3333-35-4274740</span>
-          </div>
+          <p class="account-bank">카카오뱅크</p>
+          <p class="account-num">3333-35-4274740</p>
+          <p class="account-owner">예금주 · 신아영 (브리즈컴퍼니)</p>
         </div>
+
       </div>
 
-      <!-- 주문 폼 -->
-      <div class="order-form">
-        <h3>✉️ 주문 / 문의 양식</h3>
-        <div class="form-group">
-          <label for="name">이름 *</label>
-          <input type="text" id="name" placeholder="성함을 입력해 주세요" required />
-        </div>
-        <div class="form-group">
-          <label for="phone">연락처 *</label>
-          <input type="tel" id="phone" placeholder="010-0000-0000" required />
-        </div>
-        <div class="form-group">
-          <label for="product">상품 선택 *</label>
-          <select id="product" required>
-            <option value="">상품을 선택해 주세요</option>
-            <optgroup label="서양란">
-              <option value="서양란 화이트" data-price="99000" data-price2="109000">서양란 화이트 (99,000 / 109,000원)</option>
-              <option value="서양란 핑크" data-price="99000" data-price2="109000">서양란 핑크 (99,000 / 109,000원)</option>
-              <option value="서양란 옐로우" data-price="99000" data-price2="109000">서양란 옐로우 (99,000 / 109,000원)</option>
-            </optgroup>
-            <optgroup label="화환">
-              <option value="3단 화환 A" data-price="69000">3단 화환 A (69,000원)</option>
-              <option value="3단 화환 고급형" data-price="89000">3단 화환 고급형 (89,000원)</option>
-            </optgroup>
-            <optgroup label="근조">
-              <option value="3단 근조 A" data-price="69000">3단 근조 A (69,000원)</option>
-              <option value="3단 근조 고급형" data-price="89000">3단 근조 고급형 (89,000원)</option>
-            </optgroup>
-            <optgroup label="기타">
-              <option value="관엽식물(공기정화식물)" data-price="99000" data-price2="109000">관엽식물 (99,000 / 109,000원)</option>
-              <option value="테이블용" data-price="65000">테이블용 (65,000원)</option>
-              <option value="기타 문의">기타 문의</option>
-            </optgroup>
-          </select>
-        </div>
+      <!-- ── RIGHT: FORM ── -->
+      <div class="reveal">
+        <div class="order-form-card" id="orderFormCard">
+          <h3>✉️ 주문 / 문의 양식</h3>
 
-        <!-- 사이즈 선택 (두 가격대 상품용) -->
-        <div class="form-group" id="grade-group" style="display:none;">
-          <label for="grade">사이즈 선택 *</label>
-          <select id="grade" onchange="calcPrice()">
-            <option value="99000">기본형 (99,000원)</option>
-            <option value="109000">고급형 (109,000원)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="quantity">수량</label>
-          <input type="number" id="quantity" placeholder="수량을 입력해 주세요" min="1" value="1" oninput="calcPrice()" />
-        </div>
-
-        <!-- 가격 표시 -->
-        <div id="price-display" style="display:none; background: var(--light-pink); border-radius: 10px; padding: 16px 20px; margin-bottom: 18px;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:14px; color:var(--gray);">예상 금액</span>
-            <span id="price-total" style="font-size:22px; font-weight:700; color:var(--green);"></span>
+          <!-- 주문자 -->
+          <div class="form-group">
+            <label for="name">이름 <span class="req">*</span></label>
+            <input type="text" id="name" placeholder="성함을 입력해 주세요" />
           </div>
-          <p style="font-size:11px; color:#aaa; margin-top:6px; line-height:1.7;">※ 배송비는 배송지에 따라 상이합니다.<br>(서울·수도권 주요 지역 무료 / 경기 외곽·강원·지방 등 추가 발생)<br>※ 최종 배송비는 주소 확인 후 별도 안내드립니다.</p>
-        </div>
-        <div class="form-group">
-          <label for="delivery-date">희망 배송일</label>
-          <input type="date" id="delivery-date" />
-        </div>
-        <div class="form-group">
-          <label for="delivery-time">희망 배송 시간</label>
-          <select id="delivery-time">
-            <option value="">시간을 선택해 주세요</option>
-            <option value="오전 중 (09:00~12:00)">오전 중 (09:00~12:00)</option>
-            <option value="오후 초 (12:00~14:00)">오후 초 (12:00~14:00)</option>
-            <option value="오후 (14:00~17:00)">오후 (14:00~17:00)</option>
-            <option value="저녁 (17:00~20:00)">저녁 (17:00~20:00)</option>
-            <option value="시간 무관">시간 무관</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="recipient">받는 사람 *</label>
-          <input type="text" id="recipient" placeholder="받으실 분 성함을 입력해 주세요" required />
-        </div>
-        <div class="form-group">
-          <label for="address">배송 주소</label>
-          <input type="text" id="address" placeholder="배송받으실 주소를 입력해 주세요" />
-        </div>
-        <div class="form-group">
-          <label for="sender-name">발송 명의 (보내는 분)</label>
-          <input type="text" id="sender-name" placeholder="예) OO회사 임직원 일동 / 홍길동 드림" />
-        </div>
-        <div class="form-group">
-          <label for="ribbon">리본 문구</label>
-          <input type="text" id="ribbon" placeholder="예) 개업을 진심으로 축하드립니다 / 삼가 고인의 명복을 빕니다" />
-        </div>
-        <div class="form-group">
-          <label for="purpose">용도 선택</label>
-          <select id="purpose" onchange="updatePlaceholder()">
-            <option value="">용도를 선택해 주세요</option>
-            <option value="조문">🕊️ 근조 / 장례식장</option>
-            <option value="결혼">💒 결혼 축하</option>
-            <option value="개업">🎊 개업 / 취임 축하</option>
-            <option value="생일">🎂 생일 / 기념일</option>
-            <option value="기타">📝 기타</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="message">요청사항 / 문의내용</label>
-          <textarea id="message" placeholder="용도를 먼저 선택하시면 예시 문구가 나타납니다."></textarea>
-        </div>
-        <button class="form-submit" onclick="submitOrder()">주문 / 문의 접수하기</button>
-      </div>
+          <div class="form-group">
+            <label for="phone">연락처 <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="010-0000-0000" />
+          </div>
 
-      <!-- 완료 메시지 (숨김) -->
-      <div id="success-msg" style="display:none; background: var(--light-pink); border-radius: 14px; padding: 36px; text-align: center; margin-top: 24px;">
-        <div style="font-size: 48px; margin-bottom: 16px;">🌸</div>
-        <h3 style="font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 10px;">주문 내용이 복사되었습니다!</h3>
-        <p style="color: var(--gray); line-height: 1.9; margin-bottom: 20px;">
-          카카오톡 채팅창이 열립니다.<br />
-          채팅창에서 <strong>붙여넣기 (Ctrl+V)</strong> 후 전송해 주세요!
-        </p>
-        <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank"
-          style="display:inline-block; background:#FEE500; color:#3C1E1E; font-weight:700; font-size:15px; padding: 14px 28px; border-radius:30px; text-decoration:none;">
-          💬 카카오톡 채널 바로가기
-        </a>
+          <!-- 상품 -->
+          <div class="form-group">
+            <label for="product">상품 선택 <span class="req">*</span></label>
+            <select id="product" onchange="calcPrice()">
+              <option value="">상품을 선택해 주세요</option>
+              <optgroup label="🌺 서양란">
+                <option value="서양란 화이트" data-price="99000" data-price2="109000">서양란 화이트 (99,000 / 109,000원)</option>
+                <option value="서양란 핑크" data-price="99000" data-price2="109000">서양란 핑크 (99,000 / 109,000원)</option>
+                <option value="서양란 옐로우" data-price="99000" data-price2="109000">서양란 옐로우 (99,000 / 109,000원)</option>
+              </optgroup>
+              <optgroup label="🌿 동양란">
+                <option value="동양란 A" data-price="69000">동양란 A (69,000원)</option>
+                <option value="동양란 B" data-price="79000">동양란 B (79,000원)</option>
+              </optgroup>
+              <optgroup label="🎋 화환">
+                <option value="3단 화환 A" data-price="69000">3단 화환 A (69,000원)</option>
+                <option value="3단 화환 고급형" data-price="89000">3단 화환 고급형 (89,000원)</option>
+              </optgroup>
+              <optgroup label="🕊️ 근조">
+                <option value="3단 근조 A" data-price="69000">3단 근조 A (69,000원)</option>
+                <option value="3단 근조 고급형" data-price="89000">3단 근조 고급형 (89,000원)</option>
+              </optgroup>
+              <optgroup label="🌱 기타">
+                <option value="관엽식물(공기정화식물)" data-price="99000" data-price2="109000">관엽식물 (99,000 / 109,000원)</option>
+                <option value="테이블용" data-price="65000">테이블용 (65,000원)</option>
+                <option value="기타 문의">기타 문의</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- 사이즈 선택 (두 가격대 상품) -->
+          <div class="form-group" id="grade-group" style="display:none;">
+            <label for="grade">사이즈 선택 <span class="req">*</span></label>
+            <select id="grade" onchange="calcPrice()">
+              <option value="99000">기본형 (99,000원)</option>
+              <option value="109000">고급형 (109,000원)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">수량</label>
+            <input type="number" id="quantity" placeholder="수량을 입력해 주세요" min="1" value="1" oninput="calcPrice()" />
+          </div>
+
+          <!-- 가격 표시 -->
+          <div class="price-display" id="price-display">
+            <div class="price-display-row">
+              <span class="price-display-label">예상 금액</span>
+              <span class="price-display-total" id="price-total"></span>
+            </div>
+            <p class="price-display-note">
+              ※ 배송비는 배송지에 따라 상이합니다.<br />
+              (서울·수도권 주요 지역 무료 / 경기 외곽·강원·지방 등 추가 발생)<br />
+              ※ 최종 배송비는 주소 확인 후 별도 안내드립니다.
+            </p>
+          </div>
+
+          <!-- 배송 정보 -->
+          <div class="form-group">
+            <label for="delivery-date">희망 배송일</label>
+            <input type="date" id="delivery-date" />
+          </div>
+          <div class="form-group">
+            <label for="delivery-time">희망 배송 시간</label>
+            <select id="delivery-time">
+              <option value="">시간을 선택해 주세요</option>
+              <option value="오전 중 (09:00~12:00)">오전 중 (09:00~12:00)</option>
+              <option value="오후 초 (12:00~14:00)">오후 초 (12:00~14:00)</option>
+              <option value="오후 (14:00~17:00)">오후 (14:00~17:00)</option>
+              <option value="저녁 (17:00~20:00)">저녁 (17:00~20:00)</option>
+              <option value="시간 무관">시간 무관</option>
+            </select>
+          </div>
+
+          <!-- 받는 분 정보 -->
+          <div class="form-group">
+            <label for="recipient">받는 사람 <span class="req">*</span></label>
+            <input type="text" id="recipient" placeholder="받으실 분 성함을 입력해 주세요" />
+          </div>
+          <div class="form-group">
+            <label for="address">배송 주소</label>
+            <input type="text" id="address" placeholder="배송받으실 주소를 입력해 주세요" />
+          </div>
+
+          <!-- 리본/명의 -->
+          <div class="form-group">
+            <label for="sender-name">발송 명의 (보내는 분)</label>
+            <input type="text" id="sender-name" placeholder="예) OO회사 임직원 일동 / 홍길동 드림" />
+          </div>
+          <div class="form-group">
+            <label for="ribbon">리본 문구</label>
+            <input type="text" id="ribbon" placeholder="예) 개업을 진심으로 축하드립니다 / 삼가 고인의 명복을 빕니다" />
+          </div>
+
+          <!-- 용도 -->
+          <div class="form-group">
+            <label for="purpose">용도 선택</label>
+            <select id="purpose" onchange="updatePlaceholder()">
+              <option value="">용도를 선택해 주세요</option>
+              <option value="조문">🕊️ 근조 / 장례식장</option>
+              <option value="결혼">💒 결혼 축하</option>
+              <option value="개업">🎊 개업 / 취임 축하</option>
+              <option value="생일">🎂 생일 / 기념일</option>
+              <option value="기타">📝 기타</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">요청사항 / 문의내용</label>
+            <textarea id="message" placeholder="용도를 먼저 선택하시면 예시 문구가 나타납니다."></textarea>
+          </div>
+
+          <button class="form-submit" onclick="submitOrder()">
+            💬 카카오톡으로 주문 접수하기
+          </button>
+        </div>
+
+        <!-- 완료 메시지 -->
+        <div class="success-msg" id="success-msg">
+          <div class="success-emoji">🌸</div>
+          <h3>주문 내용이 복사되었습니다!</h3>
+          <p>
+            카카오톡 채팅창이 열립니다.<br />
+            채팅창에서 <strong>붙여넣기 (Ctrl+V)</strong> 후 전송해 주세요!
+          </p>
+          <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="btn-kakao">
+            💬 카카오톡 채널 바로가기
+          </a>
+        </div>
       </div>
 
     </div>
   </section>
 
-  <!-- 카카오톡 플로팅 버튼 -->
-  <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="kakao-float">
+  <!-- ── KAKAO FLOAT ── -->
+  <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="kakao-float" aria-label="카카오톡 문의">
     <div class="kakao-float-btn">
-      <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="16" cy="14.5" rx="13" ry="11" fill="#3C1E1E"/>
-        <text x="16" y="19" text-anchor="middle" font-size="13" fill="#FEE500" font-weight="bold" font-family="Arial">K</text>
+        <text x="16" y="19" text-anchor="middle" font-size="12" fill="#FEE500" font-weight="bold" font-family="Arial">K</text>
       </svg>
     </div>
     <span class="kakao-float-label">카카오톡 문의</span>
   </a>
 
-  <!-- 푸터 -->
+  <!-- ── FOOTER ── -->
   <footer>
-    <div class="footer-container">
+    <div class="footer-inner">
       <div class="footer-top">
         <div class="footer-brand">
           <div class="logo">
             <span class="logo-main">🌸 브리즈컴퍼니</span>
+            <span class="logo-sub">Breeze Company</span>
           </div>
-          <p style="margin-top:10px;">꽃으로 전하는 특별한 마음<br />소중한 순간을 함께합니다.</p>
+          <p class="footer-brand-desc">꽃으로 전하는 특별한 마음<br />소중한 순간을 함께합니다.</p>
+          <p class="footer-tagline">"Flowers that speak for your heart."</p>
         </div>
-        <div class="footer-links">
+        <div class="footer-col">
           <h4>메뉴</h4>
           <ul>
             <li><a href="index.html">홈</a></li>
@@ -228,13 +261,24 @@
             <li><a href="order.html">주문/문의</a></li>
           </ul>
         </div>
-        <div class="footer-links">
-          <h4>사업자 정보</h4>
+        <div class="footer-col">
+          <h4>상품</h4>
           <ul>
-            <li><span style="color:#aaa; font-size:13px;">상호: 브리즈컴퍼니</span></li>
-            <li><span style="color:#aaa; font-size:13px;">대표: 신아영</span></li>
-            <li><span style="color:#aaa; font-size:13px;">사업자번호: 539-37-01600</span></li>
+            <li><a href="products.html#section-orchid">서양란</a></li>
+            <li><a href="products.html#section-east">동양란</a></li>
+            <li><a href="products.html#section-plant">관엽식물</a></li>
+            <li><a href="products.html#section-wreath">화환</a></li>
+            <li><a href="products.html#section-funeral">근조</a></li>
           </ul>
+        </div>
+        <div class="footer-col">
+          <h4>사업자 정보</h4>
+          <p class="biz-line">상호: 브리즈컴퍼니</p>
+          <p class="biz-line">대표: 신아영</p>
+          <p class="biz-line">사업자번호: 539-37-01600</p>
+          <p class="biz-line" style="margin-top:10px;">
+            <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" style="color:#888;">💬 카카오톡 채널</a>
+          </p>
         </div>
       </div>
       <div class="footer-bottom">
@@ -245,6 +289,23 @@
   </footer>
 
   <script>
+    // Header
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 10));
+    const toggle = document.getElementById('navToggle');
+    const nav = document.getElementById('mainNav');
+    toggle.addEventListener('click', () => { toggle.classList.toggle('open'); nav.classList.toggle('open'); });
+    document.addEventListener('click', (e) => {
+      if (!header.contains(e.target)) { toggle.classList.remove('open'); nav.classList.remove('open'); }
+    });
+
+    // Reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Price calc
     function calcPrice() {
       const select = document.getElementById('product');
       const selected = select.options[select.selectedIndex];
@@ -259,18 +320,17 @@
       if (price2) {
         gradeGroup.style.display = 'block';
         const gradePrice = parseInt(document.getElementById('grade').value);
-        const total = gradePrice * qty;
-        document.getElementById('price-total').textContent = total.toLocaleString() + '원';
+        document.getElementById('price-total').textContent = (gradePrice * qty).toLocaleString() + '원';
       } else {
         gradeGroup.style.display = 'none';
-        const total = parseInt(price1) * qty;
-        document.getElementById('price-total').textContent = total.toLocaleString() + '원';
+        document.getElementById('price-total').textContent = (parseInt(price1) * qty).toLocaleString() + '원';
       }
       priceDisplay.style.display = 'block';
     }
 
-    document.getElementById('product').addEventListener('change', calcPrice);
+    document.getElementById('grade').addEventListener('change', calcPrice);
 
+    // Placeholder
     const placeholders = {
       '조문': `예시)\n고인: 홍길동\n발인일: 2025년 5월 10일\n장소: OO병원 장례식장 1호실\n리본 문구: 삼가 고인의 명복을 빕니다\n보내는 분: OO회사 임직원 일동`,
       '결혼': `예시)\n행사명: 홍길동 · 김영희 결혼식\n행사일: 2025년 5월 10일\n장소: OO웨딩홀\n리본 문구: 결혼을 진심으로 축하합니다\n보내는 분: OO 드림`,
@@ -279,34 +339,37 @@
       '기타': `리본 문구, 특별 요청사항, 기타 문의사항을 자유롭게 입력해 주세요.`,
       '': `용도를 먼저 선택하시면 예시 문구가 나타납니다.`
     };
-
     function updatePlaceholder() {
       const purpose = document.getElementById('purpose').value;
       document.getElementById('message').placeholder = placeholders[purpose] || placeholders[''];
     }
 
+    // Submit
     function submitOrder() {
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const product = document.getElementById('product').value;
-      const quantity = document.getElementById('quantity').value;
-      const deliveryDate = document.getElementById('delivery-date').value;
-      const deliveryTime = document.getElementById('delivery-time').value;
+      const name      = document.getElementById('name').value.trim();
+      const phone     = document.getElementById('phone').value.trim();
+      const product   = document.getElementById('product').value;
+      const quantity  = document.getElementById('quantity').value;
+      const date      = document.getElementById('delivery-date').value;
+      const time      = document.getElementById('delivery-time').value;
       const recipient = document.getElementById('recipient').value.trim();
-      const address = document.getElementById('address').value.trim();
-      const senderName = document.getElementById('sender-name').value.trim();
-      const ribbon = document.getElementById('ribbon').value.trim();
-      const purpose = document.getElementById('purpose').value;
-      const message = document.getElementById('message').value.trim();
-      const priceEl = document.getElementById('price-total');
-      const price = priceEl ? priceEl.textContent : '';
+      const address   = document.getElementById('address').value.trim();
+      const sender    = document.getElementById('sender-name').value.trim();
+      const ribbon    = document.getElementById('ribbon').value.trim();
+      const purpose   = document.getElementById('purpose').value;
+      const message   = document.getElementById('message').value.trim();
+      const priceEl   = document.getElementById('price-total');
+      const price     = priceEl ? priceEl.textContent : '';
 
       if (!name || !phone || !product || !recipient) {
         alert('이름, 연락처, 상품, 받는 사람은 필수 입력 항목입니다.');
         return;
       }
 
-      const purposeMap = { '조문': '근조/장례식장', '결혼': '결혼 축하', '개업': '개업/취임 축하', '생일': '생일/기념일', '기타': '기타' };
+      const purposeMap = {
+        '조문': '근조/장례식장', '결혼': '결혼 축하',
+        '개업': '개업/취임 축하', '생일': '생일/기념일', '기타': '기타'
+      };
 
       const kakaoMsg =
 `[브리즈컴퍼니 주문 문의]
@@ -316,21 +379,18 @@
 🌸 상품: ${product}
 📦 수량: ${quantity}개${price ? `\n💰 예상금액: ${price}` : ''}${purpose ? `\n🎯 용도: ${purposeMap[purpose] || purpose}` : ''}
 ──────────────────
-📬 받는 사람: ${recipient}${address ? `\n📍 배송주소: ${address}` : ''}${deliveryDate ? `\n📅 희망배송일: ${deliveryDate}` : ''}${deliveryTime ? `\n⏰ 희망배송시간: ${deliveryTime}` : ''}
-──────────────────${senderName ? `\n✍️ 발송명의: ${senderName}` : ''}${ribbon ? `\n🎀 리본문구: ${ribbon}` : ''}${message ? `\n📝 요청사항:\n${message}` : ''}
+📬 받는 사람: ${recipient}${address ? `\n📍 배송주소: ${address}` : ''}${date ? `\n📅 희망배송일: ${date}` : ''}${time ? `\n⏰ 희망배송시간: ${time}` : ''}
+──────────────────${sender ? `\n✍️ 발송명의: ${sender}` : ''}${ribbon ? `\n🎀 리본문구: ${ribbon}` : ''}${message ? `\n📝 요청사항:\n${message}` : ''}
 ──────────────────`;
 
-      navigator.clipboard.writeText(kakaoMsg).then(() => {
-        document.querySelector('.order-form').style.display = 'none';
+      const send = () => {
+        document.getElementById('orderFormCard').style.display = 'none';
         document.getElementById('success-msg').style.display = 'block';
-        window.scrollTo({ top: document.getElementById('success-msg').offsetTop - 100, behavior: 'smooth' });
-        setTimeout(() => { window.open('https://pf.kakao.com/_ixazxkn/chat', '_blank'); }, 500);
-      }).catch(() => {
-        document.querySelector('.order-form').style.display = 'none';
-        document.getElementById('success-msg').style.display = 'block';
-        window.scrollTo({ top: document.getElementById('success-msg').offsetTop - 100, behavior: 'smooth' });
-        window.open('https://pf.kakao.com/_ixazxkn/chat', '_blank');
-      });
+        window.scrollTo({ top: document.getElementById('success-msg').offsetTop - 120, behavior: 'smooth' });
+        setTimeout(() => window.open('https://pf.kakao.com/_ixazxkn/chat', '_blank'), 500);
+      };
+
+      navigator.clipboard.writeText(kakaoMsg).then(send).catch(send);
     }
   </script>
 

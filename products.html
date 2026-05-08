@@ -4,18 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>상품소개 - 브리즈컴퍼니</title>
+  <meta name="description" content="브리즈컴퍼니 상품 소개 — 서양란, 동양란, 관엽식물, 테이블용, 화환, 근조 화환. 클릭하여 상세 정보를 확인하세요." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 헤더 -->
-  <header>
+  <!-- ── HEADER ── -->
+  <header id="site-header">
     <div class="nav-container">
       <a href="index.html" class="logo">
         <span class="logo-main">🌸 브리즈컴퍼니</span>
         <span class="logo-sub">Breeze Company</span>
       </a>
-      <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="mainNav">
         <ul>
           <li><a href="index.html">홈</a></li>
           <li><a href="products.html" class="active">상품소개</a></li>
@@ -26,36 +30,57 @@
     </div>
   </header>
 
-  <!-- 페이지 타이틀 -->
-  <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--light-pink) 100%); padding: 60px 24px; text-align: center;">
-    <h1 style="font-size: 36px; font-weight: 700; color: var(--dark); margin-bottom: 10px;">상품 소개</h1>
-    <p style="color: var(--gray); font-size: 15px;">이미지를 클릭하면 크게 볼 수 있습니다 🔍</p>
+  <!-- ── PAGE BANNER ── -->
+  <div class="page-banner">
+    <p class="eyebrow">Our Products</p>
+    <h1>상품 소개</h1>
+    <p>이미지를 클릭하면 상세 정보를 확인하실 수 있습니다 🔍</p>
   </div>
 
-  <!-- 서양란 -->
-  <section style="background: var(--white);">
-    <div class="section-title">
+  <!-- ── CATEGORY NAV ── -->
+  <nav class="cat-nav" aria-label="상품 카테고리">
+    <div class="cat-nav-inner">
+      <a href="#section-orchid" class="cat-link">🌺 서양란</a>
+      <a href="#section-east" class="cat-link">🌿 동양란</a>
+      <a href="#section-plant" class="cat-link">🌱 관엽식물 &amp; 테이블용</a>
+      <a href="#section-wreath" class="cat-link">🎋 화환</a>
+      <a href="#section-funeral" class="cat-link">🕊️ 근조</a>
+    </div>
+  </nav>
+
+  <!-- ── 서양란 ── -->
+  <section id="section-orchid" class="prod-section" style="background: var(--bz-surface);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Orchid</span>
       <h2>🌺 서양란</h2>
       <p>우아하고 품격 있는 서양란으로 마음을 전해보세요</p>
-      <div class="line"></div>
+      <div class="section-line"></div>
     </div>
     <div class="product-grid">
-      <div class="product-card" onclick="openLightbox('images/서양란.png', '서양란 기본형', '99,000원',
+      <div class="product-card reveal" onclick="openLightbox(
+        'images/서양란.png', '서양란 기본형', '99,000원', '서양란',
         '서양란(西洋蘭)은 동남아시아 원산의 난초과 식물로, 나비가 날개를 펼친 듯한 우아한 꽃 모양이 특징입니다.',
         '꽃이 2~3개월 이상 오랫동안 피어있어 선물용으로 최적이며, 개업·이사·취임·축하 자리에 잘 어울립니다.',
-        '기본형은 꽃대(줄기) 2~3대로 구성됩니다.')">
-        <img src="images/서양란.png" alt="서양란 기본형" />
+        '꽃대(줄기) 2~3대로 구성되며, 깔끔하고 단아하게 연출됩니다.')">
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/서양란.png" alt="서양란 기본형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>서양란 기본형</h3>
           <p>꽃대 2~3대 구성. 개업·이사·축하 선물로 최적입니다.</p>
           <span class="product-tag">99,000원</span>
         </div>
       </div>
-      <div class="product-card" onclick="openLightbox('images/서양란.png', '서양란 고급형', '109,000원',
+      <div class="product-card reveal reveal-d1" onclick="openLightbox(
+        'images/서양란.png', '서양란 고급형', '109,000원', '서양란',
         '서양란(西洋蘭)은 동남아시아 원산의 난초과 식물로, 나비가 날개를 펼친 듯한 우아한 꽃 모양이 특징입니다.',
         '꽃이 2~3개월 이상 오랫동안 피어있어 선물용으로 최적이며, 개업·이사·취임·축하 자리에 잘 어울립니다.',
-        '고급형은 기본형보다 꽃대(줄기)가 더 많이 추가되고, 꽃의 뿌리(포기) 수가 더욱 풍성하게 구성됩니다. 볼륨감과 화려함이 높아져 더욱 인상적인 선물이 됩니다.')">
-        <img src="images/서양란.png" alt="서양란 고급형" />
+        '기본형보다 꽃대(줄기)가 더 많이 추가되고, 꽃의 뿌리(포기) 수가 더욱 풍성하게 구성됩니다. 볼륨감과 화려함이 높아져 더욱 인상적인 선물이 됩니다.')">
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/서양란.png" alt="서양란 고급형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>서양란 고급형</h3>
           <p>꽃대 4~5대 이상, 뿌리가 더욱 풍성하게 구성됩니다.</p>
@@ -65,30 +90,39 @@
     </div>
   </section>
 
-  <!-- 동양란 -->
-  <section style="background: var(--light-gray);">
-    <div class="section-title">
+  <!-- ── 동양란 ── -->
+  <section id="section-east" class="prod-section" style="background: var(--bz-surface-2);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Oriental Orchid</span>
       <h2>🌿 동양란</h2>
       <p>은은하고 기품 있는 동양란으로 마음을 전해보세요</p>
-      <div class="line"></div>
+      <div class="section-line"></div>
     </div>
     <div class="product-grid">
-      <div class="product-card" onclick="openLightbox('images/동양란.png', '동양란 A', '69,000원',
+      <div class="product-card reveal" onclick="openLightbox(
+        'images/동양란.png', '동양란 A', '69,000원', '동양란',
         '동양란(東洋蘭)은 한국·중국·일본 등 동아시아가 원산지인 난초로, 가늘고 길게 뻗은 잎과 은은한 향기가 특징입니다.',
         '예로부터 사군자의 하나로 기품과 절개를 상징하며, 개업·취임·축하·감사의 자리에 격조 있는 선물로 사랑받고 있습니다.',
         '동양란 A는 기본 포기 구성으로 단아하고 깔끔하게 연출됩니다.')">
-        <img src="images/동양란.png" alt="동양란 A" />
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/동양란.png" alt="동양란 A" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>동양란 A</h3>
           <p>기품 있는 기본 구성. 개업·축하·감사 선물로 오래 기억됩니다.</p>
           <span class="product-tag">69,000원</span>
         </div>
       </div>
-      <div class="product-card" onclick="openLightbox('images/동양란.png', '동양란 B', '79,000원',
+      <div class="product-card reveal reveal-d1" onclick="openLightbox(
+        'images/동양란.png', '동양란 B', '79,000원', '동양란',
         '동양란(東洋蘭)은 한국·중국·일본 등 동아시아가 원산지인 난초로, 가늘고 길게 뻗은 잎과 은은한 향기가 특징입니다.',
         '예로부터 사군자의 하나로 기품과 절개를 상징하며, 개업·취임·축하·감사의 자리에 격조 있는 선물로 사랑받고 있습니다.',
-        '동양란 B는 A형보다 꽃의 뿌리(포기) 수가 더 많이 추가되어 훨씬 풍성하고 볼륨감 있게 구성됩니다. 더욱 격식 있는 자리에 어울립니다.')">
-        <img src="images/동양란.png" alt="동양란 B" />
+        'A형보다 꽃의 뿌리(포기) 수가 더 많이 추가되어 훨씬 풍성하고 볼륨감 있게 구성됩니다. 더욱 격식 있는 자리에 어울립니다.')">
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/동양란.png" alt="동양란 B" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>동양란 B</h3>
           <p>A형보다 뿌리 포기가 더 풍성하게 추가된 구성입니다.</p>
@@ -98,30 +132,39 @@
     </div>
   </section>
 
-  <!-- 관엽식물 & 테이블용 -->
-  <section style="background: var(--white);">
-    <div class="section-title">
-      <h2>🌱 관엽식물 & 테이블용</h2>
+  <!-- ── 관엽식물 & 테이블용 ── -->
+  <section id="section-plant" class="prod-section" style="background: var(--bz-cream);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Plants &amp; Table</span>
+      <h2>🌱 관엽식물 &amp; 테이블용</h2>
       <p>공간을 더욱 싱그럽게 만들어주는 식물과 꽃</p>
-      <div class="line"></div>
+      <div class="section-line"></div>
     </div>
     <div class="product-grid">
-      <div class="product-card" onclick="openLightbox('images/04_관엽식물.jpg', '관엽식물 (공기정화식물)', '99,000 / 109,000원',
+      <div class="product-card reveal" onclick="openLightbox(
+        'images/04_관엽식물.jpg', '관엽식물 (공기정화식물)', '99,000 / 109,000원', '관엽식물',
         '관엽식물은 잎이 넓고 풍성한 실내 식물로, 공기 중의 유해 물질을 흡수하고 습도를 조절하는 공기정화 효과가 뛰어납니다.',
         '꽃이 아닌 잎을 감상하는 식물로 사계절 내내 초록빛을 유지하며, 인테리어 효과도 탁월합니다. 오래도록 함께하는 실용적인 선물입니다.',
         '기본형(99,000원)과 고급형(109,000원)으로 구성되며, 고급형은 화기(화분)가 더 크고 식물의 볼륨이 더욱 풍성합니다.')">
-        <img src="images/04_관엽식물.jpg" alt="관엽식물" />
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/04_관엽식물.jpg" alt="관엽식물" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>관엽식물 (공기정화식물)</h3>
           <p>공기정화 + 인테리어 효과. 오래 함께하는 실용적인 선물.</p>
           <span class="product-tag">99,000 / 109,000원</span>
         </div>
       </div>
-      <div class="product-card" onclick="openLightbox('images/05_테이블용.png', '테이블용', '65,000원',
+      <div class="product-card reveal reveal-d1" onclick="openLightbox(
+        'images/05_테이블용.png', '테이블용', '65,000원', '테이블용',
         '테이블용은 계절의 아름다운 꽃들을 정성스럽게 담아 테이블이나 공간을 화사하게 꾸며주는 꽃 장식입니다.',
         '생일·기념일·감사·축하 등 다양한 자리에 따뜻한 마음을 전할 수 있으며, 실내 어디에나 잘 어울립니다.',
         '시즌별 꽃으로 구성되어 계절감을 느낄 수 있습니다.')">
-        <img src="images/05_테이블용.png" alt="테이블용" />
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/05_테이블용.png" alt="테이블용" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>테이블용</h3>
           <p>계절 꽃으로 공간을 화사하게. 생일·감사·축하 선물로 완벽합니다.</p>
@@ -131,30 +174,39 @@
     </div>
   </section>
 
-  <!-- 화환 -->
-  <section style="background: var(--cream);">
-    <div class="section-title">
+  <!-- ── 화환 ── -->
+  <section id="section-wreath" class="prod-section" style="background: var(--bz-surface);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Wreath</span>
       <h2>🎋 화환</h2>
       <p>개업, 취임, 축하 행사에 맞는 화환</p>
-      <div class="line"></div>
+      <div class="section-line"></div>
     </div>
     <div class="product-grid">
-      <div class="product-card" onclick="openLightbox('images/07_화환_3단_핑크.jpg', '3단 화환 A', '69,000원',
+      <div class="product-card reveal" onclick="openLightbox(
+        'images/07_화환_3단_핑크.jpg', '3단 화환 A', '69,000원', '화환',
         '화환은 개업·취임·축하 등 경사스러운 행사 자리에 보내는 꽃 장식입니다. 행사장 입구에 세워 축하의 마음을 전달합니다.',
         '3단 화환은 세 단으로 나뉘어 리본과 꽃으로 장식되며, 행사 이름과 보내는 분 이름이 적힌 리본이 함께 제작됩니다.',
         '3단 화환 A는 기본 꽃 구성으로 화사하고 깔끔하게 연출됩니다.')">
-        <img src="images/07_화환_3단_핑크.jpg" alt="3단 화환 A" />
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/07_화환_3단_핑크.jpg" alt="3단 화환 A" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>3단 화환 A</h3>
           <p>기본 꽃 구성의 화사한 3단 화환. 개업·취임·축하 행사에 적합합니다.</p>
           <span class="product-tag">69,000원</span>
         </div>
       </div>
-      <div class="product-card" onclick="openLightbox('images/06_화환_2단_컬러.jpg', '3단 화환 고급형', '89,000원',
+      <div class="product-card reveal reveal-d1" onclick="openLightbox(
+        'images/06_화환_2단_컬러.jpg', '3단 화환 고급형', '89,000원', '화환',
         '화환은 개업·취임·축하 등 경사스러운 행사 자리에 보내는 꽃 장식입니다. 행사장 입구에 세워 축하의 마음을 전달합니다.',
         '3단 화환은 세 단으로 나뉘어 리본과 꽃으로 장식되며, 행사 이름과 보내는 분 이름이 적힌 리본이 함께 제작됩니다.',
         '고급형은 A형보다 꽃의 종류와 수량이 더 많이 들어가며, 더욱 풍성하고 화려하게 연출됩니다. 특별히 중요한 분께 보내는 화환으로 적합합니다.')">
-        <img src="images/06_화환_2단_컬러.jpg" alt="3단 화환 고급형" />
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/06_화환_2단_컬러.jpg" alt="3단 화환 고급형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>3단 화환 고급형</h3>
           <p>꽃 종류와 수량이 더 많아 더욱 풍성하고 화려하게 연출됩니다.</p>
@@ -164,30 +216,39 @@
     </div>
   </section>
 
-  <!-- 근조 -->
-  <section style="background: var(--white);">
-    <div class="section-title">
+  <!-- ── 근조 ── -->
+  <section id="section-funeral" class="prod-section" style="background: var(--bz-surface-2);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Funeral</span>
       <h2>🕊️ 근조</h2>
       <p>조문, 격식 있는 자리에 맞는 근조 화환</p>
-      <div class="line"></div>
+      <div class="section-line"></div>
     </div>
     <div class="product-grid">
-      <div class="product-card" onclick="openLightbox('images/09_화환_3단_화이트.jpg', '3단 근조 A', '69,000원',
+      <div class="product-card reveal" onclick="openLightbox(
+        'images/09_화환_3단_화이트.jpg', '3단 근조 A', '69,000원', '근조',
         '근조 화환은 고인을 추모하고 유족에게 위로의 마음을 전하는 꽃 장식입니다. 장례식장 입구에 세워 삼가 애도를 표합니다.',
         '흰색과 차분한 컬러로 구성되어 격식 있는 조문 자리에 잘 어울리며, 리본에 보내는 분의 이름과 문구가 함께 제작됩니다.',
         '3단 근조 A는 기본 꽃 구성으로 단정하고 정중하게 연출됩니다.')">
-        <img src="images/09_화환_3단_화이트.jpg" alt="3단 근조 A" />
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/09_화환_3단_화이트.jpg" alt="3단 근조 A" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>3단 근조 A</h3>
           <p>단정하고 정중한 기본 근조 화환. 조문 자리에 잘 어울립니다.</p>
           <span class="product-tag">69,000원</span>
         </div>
       </div>
-      <div class="product-card" onclick="openLightbox('images/08_화환_3단_화이트크림.jpg', '3단 근조 고급형', '89,000원',
+      <div class="product-card reveal reveal-d1" onclick="openLightbox(
+        'images/08_화환_3단_화이트크림.jpg', '3단 근조 고급형', '89,000원', '근조',
         '근조 화환은 고인을 추모하고 유족에게 위로의 마음을 전하는 꽃 장식입니다. 장례식장 입구에 세워 삼가 애도를 표합니다.',
         '흰색과 차분한 컬러로 구성되어 격식 있는 조문 자리에 잘 어울리며, 리본에 보내는 분의 이름과 문구가 함께 제작됩니다.',
         '고급형은 A형보다 꽃의 종류와 수량이 더 많이 들어가 더욱 풍성하게 연출됩니다. 각별한 관계의 분께 보내는 근조 화환으로 적합합니다.')">
-        <img src="images/08_화환_3단_화이트크림.jpg" alt="3단 근조 고급형" />
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/08_화환_3단_화이트크림.jpg" alt="3단 근조 고급형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
         <div class="product-info">
           <h3>3단 근조 고급형</h3>
           <p>꽃 종류와 수량이 더 많아 더욱 풍성하게 연출됩니다.</p>
@@ -197,52 +258,63 @@
     </div>
   </section>
 
-  <!-- 주문 안내 배너 -->
-  <section style="background: var(--green); padding: 60px 24px; text-align: center;">
-    <h2 style="color: white; font-size: 28px; margin-bottom: 12px;">마음에 드시는 상품이 있으신가요?</h2>
-    <p style="color: rgba(255,255,255,0.8); margin-bottom: 28px;">가격표 확인 후 주문 문의 주시면 빠르게 도와드리겠습니다.</p>
-    <a href="price.html" class="btn btn-outline" style="color:white; border-color:white; margin-right:12px;">가격표 보기</a>
-    <a href="order.html" class="btn" style="background:white; color:var(--green);">주문 문의하기</a>
-  </section>
-
-  <!-- 라이트박스 모달 -->
-  <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
-    <div class="lightbox-inner">
-      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-      <img class="lightbox-img" id="lb-img" src="" alt="" />
-      <div class="lightbox-body">
-        <h3 id="lb-name"></h3>
-        <div class="lightbox-price" id="lb-price"></div>
-        <p id="lb-desc1"></p>
-        <p id="lb-desc2"></p>
-        <p class="desc-title">📦 구성 안내</p>
-        <p id="lb-desc3"></p>
+  <!-- ── CTA BANNER ── -->
+  <div class="cta-banner">
+    <div class="inner">
+      <h2 class="reveal">마음에 드시는 상품이 있으신가요?</h2>
+      <p class="reveal">가격표 확인 후 주문 문의 주시면 빠르게 도와드리겠습니다.</p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;" class="reveal">
+        <a href="price.html" class="btn btn-white btn-outline" style="border-color:rgba(255,255,255,0.5); color:white;">가격표 보기</a>
+        <a href="order.html" class="btn btn-white">주문 문의하기</a>
       </div>
     </div>
   </div>
 
-  <!-- 카카오톡 플로팅 버튼 -->
-  <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="kakao-float">
+  <!-- ── LIGHTBOX ── -->
+  <div class="lightbox-overlay" id="lightbox" onclick="closeLightboxOutside(event)">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" onclick="closeLightbox()" aria-label="닫기">&times;</button>
+      <img class="lightbox-img" id="lb-img" src="" alt="" />
+      <div class="lightbox-body">
+        <div class="lightbox-tag" id="lb-tag"></div>
+        <h3 id="lb-name"></h3>
+        <div class="lightbox-price" id="lb-price"></div>
+        <div class="lightbox-divider"></div>
+        <p id="lb-desc1"></p>
+        <p id="lb-desc2"></p>
+        <p class="lightbox-section-title">📦 구성 안내</p>
+        <p id="lb-desc3"></p>
+        <div style="margin-top:24px;">
+          <a href="order.html" class="btn btn-primary btn-sm" style="display:inline-flex; gap:8px;">주문 문의하기 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KAKAO FLOAT ── -->
+  <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="kakao-float" aria-label="카카오톡 문의">
     <div class="kakao-float-btn">
-      <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="16" cy="14.5" rx="13" ry="11" fill="#3C1E1E"/>
-        <text x="16" y="19" text-anchor="middle" font-size="13" fill="#FEE500" font-weight="bold" font-family="Arial">K</text>
+        <text x="16" y="19" text-anchor="middle" font-size="12" fill="#FEE500" font-weight="bold" font-family="Arial">K</text>
       </svg>
     </div>
     <span class="kakao-float-label">카카오톡 문의</span>
   </a>
 
-  <!-- 푸터 -->
+  <!-- ── FOOTER ── -->
   <footer>
-    <div class="footer-container">
+    <div class="footer-inner">
       <div class="footer-top">
         <div class="footer-brand">
           <div class="logo">
             <span class="logo-main">🌸 브리즈컴퍼니</span>
+            <span class="logo-sub">Breeze Company</span>
           </div>
-          <p style="margin-top:10px;">꽃으로 전하는 특별한 마음<br />소중한 순간을 함께합니다.</p>
+          <p class="footer-brand-desc">꽃으로 전하는 특별한 마음<br />소중한 순간을 함께합니다.</p>
+          <p class="footer-tagline">"Flowers that speak for your heart."</p>
         </div>
-        <div class="footer-links">
+        <div class="footer-col">
           <h4>메뉴</h4>
           <ul>
             <li><a href="index.html">홈</a></li>
@@ -250,6 +322,22 @@
             <li><a href="price.html">가격표</a></li>
             <li><a href="order.html">주문/문의</a></li>
           </ul>
+        </div>
+        <div class="footer-col">
+          <h4>상품</h4>
+          <ul>
+            <li><a href="#section-orchid">서양란</a></li>
+            <li><a href="#section-east">동양란</a></li>
+            <li><a href="#section-plant">관엽식물</a></li>
+            <li><a href="#section-wreath">화환</a></li>
+            <li><a href="#section-funeral">근조</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>사업자 정보</h4>
+          <p class="biz-line">상호: 브리즈컴퍼니</p>
+          <p class="biz-line">대표: 신아영</p>
+          <p class="biz-line">사업자번호: 539-37-01600</p>
         </div>
       </div>
       <div class="footer-bottom">
@@ -260,9 +348,44 @@
   </footer>
 
   <script>
-    function openLightbox(img, name, price, desc1, desc2, desc3) {
+    // Header scroll
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 10));
+
+    // Hamburger
+    const toggle = document.getElementById('navToggle');
+    const nav = document.getElementById('mainNav');
+    toggle.addEventListener('click', () => { toggle.classList.toggle('open'); nav.classList.toggle('open'); });
+    document.addEventListener('click', (e) => {
+      if (!header.contains(e.target)) { toggle.classList.remove('open'); nav.classList.remove('open'); }
+    });
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Category tab active on scroll
+    const sections = document.querySelectorAll('.prod-section');
+    const catLinks = document.querySelectorAll('.cat-link');
+    const catObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          catLinks.forEach(l => l.classList.remove('active'));
+          const id = e.target.id;
+          const activeLink = document.querySelector(`.cat-link[href="#${id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    sections.forEach(s => catObserver.observe(s));
+
+    // Lightbox
+    function openLightbox(img, name, price, tag, desc1, desc2, desc3) {
       document.getElementById('lb-img').src = img;
       document.getElementById('lb-img').alt = name;
+      document.getElementById('lb-tag').textContent = tag;
       document.getElementById('lb-name').textContent = name;
       document.getElementById('lb-price').textContent = price;
       document.getElementById('lb-desc1').textContent = desc1;
@@ -271,15 +394,14 @@
       document.getElementById('lightbox').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
-
-    function closeLightbox(e) {
-      if (!e || e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lightbox-close')) {
-        document.getElementById('lightbox').classList.remove('active');
-        document.body.style.overflow = '';
-      }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
     }
-
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox({}); });
+    function closeLightboxOutside(e) {
+      if (e.target === document.getElementById('lightbox')) closeLightbox();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
   </script>
 
 </body>

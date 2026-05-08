@@ -3,19 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>브리즈컴퍼니 - 꽃으로 전하는 마음</title>
+  <title>브리즈컴퍼니 - 꽃으로 전하는 특별한 마음</title>
+  <meta name="description" content="브리즈컴퍼니 — 서양란, 동양란, 화환, 근조 화환, 관엽식물. 소중한 순간을 더욱 아름답게 만들어 드립니다." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 헤더 -->
-  <header>
+  <!-- ── HEADER ── -->
+  <header id="site-header">
     <div class="nav-container">
       <a href="index.html" class="logo">
         <span class="logo-main">🌸 브리즈컴퍼니</span>
         <span class="logo-sub">Breeze Company</span>
       </a>
-      <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="mainNav">
         <ul>
           <li><a href="index.html" class="active">홈</a></li>
           <li><a href="products.html">상품소개</a></li>
@@ -26,109 +30,160 @@
     </div>
   </header>
 
-  <!-- 히어로 -->
+  <!-- ── HERO ── -->
   <section class="hero">
     <div class="hero-content">
-      <span class="hero-badge">✨ 브리즈컴퍼니</span>
-      <h1>꽃으로 전하는<br /><span>특별한 마음</span></h1>
-      <p>화환, 서양란, 근조까지<br />소중한 순간을 더욱 아름답게 만들어 드립니다.</p>
-      <a href="products.html" class="btn btn-primary">상품 보기</a>
-      <a href="order.html" class="btn btn-outline">주문 문의</a>
+      <span class="hero-eyebrow">✦ Premium Flower Studio</span>
+      <h1>꽃으로 전하는<br /><em>특별한 마음</em></h1>
+      <p class="hero-sub">
+        화환, 서양란, 근조까지<br />
+        소중한 순간을 더욱 아름답게 만들어 드립니다.
+      </p>
+      <div class="hero-btns">
+        <a href="products.html" class="btn btn-primary">상품 보기</a>
+        <a href="order.html" class="btn btn-outline">주문 문의</a>
+      </div>
     </div>
   </section>
 
-  <!-- 특징 섹션 -->
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">배송 완료</div>
+      </div>
+      <div class="stat-item reveal reveal-d1">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">고객 만족도</div>
+      </div>
+      <div class="stat-item reveal reveal-d2">
+        <div class="stat-num">당일</div>
+        <div class="stat-label">배송 가능</div>
+      </div>
+      <div class="stat-item reveal reveal-d3">
+        <div class="stat-num">3년</div>
+        <div class="stat-label">운영 경력</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FEATURES ── -->
   <section class="features">
-    <div class="section-title">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Why Breeze Company</span>
       <h2>왜 브리즈컴퍼니인가요?</h2>
       <p>신선한 꽃, 정성스러운 포장, 빠른 배송</p>
-      <div class="line"></div>
+      <div class="section-line"></div>
     </div>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🌺</div>
+    <div class="feature-grid inner">
+      <div class="feature-card reveal">
+        <div class="feature-icon-wrap">🌺</div>
         <h3>신선한 꽃</h3>
         <p>매일 새벽 직접 수급하는<br />최상의 신선한 꽃만 사용합니다.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎁</div>
+      <div class="feature-card reveal reveal-d1">
+        <div class="feature-icon-wrap">🎁</div>
         <h3>정성스러운 포장</h3>
         <p>하나하나 손으로 제작하는<br />정성 가득한 포장을 제공합니다.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🚚</div>
+      <div class="feature-card reveal reveal-d2">
+        <div class="feature-icon-wrap">🚚</div>
         <h3>빠른 배송</h3>
-        <p>주문 후 신속하게<br />안전하게 배송해 드립니다.</p>
+        <p>주문 후 신속하고 안전하게<br />배송해 드립니다.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">💬</div>
+      <div class="feature-card reveal reveal-d3">
+        <div class="feature-icon-wrap">💬</div>
         <h3>친절한 상담</h3>
         <p>꽃 선택부터 배달까지<br />맞춤 상담을 제공합니다.</p>
       </div>
     </div>
   </section>
 
-  <!-- 인기 상품 미리보기 -->
-  <section style="background: var(--white);">
-    <div class="section-title">
+  <!-- ── POPULAR PRODUCTS ── -->
+  <section style="background: var(--bz-surface);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Best Sellers</span>
       <h2>인기 상품</h2>
       <p>브리즈컴퍼니의 베스트 상품을 만나보세요</p>
-      <div class="line"></div>
+      <div class="section-line"></div>
     </div>
     <div class="product-grid">
-      <div class="product-card">
-        <img src="images/07_화환_3단_핑크.jpg" alt="3단 화환 A" />
+      <div class="product-card reveal" onclick="location.href='products.html#section-wreath'">
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/07_화환_3단_핑크.jpg" alt="3단 화환 A" />
+          <span class="product-zoom-hint">🎋 화환 보기</span>
+        </div>
         <div class="product-info">
           <h3>3단 화환 A</h3>
           <p>개업, 취임, 축하 등 다양한 행사에 어울리는 3단 화환</p>
-          <span class="product-tag">화환</span>
+          <span class="product-tag">69,000원~</span>
         </div>
       </div>
-      <div class="product-card">
-        <img src="images/서양란.png" alt="서양란" />
+      <div class="product-card reveal reveal-d1" onclick="location.href='products.html#section-orchid'">
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/서양란.png" alt="서양란" />
+          <span class="product-zoom-hint">🌺 서양란 보기</span>
+        </div>
         <div class="product-info">
-          <h3>서양란 화이트</h3>
-          <p>품위 있고 우아한 화이트 서양란</p>
-          <span class="product-tag">서양란</span>
+          <h3>서양란</h3>
+          <p>품위 있고 우아한 서양란. 개업·이사·취임 선물로 최적입니다.</p>
+          <span class="product-tag">99,000원~</span>
         </div>
       </div>
-      <div class="product-card">
-        <img src="images/05_테이블용.png" alt="테이블용" />
+      <div class="product-card reveal reveal-d2" onclick="location.href='products.html#section-plant'">
+        <div class="product-card-img-wrap">
+          <img class="product-card-img" src="images/05_테이블용.png" alt="테이블용" />
+          <span class="product-zoom-hint">🌱 식물 보기</span>
+        </div>
         <div class="product-info">
           <h3>테이블용</h3>
-          <p>다양한 꽃으로 구성된 화사한 테이블용 꽃</p>
-          <span class="product-tag">테이블용</span>
+          <p>계절의 아름다운 꽃으로 공간을 화사하게 꾸며드립니다.</p>
+          <span class="product-tag">65,000원</span>
         </div>
       </div>
     </div>
-    <div style="text-align:center; margin-top: 40px;">
+    <div style="text-align:center; margin-top: 48px;" class="reveal">
       <a href="products.html" class="btn btn-outline">전체 상품 보기</a>
     </div>
   </section>
 
-  <!-- 카카오톡 플로팅 버튼 -->
-  <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="kakao-float">
+  <!-- ── CTA BANNER ── -->
+  <div class="cta-banner">
+    <div class="inner">
+      <h2 class="reveal">마음에 드시는 상품이 있으신가요?</h2>
+      <p class="reveal">가격표 확인 후 주문 문의 주시면<br />빠르게 도와드리겠습니다.</p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;" class="reveal">
+        <a href="price.html" class="btn btn-white btn-outline" style="border-color:rgba(255,255,255,0.5); color:white;">가격표 보기</a>
+        <a href="order.html" class="btn btn-white">주문 문의하기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KAKAO FLOAT ── -->
+  <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="kakao-float" aria-label="카카오톡 문의">
     <div class="kakao-float-btn">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="16" cy="14.5" rx="13" ry="11" fill="#3C1E1E"/>
-        <path d="M9 19.5l1.5-4.5 3 3 3-6 3 5 1.5-2.5" stroke="#FEE500" stroke-width="0" fill="none"/>
-        <text x="16" y="19" text-anchor="middle" font-size="13" fill="#3C1E1E" font-weight="bold" font-family="Arial">talk</text>
+        <text x="16" y="19" text-anchor="middle" font-size="12" fill="#FEE500" font-weight="bold" font-family="Arial">K</text>
       </svg>
     </div>
     <span class="kakao-float-label">카카오톡 문의</span>
   </a>
 
-  <!-- 푸터 -->
+  <!-- ── FOOTER ── -->
   <footer>
-    <div class="footer-container">
+    <div class="footer-inner">
       <div class="footer-top">
         <div class="footer-brand">
           <div class="logo">
             <span class="logo-main">🌸 브리즈컴퍼니</span>
+            <span class="logo-sub">Breeze Company</span>
           </div>
-          <p style="margin-top:10px;">꽃으로 전하는 특별한 마음<br />소중한 순간을 함께합니다.</p>
+          <p class="footer-brand-desc">꽃으로 전하는 특별한 마음<br />소중한 순간을 함께합니다.</p>
+          <p class="footer-tagline">"Flowers that speak for your heart."</p>
         </div>
-        <div class="footer-links">
+        <div class="footer-col">
           <h4>메뉴</h4>
           <ul>
             <li><a href="index.html">홈</a></li>
@@ -137,15 +192,24 @@
             <li><a href="order.html">주문/문의</a></li>
           </ul>
         </div>
-        <div class="footer-links">
+        <div class="footer-col">
           <h4>상품</h4>
           <ul>
-            <li><a href="products.html">서양란</a></li>
-            <li><a href="products.html">관엽식물</a></li>
-            <li><a href="products.html">테이블용</a></li>
-            <li><a href="products.html">화환</a></li>
-            <li><a href="products.html">근조</a></li>
+            <li><a href="products.html#section-orchid">서양란</a></li>
+            <li><a href="products.html#section-east">동양란</a></li>
+            <li><a href="products.html#section-plant">관엽식물</a></li>
+            <li><a href="products.html#section-wreath">화환</a></li>
+            <li><a href="products.html#section-funeral">근조</a></li>
           </ul>
+        </div>
+        <div class="footer-col">
+          <h4>사업자 정보</h4>
+          <p class="biz-line">상호: 브리즈컴퍼니</p>
+          <p class="biz-line">대표: 신아영</p>
+          <p class="biz-line">사업자번호: 539-37-01600</p>
+          <p class="biz-line" style="margin-top:10px;">
+            <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" style="color:#888;">💬 카카오톡 채널</a>
+          </p>
         </div>
       </div>
       <div class="footer-bottom">
@@ -155,5 +219,33 @@
     </div>
   </footer>
 
+  <script>
+    // Header scroll shadow
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // Hamburger menu
+    const toggle = document.getElementById('navToggle');
+    const nav = document.getElementById('mainNav');
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('open');
+      nav.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+      if (!header.contains(e.target)) {
+        toggle.classList.remove('open');
+        nav.classList.remove('open');
+      }
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  </script>
 </body>
 </html>

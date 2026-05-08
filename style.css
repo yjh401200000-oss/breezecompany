@@ -1,55 +1,117 @@
-/* ===== 공통 스타일 ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ============================================================
+   브리즈컴퍼니 — Main Stylesheet
+   Design System v1.0 적용
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap");
+
+/* ===== 디자인 토큰 ===== */
+:root {
+  /* Brand colors */
+  --bz-green:        #4a7c59;
+  --bz-green-deep:   #3a6347;
+  --bz-green-light:  #7aab8a;
+  --bz-pink:         #f2a7b8;
+  --bz-pink-light:   #fce8ed;
+  --bz-cream:        #faf7f2;
+
+  /* Neutrals */
+  --bz-ink:          #2c2c2c;
+  --bz-ink-soft:     #4a4a4a;
+  --bz-gray:         #666666;
+  --bz-gray-light:   #aaaaaa;
+  --bz-line:         #ececec;
+  --bz-surface:      #ffffff;
+  --bz-surface-2:    #f5f5f5;
+
+  /* Functional */
+  --bz-kakao-yellow: #fee500;
+  --bz-kakao-brown:  #3c1e1e;
+
+  /* Fonts */
+  --bz-font-display: "Playfair Display", "Noto Sans KR", serif;
+  --bz-font-kr:      "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --bz-font-en:      "Inter", "Noto Sans KR", system-ui, sans-serif;
+
+  /* Type scale */
+  --bz-text-xs:   11px;
+  --bz-text-sm:   13px;
+  --bz-text-base: 15px;
+  --bz-text-md:   17px;
+  --bz-text-lg:   20px;
+  --bz-text-xl:   24px;
+  --bz-text-2xl:  32px;
+  --bz-text-3xl:  40px;
+  --bz-text-4xl:  56px;
+
+  /* Spacing */
+  --bz-sp-1: 4px;  --bz-sp-2: 8px;   --bz-sp-3: 12px;
+  --bz-sp-4: 16px; --bz-sp-5: 24px;  --bz-sp-6: 32px;
+  --bz-sp-7: 48px; --bz-sp-8: 64px;  --bz-sp-9: 96px;
+
+  /* Radii */
+  --bz-radius-sm:   8px;
+  --bz-radius-md:   12px;
+  --bz-radius-lg:   16px;
+  --bz-radius-pill: 999px;
+
+  /* Shadows */
+  --bz-shadow-xs:  0 2px 10px rgba(0,0,0,0.06);
+  --bz-shadow-sm:  0 2px 12px rgba(0,0,0,0.07);
+  --bz-shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+  --bz-shadow-lg:  0 12px 32px rgba(0,0,0,0.13);
+  --bz-shadow-cta: 0 6px 20px rgba(74,124,89,0.35);
+
+  /* Motion */
+  --bz-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --bz-dur:  0.3s;
+
+  /* Layout */
+  --bz-container: 1100px;
+  --bz-gutter:    24px;
+
+  /* 하위 호환 별칭 */
+  --green:      var(--bz-green);
+  --light-green:var(--bz-green-light);
+  --pink:       var(--bz-pink);
+  --light-pink: var(--bz-pink-light);
+  --cream:      var(--bz-cream);
+  --dark:       var(--bz-ink);
+  --gray:       var(--bz-gray);
+  --light-gray: var(--bz-surface-2);
+  --white:      var(--bz-surface);
 }
 
-:root {
-  --green: #4a7c59;
-  --light-green: #7aab8a;
-  --pink: #f2a7b8;
-  --light-pink: #fce8ed;
-  --cream: #faf7f2;
-  --dark: #2c2c2c;
-  --gray: #666;
-  --light-gray: #f5f5f5;
-  --white: #ffffff;
-}
+/* ===== 리셋 ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-  color: var(--dark);
-  background: var(--white);
-  line-height: 1.6;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-base);
+  color: var(--bz-ink);
+  background: var(--bz-surface);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
+a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
-
-img {
-  max-width: 100%;
-  display: block;
-}
+img { max-width: 100%; display: block; }
 
 /* ===== 헤더 & 네비게이션 ===== */
 header {
-  background: var(--white);
-  border-bottom: 1px solid #eee;
+  background: var(--bz-surface);
+  border-bottom: 1px solid var(--bz-line);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  box-shadow: var(--bz-shadow-xs);
 }
 
 .nav-container {
-  max-width: 1100px;
+  max-width: var(--bz-container);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--bz-gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,16 +125,18 @@ header {
 }
 
 .logo-main {
+  font-family: var(--bz-font-kr);
   font-size: 20px;
   font-weight: 700;
-  color: var(--green);
-  letter-spacing: 1px;
+  color: var(--bz-green);
+  letter-spacing: 0.5px;
 }
 
 .logo-sub {
-  font-size: 10px;
-  color: var(--gray);
-  letter-spacing: 2px;
+  font-family: var(--bz-font-en);
+  font-size: var(--bz-text-xs);
+  color: var(--bz-gray);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -82,24 +146,26 @@ nav ul {
 }
 
 nav ul li a {
+  font-family: var(--bz-font-kr);
   font-size: 14px;
   font-weight: 500;
-  color: var(--dark);
+  color: var(--bz-ink);
   padding-bottom: 4px;
   border-bottom: 2px solid transparent;
-  transition: all 0.3s;
+  transition: color var(--bz-dur) var(--bz-ease),
+              border-color var(--bz-dur) var(--bz-ease);
 }
 
 nav ul li a:hover,
 nav ul li a.active {
-  color: var(--green);
-  border-bottom-color: var(--green);
+  color: var(--bz-green);
+  border-bottom-color: var(--bz-green);
 }
 
 /* ===== 히어로 섹션 ===== */
 .hero {
-  background: linear-gradient(135deg, var(--cream) 0%, var(--light-pink) 100%);
-  padding: 100px 24px;
+  background: linear-gradient(135deg, var(--bz-cream) 0%, var(--bz-pink-light) 100%);
+  padding: 100px var(--bz-gutter);
   text-align: center;
 }
 
@@ -110,72 +176,81 @@ nav ul li a.active {
 
 .hero-badge {
   display: inline-block;
-  background: var(--green);
+  background: var(--bz-green);
   color: white;
-  font-size: 12px;
-  padding: 4px 14px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+  font-family: var(--bz-font-en);
+  font-size: var(--bz-text-xs);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: var(--bz-radius-pill);
+  margin-bottom: 24px;
 }
 
 .hero h1 {
-  font-size: 48px;
+  font-family: var(--bz-font-display);
+  font-size: clamp(36px, 5vw, 52px);
   font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 16px;
+  color: var(--bz-ink);
+  margin-bottom: 18px;
   line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .hero h1 span {
-  color: var(--green);
+  color: var(--bz-green);
+  font-style: italic;
 }
 
 .hero p {
-  font-size: 17px;
-  color: var(--gray);
-  margin-bottom: 36px;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-md);
+  color: var(--bz-gray);
+  margin-bottom: 40px;
   line-height: 1.8;
 }
 
+/* ===== 버튼 ===== */
 .btn {
   display: inline-block;
   padding: 14px 36px;
-  border-radius: 30px;
-  font-size: 15px;
+  border-radius: var(--bz-radius-pill);
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-base);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all var(--bz-dur) var(--bz-ease);
   border: none;
 }
 
 .btn-primary {
-  background: var(--green);
+  background: var(--bz-green);
   color: white;
   margin-right: 12px;
 }
 
 .btn-primary:hover {
-  background: #3a6347;
+  background: var(--bz-green-deep);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(74,124,89,0.35);
+  box-shadow: var(--bz-shadow-cta);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--green);
-  border: 2px solid var(--green);
+  color: var(--bz-green);
+  border: 2px solid var(--bz-green);
 }
 
 .btn-outline:hover {
-  background: var(--green);
+  background: var(--bz-green);
   color: white;
   transform: translateY(-2px);
 }
 
 /* ===== 섹션 공통 ===== */
 section {
-  padding: 80px 24px;
+  padding: 80px var(--bz-gutter);
 }
 
 .section-title {
@@ -184,77 +259,95 @@ section {
 }
 
 .section-title h2 {
-  font-size: 32px;
+  font-family: var(--bz-font-display);
+  font-size: var(--bz-text-2xl);
   font-weight: 700;
-  color: var(--dark);
+  color: var(--bz-ink);
   margin-bottom: 10px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .section-title p {
-  font-size: 15px;
-  color: var(--gray);
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-base);
+  color: var(--bz-gray);
+  line-height: 1.7;
 }
 
 .section-title .line {
   width: 48px;
   height: 3px;
-  background: var(--green);
+  background: var(--bz-green);
   margin: 14px auto 0;
   border-radius: 2px;
 }
 
-/* ===== 상품 카드 그리드 ===== */
+/* ===== 상품 카드 ===== */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 28px;
-  max-width: 1100px;
+  max-width: var(--bz-container);
   margin: 0 auto;
 }
 
 .product-card {
-  background: white;
-  border-radius: 16px;
+  background: var(--bz-surface);
+  border-radius: var(--bz-radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: var(--bz-shadow-md);
+  transition: transform var(--bz-dur) var(--bz-ease),
+              box-shadow var(--bz-dur) var(--bz-ease);
+  cursor: pointer;
 }
 
 .product-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+  box-shadow: var(--bz-shadow-lg);
 }
 
 .product-card img {
   width: 100%;
   height: 220px;
   object-fit: cover;
+  cursor: zoom-in;
+  transition: opacity 0.2s;
 }
+
+.product-card img:hover { opacity: 0.88; }
 
 .product-info {
   padding: 18px 20px;
 }
 
 .product-info h3 {
-  font-size: 16px;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-base);
   font-weight: 600;
+  color: var(--bz-ink);
   margin-bottom: 6px;
+  line-height: 1.4;
 }
 
 .product-info p {
-  font-size: 13px;
-  color: var(--gray);
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-sm);
+  color: var(--bz-gray);
   margin-bottom: 10px;
+  line-height: 1.7;
 }
 
 .product-tag {
   display: inline-block;
-  background: var(--light-pink);
-  color: var(--green);
-  font-size: 11px;
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-weight: 500;
+  background: var(--bz-pink-light);
+  color: var(--bz-green);
+  font-family: var(--bz-font-en);
+  font-size: var(--bz-text-xs);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--bz-radius-md);
+  letter-spacing: 0.02em;
 }
 
 /* ===== 가격표 ===== */
@@ -268,50 +361,68 @@ section {
 }
 
 .price-category h3 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--green);
+  font-family: var(--bz-font-display);
+  font-size: var(--bz-text-lg);
+  font-weight: 600;
+  color: var(--bz-green);
   margin-bottom: 16px;
   padding-bottom: 10px;
-  border-bottom: 2px solid var(--light-pink);
+  border-bottom: 2px solid var(--bz-pink-light);
+  letter-spacing: -0.01em;
 }
 
 .price-table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  border-radius: 12px;
+  background: var(--bz-surface);
+  border-radius: var(--bz-radius-md);
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  box-shadow: var(--bz-shadow-sm);
 }
 
 .price-table thead {
-  background: var(--green);
+  background: var(--bz-green);
   color: white;
 }
 
-.price-table th,
+.price-table th {
+  padding: 14px 20px;
+  text-align: left;
+  font-family: var(--bz-font-kr);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .price-table td {
   padding: 14px 20px;
   text-align: left;
+  font-family: var(--bz-font-kr);
   font-size: 14px;
 }
 
+.price-table td:nth-child(2) {
+  font-family: var(--bz-font-en);
+  font-weight: 600;
+  color: var(--bz-green);
+}
+
 .price-table tbody tr:nth-child(even) {
-  background: var(--cream);
+  background: var(--bz-cream);
 }
 
 .price-table tbody tr:hover {
-  background: var(--light-pink);
+  background: var(--bz-pink-light);
 }
 
 .price-note {
-  background: var(--light-pink);
-  border-left: 4px solid var(--pink);
+  background: var(--bz-pink-light);
+  border-left: 4px solid var(--bz-pink);
   padding: 16px 20px;
-  border-radius: 8px;
-  font-size: 13px;
-  color: var(--gray);
+  border-radius: var(--bz-radius-sm);
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-sm);
+  color: var(--bz-gray);
   margin-top: 24px;
   line-height: 1.8;
 }
@@ -323,17 +434,19 @@ section {
 }
 
 .order-info-box {
-  background: var(--cream);
-  border-radius: 16px;
+  background: var(--bz-cream);
+  border-radius: var(--bz-radius-lg);
   padding: 36px;
   margin-bottom: 36px;
 }
 
 .order-info-box h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--green);
+  font-family: var(--bz-font-display);
+  font-size: var(--bz-text-lg);
+  font-weight: 600;
+  color: var(--bz-green);
   margin-bottom: 20px;
+  letter-spacing: -0.01em;
 }
 
 .info-row {
@@ -346,41 +459,47 @@ section {
 
 .info-row .label {
   min-width: 100px;
+  font-family: var(--bz-font-kr);
   font-weight: 600;
-  color: var(--dark);
+  color: var(--bz-ink);
 }
 
 .info-row .value {
-  color: var(--gray);
+  font-family: var(--bz-font-kr);
+  color: var(--bz-gray);
+  line-height: 1.7;
 }
 
 .account-box {
-  background: white;
-  border: 2px solid var(--light-pink);
-  border-radius: 12px;
+  background: var(--bz-surface);
+  border: 2px solid var(--bz-pink-light);
+  border-radius: var(--bz-radius-md);
   padding: 24px;
   margin-top: 20px;
 }
 
 .account-box h4 {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--green);
+  font-family: var(--bz-font-display);
+  font-size: var(--bz-text-base);
+  font-weight: 600;
+  color: var(--bz-green);
   margin-bottom: 14px;
 }
 
 .order-form {
-  background: white;
-  border-radius: 16px;
+  background: var(--bz-surface);
+  border-radius: var(--bz-radius-lg);
   padding: 36px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: var(--bz-shadow-md);
 }
 
 .order-form h3 {
-  font-size: 18px;
-  font-weight: 700;
+  font-family: var(--bz-font-display);
+  font-size: var(--bz-text-lg);
+  font-weight: 600;
+  color: var(--bz-ink);
   margin-bottom: 24px;
-  color: var(--dark);
+  letter-spacing: -0.01em;
 }
 
 .form-group {
@@ -389,9 +508,10 @@ section {
 
 .form-group label {
   display: block;
-  font-size: 13px;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-sm);
   font-weight: 600;
-  color: var(--dark);
+  color: var(--bz-ink);
   margin-bottom: 6px;
 }
 
@@ -401,63 +521,66 @@ section {
   width: 100%;
   padding: 12px 16px;
   border: 1.5px solid #ddd;
-  border-radius: 8px;
+  border-radius: var(--bz-radius-sm);
+  font-family: var(--bz-font-kr);
   font-size: 14px;
-  font-family: inherit;
-  transition: border-color 0.3s;
-  background: white;
+  color: var(--bz-ink);
+  transition: border-color var(--bz-dur) var(--bz-ease);
+  background: var(--bz-surface);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--green);
+  border-color: var(--bz-green);
 }
 
 .form-group textarea {
   resize: vertical;
   min-height: 120px;
+  line-height: 1.7;
 }
 
 .form-submit {
   width: 100%;
   padding: 16px;
-  background: var(--green);
+  background: var(--bz-green);
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: var(--bz-radius-sm);
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-md);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
-  font-family: inherit;
+  transition: background var(--bz-dur) var(--bz-ease);
+  letter-spacing: 0.02em;
 }
 
 .form-submit:hover {
-  background: #3a6347;
+  background: var(--bz-green-deep);
 }
 
 /* ===== 특징 섹션 ===== */
 .features {
-  background: var(--light-gray);
+  background: var(--bz-surface-2);
 }
 
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 28px;
-  max-width: 1100px;
+  max-width: var(--bz-container);
   margin: 0 auto;
 }
 
 .feature-card {
-  background: white;
-  border-radius: 14px;
+  background: var(--bz-surface);
+  border-radius: var(--bz-radius-lg);
   padding: 32px 24px;
   text-align: center;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  transition: transform 0.3s;
+  box-shadow: var(--bz-shadow-sm);
+  transition: transform var(--bz-dur) var(--bz-ease);
 }
 
 .feature-card:hover {
@@ -470,27 +593,29 @@ section {
 }
 
 .feature-card h3 {
-  font-size: 16px;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-base);
   font-weight: 700;
+  color: var(--bz-ink);
   margin-bottom: 8px;
-  color: var(--dark);
 }
 
 .feature-card p {
-  font-size: 13px;
-  color: var(--gray);
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-sm);
+  color: var(--bz-gray);
   line-height: 1.7;
 }
 
 /* ===== 푸터 ===== */
 footer {
-  background: var(--dark);
-  color: #aaa;
-  padding: 48px 24px 28px;
+  background: var(--bz-ink);
+  color: var(--bz-gray-light);
+  padding: 48px var(--bz-gutter) 28px;
 }
 
 .footer-container {
-  max-width: 1100px;
+  max-width: var(--bz-container);
   margin: 0 auto;
 }
 
@@ -504,18 +629,20 @@ footer {
 }
 
 .footer-brand .logo-main {
-  color: white;
+  color: var(--bz-surface);
   font-size: 18px;
 }
 
 .footer-brand p {
-  font-size: 13px;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-sm);
   margin-top: 8px;
   line-height: 1.7;
 }
 
 .footer-links h4 {
-  color: white;
+  color: var(--bz-surface);
+  font-family: var(--bz-font-kr);
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 14px;
@@ -526,13 +653,14 @@ footer {
 }
 
 .footer-links ul li a {
-  font-size: 13px;
-  color: #aaa;
-  transition: color 0.3s;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-sm);
+  color: var(--bz-gray-light);
+  transition: color var(--bz-dur);
 }
 
 .footer-links ul li a:hover {
-  color: var(--pink);
+  color: var(--bz-pink);
 }
 
 .footer-bottom {
@@ -546,11 +674,13 @@ footer {
 }
 
 .footer-bottom p {
+  font-family: var(--bz-font-kr);
   font-size: 12px;
 }
 
 .footer-bottom .biz-info {
-  font-size: 11px;
+  font-family: var(--bz-font-en);
+  font-size: var(--bz-text-xs);
   color: #777;
 }
 
@@ -574,11 +704,11 @@ footer {
   position: relative;
   max-width: 560px;
   width: 100%;
-  background: white;
-  border-radius: 16px;
+  background: var(--bz-surface);
+  border-radius: var(--bz-radius-lg);
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  animation: popIn 0.25s ease;
+  animation: popIn 0.25s var(--bz-ease);
 }
 
 @keyframes popIn {
@@ -590,7 +720,7 @@ footer {
   width: 100%;
   max-height: 420px;
   object-fit: contain;
-  background: #f9f9f9;
+  background: var(--bz-surface-2);
 }
 
 .lightbox-body {
@@ -598,31 +728,38 @@ footer {
 }
 
 .lightbox-body h3 {
-  font-size: 20px;
+  font-family: var(--bz-font-display);
+  font-size: var(--bz-text-xl);
   font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 8px;
+  color: var(--bz-ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }
 
 .lightbox-price {
-  font-size: 18px;
+  font-family: var(--bz-font-en);
+  font-size: var(--bz-text-lg);
   font-weight: 700;
-  color: var(--green);
-  margin-bottom: 14px;
+  color: var(--bz-green);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
 }
 
 .lightbox-body p {
+  font-family: var(--bz-font-kr);
   font-size: 14px;
-  color: var(--gray);
+  color: var(--bz-gray);
   line-height: 1.9;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .lightbox-body .desc-title {
-  font-size: 13px;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-sm);
   font-weight: 700;
-  color: var(--dark);
-  margin-top: 12px;
+  color: var(--bz-ink);
+  margin-top: 14px;
   margin-bottom: 4px;
 }
 
@@ -642,16 +779,10 @@ footer {
   align-items: center;
   justify-content: center;
   line-height: 1;
+  transition: background 0.2s;
 }
 
 .lightbox-close:hover { background: rgba(0,0,0,0.7); }
-
-.product-card img {
-  cursor: zoom-in;
-  transition: opacity 0.2s;
-}
-
-.product-card img:hover { opacity: 0.88; }
 
 /* ===== 카카오톡 플로팅 버튼 ===== */
 .kakao-float {
@@ -670,13 +801,14 @@ footer {
 .kakao-float-btn {
   width: 56px;
   height: 56px;
-  background: #FEE500;
+  background: var(--bz-kakao-yellow);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--bz-shadow-md);
+  transition: transform 0.2s var(--bz-ease),
+              box-shadow 0.2s var(--bz-ease);
 }
 
 .kakao-float:hover .kakao-float-btn {
@@ -684,15 +816,11 @@ footer {
   box-shadow: 0 8px 24px rgba(0,0,0,0.22);
 }
 
-.kakao-float-btn img {
-  width: 32px;
-  height: 32px;
-}
-
 .kakao-float-label {
   background: rgba(0,0,0,0.65);
   color: white;
-  font-size: 11px;
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-xs);
   padding: 3px 8px;
   border-radius: 10px;
   white-space: nowrap;

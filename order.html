@@ -388,21 +388,21 @@
       const descEl  = document.getElementById('success-desc');
       const hintEl  = document.getElementById('success-hint');
 
-      if (mode === 'share') {
-        // 모바일 공유 성공 → 카카오톡 앱에서 채널 선택하면 메시지 자동 입력됨
-        titleEl.textContent = '카카오톡으로 전송 준비 완료!';
-        descEl.innerHTML = '카카오톡에서 <strong>브리즈컴퍼니 채널</strong>을 선택하면<br />주문 내용이 자동으로 입력됩니다.';
-        hintEl.textContent = '채널이 보이지 않으면 아래 버튼으로 직접 이동 후 붙여넣기 해주세요.';
-      } else if (mode === 'clipboard') {
-        // PC 클립보드 복사 성공
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if (mode === 'clipboard') {
         titleEl.textContent = '주문 내용이 복사되었습니다!';
-        descEl.innerHTML = '카카오톡 채널 채팅창에서<br /><strong>붙여넣기 (Ctrl+V)</strong> 후 전송해 주세요.';
-        hintEl.textContent = '아래 버튼을 누르면 채널로 바로 이동합니다.';
+        if (isMobile) {
+          descEl.innerHTML = '카카오톡 채널이 열립니다.<br />채팅창을 <strong>길게 눌러 붙여넣기</strong> 후 전송해 주세요.';
+          hintEl.textContent = '자동으로 이동되지 않으면 아래 버튼을 눌러주세요.';
+        } else {
+          descEl.innerHTML = '카카오톡 채널 채팅창에서<br /><strong>붙여넣기 (Ctrl+V)</strong> 후 전송해 주세요.';
+          hintEl.textContent = '자동으로 이동되지 않으면 아래 버튼을 눌러주세요.';
+        }
       } else {
-        // 아무것도 안 됐을 때 — 텍스트 박스에서 직접 복사
         titleEl.textContent = '주문 내용을 확인해 주세요';
         descEl.innerHTML = '아래 내용을 <strong>복사</strong>한 뒤<br />카카오톡 채널 채팅창에 붙여넣기 해주세요.';
-        hintEl.textContent = '복사 버튼을 누르거나 텍스트를 길게 누르면 복사할 수 있습니다.';
+        hintEl.textContent = '복사 버튼을 누르거나 텍스트를 길게 눌러 복사할 수 있습니다.';
       }
 
       const successEl = document.getElementById('success-msg');
@@ -449,40 +449,21 @@
 ──────────────────${sender ? `\n✍️ 발송명의: ${sender}` : ''}${ribbon ? `\n🎀 리본문구: ${ribbon}` : ''}${message ? `\n📝 요청사항:\n${message}` : ''}
 ──────────────────`;
 
-      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-      // ── 모바일: Web Share API (네이티브 공유 시트 → 카카오톡 선택 → 메시지 자동 입력) ──
-      if (isMobile && navigator.share) {
-        try {
-          await navigator.share({ text: kakaoMsg });
-          // 공유 성공
-          showSuccess(kakaoMsg, 'share');
-          return;
-        } catch (err) {
-          // 사용자가 공유 취소했거나 오류 → clipboard 방식으로 fallback
-          if (err.name === 'AbortError') {
-            // 취소한 경우 폼 유지 (아무것도 하지 않음)
-            return;
-          }
-          // 기타 오류: fallback 진행
-        }
-      }
-
-      // ── PC / 모바일 fallback: 클립보드 복사 후 채널 자동 오픈 ──
+      // ── 클립보드 복사 시도 ──
       let mode = 'fallback';
       try {
         await navigator.clipboard.writeText(kakaoMsg);
         mode = 'clipboard';
       } catch (e) {
-        // 클립보드도 실패 → 텍스트 박스 표시만
+        // 클립보드 실패 → 텍스트 박스 표시
       }
 
       showSuccess(kakaoMsg, mode);
 
-      if (mode === 'clipboard') {
-        // PC: 0.5초 후 카카오톡 채널 자동 오픈
-        setTimeout(() => window.open('https://pf.kakao.com/_ixazxkn/chat', '_blank'), 500);
-      }
+      // ── 카카오톡 채널 채팅창 바로 열기 (모바일: 앱 자동 실행 / PC: 브라우저) ──
+      setTimeout(() => {
+        window.location.href = 'https://pf.kakao.com/_ixazxkn/chat';
+      }, 600);
     }
   </script>
 

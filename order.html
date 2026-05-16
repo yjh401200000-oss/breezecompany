@@ -560,20 +560,45 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
       }, 400);
 
       try {
-        // CORS 프록시로 페이지 내용 가져오기
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-        const res = await fetch(proxyUrl);
-        if (!res.ok) throw new Error('페이지를 가져올 수 없습니다.');
-        const data = await res.json();
+        // 여러 CORS 프록시 순서대로 시도
+        const proxies = [
+          u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+          u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+          u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+          u => `https://thingproxy.freeboard.io/fetch/${u}`,
+        ];
 
-        // HTML → 텍스트만 추출
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
-        // 스크립트/스타일 제거
-        doc.querySelectorAll('script, style, noscript').forEach(el => el.remove());
-        const pageText = (doc.body?.innerText || doc.body?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 4000);
+        let pageText = '';
+        let lastErr = '';
 
-        if (!pageText) throw new Error('페이지에서 텍스트를 찾을 수 없습니다.');
+        for (const makeProxy of proxies) {
+          try {
+            const proxyUrl = makeProxy(url);
+            const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+            if (!res.ok) { lastErr = `HTTP ${res.status}`; continue; }
+
+            // allorigins는 JSON, 나머지는 text
+            let html = '';
+            const ct = res.headers.get('content-type') || '';
+            if (ct.includes('json')) {
+              const d = await res.json();
+              html = d.contents || d.data || '';
+            } else {
+              html = await res.text();
+            }
+
+            // HTML → 텍스트 추출
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            doc.querySelectorAll('script, style, noscript, svg').forEach(el => el.remove());
+            const text = (doc.body?.innerText || doc.body?.textContent || '').replace(/\s+/g, ' ').trim();
+
+            if (text.length > 50) { pageText = text.slice(0, 5000); break; }
+            lastErr = '텍스트 없음';
+          } catch (e) { lastErr = e.message; }
+        }
+
+        if (!pageText) throw new Error('모든 프록시 실패: ' + lastErr + '\n사진 업로드 방식을 이용해 주세요.');
 
         // Gemini API 호출 (텍스트 모드)
         const geminiRes = await fetch(

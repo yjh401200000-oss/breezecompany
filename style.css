@@ -79,6 +79,33 @@
   --light-green: var(--bz-green-light);
 }
 
+/* ─── Keyframe Animations ────────────────────────────────── */
+@keyframes gradShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+@keyframes floatPetal {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  33%       { transform: translateY(-22px) rotate(14deg) scale(1.05); }
+  66%       { transform: translateY(-10px) rotate(-8deg) scale(0.97); }
+}
+@keyframes heroTextIn {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 6px 20px rgba(74,124,89,0.35); }
+  50%       { box-shadow: 0 6px 36px rgba(74,124,89,0.6), 0 0 0 10px rgba(74,124,89,0.07); }
+}
+@keyframes ctaPetalFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.12; }
+  50%       { transform: translateY(-30px) rotate(20deg); opacity: 0.18; }
+}
+@keyframes badgePopIn {
+  from { transform: scale(0.6) translateY(-4px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
 /* ─── Reset ──────────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -96,6 +123,206 @@ body {
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 img { max-width: 100%; display: block; }
+
+/* ─── Hero 애니메이션 ─────────────────────────────────────── */
+.hero-animated {
+  background: linear-gradient(135deg, #faf7f2, #fce8ed, #eaf2ec, #fce8ed, #faf7f2);
+  background-size: 300% 300%;
+  animation: gradShift 12s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 꽃잎 파티클 */
+.hero-petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.petal {
+  position: absolute;
+  opacity: 0.13;
+  font-size: var(--size, 2.5rem);
+  animation: floatPetal var(--dur, 7s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  user-select: none;
+  line-height: 1;
+}
+.hero-content { position: relative; z-index: 1; }
+
+/* 히어로 텍스트 순차 등장 */
+.hero-anim-1 { animation: heroTextIn 0.75s cubic-bezier(0.22,0.61,0.36,1) 0.05s both; }
+.hero-anim-2 { animation: heroTextIn 0.75s cubic-bezier(0.22,0.61,0.36,1) 0.2s both; }
+.hero-anim-3 { animation: heroTextIn 0.75s cubic-bezier(0.22,0.61,0.36,1) 0.38s both; }
+.hero-anim-4 { animation: heroTextIn 0.75s cubic-bezier(0.22,0.61,0.36,1) 0.55s both; }
+.hero-anim-5 { animation: heroTextIn 0.75s cubic-bezier(0.22,0.61,0.36,1) 0.7s both; }
+
+/* 주요 버튼 펄스 */
+.btn-pulse { animation: pulseGlow 3.5s ease-in-out infinite; }
+.btn-pulse:hover { animation: none; }
+
+/* 카카오 히어로 버튼 */
+.btn-kakao-hero {
+  background: var(--bz-kakao-yellow);
+  color: var(--bz-kakao-brown);
+  border-color: var(--bz-kakao-yellow);
+  font-weight: 700;
+}
+.btn-kakao-hero:hover { filter: brightness(0.95); transform: translateY(-2px); }
+
+/* 히어로 카테고리 빠른 링크 */
+.hero-cats {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.hero-cats a {
+  font-family: var(--bz-font-kr);
+  font-size: 13px;
+  color: var(--bz-gray);
+  font-weight: 500;
+  transition: color 0.2s;
+  padding: 4px 8px;
+  border-radius: var(--bz-radius-pill);
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(4px);
+}
+.hero-cats a:hover { color: var(--bz-green); background: rgba(255,255,255,0.9); }
+.hero-cats span { color: var(--bz-gray-light); font-size: 11px; }
+
+/* ─── 약속 배너 스트립 ──────────────────────────────────── */
+.promise-strip {
+  background: var(--bz-green);
+  padding: 0 var(--bz-gutter);
+}
+.promise-inner {
+  max-width: var(--bz-container);
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+}
+.promise-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 15px 12px;
+  font-family: var(--bz-font-kr);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.93);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.promise-icon { font-size: 15px; }
+.promise-divider {
+  width: 1px;
+  background: rgba(255,255,255,0.18);
+  margin: 10px 0;
+  flex-shrink: 0;
+}
+
+/* ─── 카테고리 그리드 ───────────────────────────────────── */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.category-card {
+  background: var(--bz-surface);
+  border-radius: var(--bz-radius-lg);
+  padding: 30px 14px 24px;
+  text-align: center;
+  border: 1.5px solid var(--bz-line);
+  cursor: pointer;
+  transition: all var(--bz-dur) var(--bz-ease);
+  text-decoration: none;
+  display: block;
+  box-shadow: var(--bz-shadow-xs);
+}
+.category-card:hover {
+  border-color: var(--bz-green);
+  transform: translateY(-6px);
+  box-shadow: var(--bz-shadow-lg);
+  background: var(--bz-green-pale);
+}
+.category-icon {
+  font-size: 38px;
+  display: block;
+  margin-bottom: 12px;
+  transition: transform 0.35s var(--bz-ease);
+  line-height: 1;
+}
+.category-card:hover .category-icon { transform: scale(1.18) rotate(-6deg); }
+.category-name {
+  font-family: var(--bz-font-kr);
+  font-size: 14px; font-weight: 700;
+  color: var(--bz-ink);
+  margin-bottom: 5px;
+  transition: color 0.2s;
+}
+.category-card:hover .category-name { color: var(--bz-green); }
+.category-desc {
+  font-family: var(--bz-font-kr);
+  font-size: 11px;
+  color: var(--bz-gray-light);
+  line-height: 1.6;
+}
+
+/* ─── Feature icon 그라디언트 ──────────────────────────── */
+.feat-icon-1 { background: linear-gradient(135deg, #fce8ed, #fff0f4) !important; }
+.feat-icon-2 { background: linear-gradient(135deg, #eaf2ec, #f2f9f3) !important; }
+.feat-icon-3 { background: linear-gradient(135deg, #e8f0fe, #eef4ff) !important; }
+.feat-icon-4 { background: linear-gradient(135deg, #fef9e7, #fffbf0) !important; }
+
+/* ─── Product best badge ────────────────────────────────── */
+.product-best-badge {
+  position: absolute;
+  top: 12px; left: 12px;
+  background: var(--bz-green);
+  color: white;
+  font-family: var(--bz-font-kr);
+  font-size: 10px; font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--bz-radius-pill);
+  z-index: 2;
+  letter-spacing: 0.03em;
+  animation: badgePopIn 0.4s var(--bz-ease) 0.8s both;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* ─── CTA 배너 애니메이션 ───────────────────────────────── */
+.cta-animated { position: relative; overflow: hidden; }
+.cta-tag {
+  display: inline-block;
+  font-family: var(--bz-font-en);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 16px;
+}
+.cta-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.cta-petal {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.1;
+  animation: ctaPetalFloat 6s ease-in-out infinite;
+}
+.cp1 { top: 5%; left: 5%; animation-delay: 0s; }
+.cp2 { top: 10%; right: 8%; animation-delay: 1.5s; }
+.cp3 { bottom: 10%; left: 12%; animation-delay: 3s; }
+.cp4 { bottom: 5%; right: 5%; animation-delay: 4.5s; }
 
 /* ─── Product price display ─────────────────────────────── */
 .price-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
@@ -1777,9 +2004,21 @@ footer {
   .stats-inner { grid-template-columns: repeat(2, 1fr); }
   .stat-item:nth-child(2) { border-right: none; }
   .feature-grid { grid-template-columns: repeat(2, 1fr); }
+  .category-grid { grid-template-columns: repeat(3, 1fr); }
+  .promise-inner { flex-wrap: wrap; }
+  .promise-item { min-width: 45%; }
+  .promise-divider { display: none; }
 }
 
 @media (max-width: 640px) {
+  .category-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .category-card { padding: 22px 8px 18px; }
+  .category-icon { font-size: 28px; margin-bottom: 8px; }
+  .category-name { font-size: 12px; }
+  .category-desc { display: none; }
+  .promise-item { font-size: 11px; gap: 5px; padding: 12px 8px; }
+  .hero-cats { gap: 6px; }
+  .hero-cats a { font-size: 11px; padding: 3px 6px; }
   .nav-toggle { display: flex; }
   nav {
     display: none;

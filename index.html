@@ -30,45 +30,121 @@
     </div>
   </header>
 
-  <!-- ── HERO ── -->
-  <section class="hero">
+  <!-- ══════════════════════════════════════════
+       HERO — 애니메이션 그라디언트 + 꽃잎 파티클
+  ══════════════════════════════════════════ -->
+  <section class="hero hero-animated">
+    <!-- 떠다니는 꽃잎 -->
+    <div class="hero-petals" aria-hidden="true">
+      <span class="petal" style="top:8%;left:6%;--size:3.2rem;--dur:7s;--delay:0s">🌸</span>
+      <span class="petal" style="top:18%;right:8%;--size:2.4rem;--dur:8s;--delay:1.2s">🌺</span>
+      <span class="petal" style="top:55%;left:4%;--size:2rem;--dur:6.5s;--delay:2.5s">🌷</span>
+      <span class="petal" style="top:65%;right:6%;--size:3rem;--dur:9s;--delay:0.7s">💐</span>
+      <span class="petal" style="bottom:18%;left:18%;--size:2.2rem;--dur:7.5s;--delay:3s">🌸</span>
+      <span class="petal" style="bottom:12%;right:18%;--size:2.6rem;--dur:8.5s;--delay:1.8s">🌹</span>
+      <span class="petal" style="top:35%;left:2%;--size:1.8rem;--dur:6s;--delay:4s">✿</span>
+      <span class="petal" style="top:30%;right:3%;--size:2rem;--dur:10s;--delay:0.3s">🌸</span>
+    </div>
+
     <div class="hero-content">
-      <span class="hero-eyebrow">✦ Premium Flower Studio</span>
-      <h1>꽃으로 전하는<br /><em>특별한 마음</em></h1>
-      <p class="hero-sub">
-        화환, 서양란, 근조까지<br />
+      <span class="hero-eyebrow hero-anim-1">✦ Premium Flower Studio</span>
+      <h1 class="hero-anim-2">꽃으로 전하는<br /><em>특별한 마음</em></h1>
+      <p class="hero-sub hero-anim-3">
+        화환 · 서양란 · 동양란 · 관엽식물 · 근조까지<br />
         소중한 순간을 더욱 아름답게 만들어 드립니다.
       </p>
-      <div class="hero-btns">
-        <a href="products.html" class="btn btn-primary">상품 보기</a>
-        <a href="order.html" class="btn btn-outline">주문 문의</a>
+      <div class="hero-btns hero-anim-4">
+        <a href="products.html" class="btn btn-primary btn-pulse">상품 보기 →</a>
+        <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="btn btn-kakao-hero">💬 카카오톡 문의</a>
+      </div>
+      <!-- 빠른 카테고리 링크 -->
+      <div class="hero-cats hero-anim-5">
+        <a href="products.html#section-wreath">🎋 축하화환</a>
+        <span>·</span>
+        <a href="products.html#section-funeral">🕊️ 근조화환</a>
+        <span>·</span>
+        <a href="products.html#section-east">🌿 동양난</a>
+        <span>·</span>
+        <a href="products.html#section-orchid">🌺 서양난</a>
+        <span>·</span>
+        <a href="products.html#section-plant">🪴 관엽식물</a>
       </div>
     </div>
   </section>
+
+  <!-- ── 약속 배너 스트립 ── -->
+  <div class="promise-strip">
+    <div class="promise-inner">
+      <div class="promise-item"><span class="promise-icon">⚡</span>당일 배송 보장</div>
+      <div class="promise-divider"></div>
+      <div class="promise-item"><span class="promise-icon">🌿</span>신선도 100% 보장</div>
+      <div class="promise-divider"></div>
+      <div class="promise-item"><span class="promise-icon">📸</span>배송 후 현장사진 전송</div>
+      <div class="promise-divider"></div>
+      <div class="promise-item"><span class="promise-icon">💬</span>카카오톡 실시간 상담</div>
+    </div>
+  </div>
 
   <!-- ── STATS BAR ── -->
   <div class="stats-bar">
     <div class="stats-inner">
       <div class="stat-item reveal">
-        <div class="stat-num">500+</div>
+        <div class="stat-num" data-count="500" data-suffix="+">0+</div>
         <div class="stat-label">배송 완료</div>
       </div>
       <div class="stat-item reveal reveal-d1">
-        <div class="stat-num">98%</div>
+        <div class="stat-num" data-count="98" data-suffix="%">0%</div>
         <div class="stat-label">고객 만족도</div>
       </div>
       <div class="stat-item reveal reveal-d2">
-        <div class="stat-num">당일</div>
-        <div class="stat-label">배송 가능</div>
+        <div class="stat-num">3h</div>
+        <div class="stat-label">이내 배송</div>
       </div>
       <div class="stat-item reveal reveal-d3">
-        <div class="stat-num">3년</div>
+        <div class="stat-num" data-count="3" data-suffix="년+">0년+</div>
         <div class="stat-label">운영 경력</div>
       </div>
     </div>
   </div>
 
-  <!-- ── FEATURES ── -->
+  <!-- ── 카테고리 쇼케이스 ── -->
+  <section style="background:var(--bz-surface);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Categories</span>
+      <h2>상품 카테고리</h2>
+      <p>원하시는 카테고리를 선택해보세요</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="category-grid inner">
+      <a href="products.html#section-wreath" class="category-card reveal">
+        <span class="category-icon">🎋</span>
+        <div class="category-name">축하화환</div>
+        <div class="category-desc">개업 · 취임 · 축하</div>
+      </a>
+      <a href="products.html#section-funeral" class="category-card reveal reveal-d1">
+        <span class="category-icon">🕊️</span>
+        <div class="category-name">근조화환</div>
+        <div class="category-desc">조문 · 격식 행사</div>
+      </a>
+      <a href="products.html#section-east" class="category-card reveal reveal-d2">
+        <span class="category-icon">🌿</span>
+        <div class="category-name">동양난</div>
+        <div class="category-desc">축하 · 감사 · 선물</div>
+      </a>
+      <a href="products.html#section-orchid" class="category-card reveal reveal-d3">
+        <span class="category-icon">🌺</span>
+        <div class="category-name">서양난</div>
+        <div class="category-desc">개업 · 이사 · 취임</div>
+      </a>
+      <a href="products.html#section-plant" class="category-card reveal reveal-d4">
+        <span class="category-icon">🪴</span>
+        <div class="category-name">관엽식물</div>
+        <div class="category-desc">인테리어 · 공기정화</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── WHY BREEZE ── -->
   <section class="features">
     <div class="section-title reveal">
       <span class="section-eyebrow">Why Breeze Company</span>
@@ -78,77 +154,89 @@
     </div>
     <div class="feature-grid inner">
       <div class="feature-card reveal">
-        <div class="feature-icon-wrap">🌺</div>
+        <div class="feature-icon-wrap feat-icon-1">🌺</div>
         <h3>신선한 꽃</h3>
         <p>매일 새벽 직접 수급하는<br />최상의 신선한 꽃만 사용합니다.</p>
       </div>
       <div class="feature-card reveal reveal-d1">
-        <div class="feature-icon-wrap">🎁</div>
+        <div class="feature-icon-wrap feat-icon-2">🎁</div>
         <h3>정성스러운 포장</h3>
         <p>하나하나 손으로 제작하는<br />정성 가득한 포장을 제공합니다.</p>
       </div>
       <div class="feature-card reveal reveal-d2">
-        <div class="feature-icon-wrap">🚚</div>
-        <h3>빠른 배송</h3>
-        <p>주문 후 신속하고 안전하게<br />배송해 드립니다.</p>
+        <div class="feature-icon-wrap feat-icon-3">🚚</div>
+        <h3>3시간 이내 배송</h3>
+        <p>주문 확인 후 신속하게<br />당일 배송해 드립니다.</p>
       </div>
       <div class="feature-card reveal reveal-d3">
-        <div class="feature-icon-wrap">💬</div>
-        <h3>친절한 상담</h3>
-        <p>꽃 선택부터 배달까지<br />맞춤 상담을 제공합니다.</p>
+        <div class="feature-icon-wrap feat-icon-4">📸</div>
+        <h3>현장사진 전송</h3>
+        <p>배송 완료 후 현장 사진을<br />카카오톡으로 바로 전송드립니다.</p>
       </div>
     </div>
   </section>
 
-  <!-- ── POPULAR PRODUCTS ── -->
-  <section style="background: var(--bz-surface);">
+  <!-- ── 인기 상품 ── -->
+  <section style="background:var(--bz-cream);">
     <div class="section-title reveal">
       <span class="section-eyebrow">Best Sellers</span>
       <h2>인기 상품</h2>
       <p>브리즈컴퍼니의 베스트 상품을 만나보세요</p>
       <div class="section-line"></div>
     </div>
-    <div class="product-grid">
-      <div class="product-card reveal" onclick="location.href='products.html#section-wreath'">
+    <div class="product-grid inner">
+      <div class="product-card reveal" onclick="location.href='products.html#section-wreath'" style="cursor:pointer;">
         <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/07_화환_3단_핑크.jpg" alt="3단 화환 A" />
+          <span class="product-best-badge">🏆 인기 1위</span>
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/d/d-0001kb/d-0001kb_00.png" alt="3단 화환" loading="lazy" />
           <span class="product-zoom-hint">🎋 화환 보기</span>
         </div>
         <div class="product-info">
           <h3>3단 화환 A</h3>
-          <p>개업, 취임, 축하 등 다양한 행사에 어울리는 3단 화환</p>
-          <span class="product-tag">69,000원~</span>
+          <p>개업·취임·축하 등 다양한 행사에 어울리는 기본형 화환</p>
+          <div class="price-row">
+            <span class="price-original">75,000원</span>
+            <span class="price-sale">69,000원~</span>
+          </div>
         </div>
       </div>
-      <div class="product-card reveal reveal-d1" onclick="location.href='products.html#section-orchid'">
+      <div class="product-card reveal reveal-d1" onclick="location.href='products.html#section-orchid'" style="cursor:pointer;">
         <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/서양란.png" alt="서양란" />
+          <span class="product-best-badge" style="background:var(--bz-pink);">💝 선물 추천</span>
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/h-0078-500.jpg" alt="서양란" loading="lazy" />
           <span class="product-zoom-hint">🌺 서양란 보기</span>
         </div>
         <div class="product-info">
-          <h3>서양란</h3>
-          <p>품위 있고 우아한 서양란. 개업·이사·취임 선물로 최적입니다.</p>
-          <span class="product-tag">99,000원~</span>
+          <h3>서양란 기본형</h3>
+          <p>품위 있고 우아한 서양란. 개업·이사·취임 선물로 최적</p>
+          <div class="price-row">
+            <span class="price-original">110,000원</span>
+            <span class="price-sale">99,000원</span>
+          </div>
         </div>
       </div>
-      <div class="product-card reveal reveal-d2" onclick="location.href='products.html#section-plant'">
+      <div class="product-card reveal reveal-d2" onclick="location.href='products.html#section-plant'" style="cursor:pointer;">
         <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/05_테이블용.png" alt="테이블용" />
-          <span class="product-zoom-hint">🌱 식물 보기</span>
+          <span class="product-best-badge" style="background:#7aab8a;">🪴 공기정화</span>
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/i-0115-500.jpg" alt="금전수" loading="lazy" />
+          <span class="product-zoom-hint">🪴 관엽 보기</span>
         </div>
         <div class="product-info">
-          <h3>테이블용</h3>
-          <p>계절의 아름다운 꽃으로 공간을 화사하게 꾸며드립니다.</p>
-          <span class="product-tag">65,000원</span>
+          <h3>금전수</h3>
+          <p>행운을 부르는 개업·이사 선물 1순위 관엽식물</p>
+          <div class="price-row">
+            <span class="price-original">68,200원</span>
+            <span class="price-sale">62,000원</span>
+          </div>
         </div>
       </div>
     </div>
-    <div style="text-align:center; margin-top: 48px;" class="reveal">
-      <a href="products.html" class="btn btn-outline">전체 상품 보기</a>
+    <div style="text-align:center;margin-top:48px;" class="reveal">
+      <a href="products.html" class="btn btn-primary">전체 상품 보기 →</a>
     </div>
   </section>
 
-  <!-- ── ORDER PROCESS ── -->
+  <!-- ── 주문 절차 ── -->
   <section class="bz-steps-section">
     <div class="section-title reveal">
       <span class="section-eyebrow">How It Works</span>
@@ -178,15 +266,25 @@
         <p>배송 완료 후<br>현장 사진을 카카오톡으로<br>바로 전송드립니다</p>
       </div>
     </div>
+    <div style="text-align:center;margin-top:44px;" class="reveal">
+      <a href="order.html" class="btn btn-primary">지금 주문 문의하기 →</a>
+    </div>
   </section>
 
   <!-- ── CTA BANNER ── -->
-  <div class="cta-banner">
-    <div class="inner">
+  <div class="cta-banner cta-animated">
+    <div class="cta-deco" aria-hidden="true">
+      <span class="cta-petal cp1">🌸</span>
+      <span class="cta-petal cp2">🌺</span>
+      <span class="cta-petal cp3">💐</span>
+      <span class="cta-petal cp4">🌸</span>
+    </div>
+    <div class="inner" style="position:relative;z-index:1;">
+      <p class="cta-tag reveal">✦ 지금 바로 문의하세요</p>
       <h2 class="reveal">마음에 드시는 상품이 있으신가요?</h2>
-      <p class="reveal">가격표 확인 후 주문 문의 주시면<br />빠르게 도와드리겠습니다.</p>
-      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;" class="reveal">
-        <a href="price.html" class="btn btn-white btn-outline" style="border-color:rgba(255,255,255,0.5); color:white;">가격표 보기</a>
+      <p class="reveal">가격표 확인 후 주문 문의 주시면<br />카카오톡으로 빠르게 도와드리겠습니다.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;" class="reveal">
+        <a href="price.html" class="btn btn-white btn-outline" style="border-color:rgba(255,255,255,0.5);color:white;">가격표 보기</a>
         <a href="order.html" class="btn btn-white">주문 문의하기</a>
       </div>
     </div>
@@ -227,11 +325,11 @@
         <div class="footer-col">
           <h4>상품</h4>
           <ul>
-            <li><a href="products.html#section-orchid">서양란</a></li>
-            <li><a href="products.html#section-east">동양란</a></li>
+            <li><a href="products.html#section-wreath">축하화환</a></li>
+            <li><a href="products.html#section-funeral">근조화환</a></li>
+            <li><a href="products.html#section-east">동양난</a></li>
+            <li><a href="products.html#section-orchid">서양난</a></li>
             <li><a href="products.html#section-plant">관엽식물</a></li>
-            <li><a href="products.html#section-wreath">화환</a></li>
-            <li><a href="products.html#section-funeral">근조</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -252,32 +350,47 @@
   </footer>
 
   <script>
-    // Header scroll shadow
+    // ── Header scroll
     const header = document.getElementById('site-header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 10);
-    });
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 10));
 
-    // Hamburger menu
+    // ── Hamburger
     const toggle = document.getElementById('navToggle');
-    const nav = document.getElementById('mainNav');
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('open');
-      nav.classList.toggle('open');
-    });
+    const nav    = document.getElementById('mainNav');
+    toggle.addEventListener('click', () => { toggle.classList.toggle('open'); nav.classList.toggle('open'); });
     document.addEventListener('click', (e) => {
-      if (!header.contains(e.target)) {
-        toggle.classList.remove('open');
-        nav.classList.remove('open');
-      }
+      if (!header.contains(e.target)) { toggle.classList.remove('open'); nav.classList.remove('open'); }
     });
 
-    // Scroll reveal
-    const revealEls = document.querySelectorAll('.reveal');
+    // ── Scroll reveal
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
     }, { threshold: 0.12 });
-    revealEls.forEach(el => io.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ── Count-up animation
+    function countUp(el) {
+      const target   = parseInt(el.dataset.count);
+      const suffix   = el.dataset.suffix || '';
+      const duration = 1800;
+      const startTs  = performance.now();
+      const step = (ts) => {
+        const p = Math.min((ts - startTs) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 4);
+        el.textContent = Math.floor(ease * target) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+    const counterObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && e.target.dataset.count) {
+          countUp(e.target);
+          counterObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-num[data-count]').forEach(el => counterObs.observe(el));
   </script>
 </body>
 </html>

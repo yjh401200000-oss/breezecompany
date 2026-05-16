@@ -1148,7 +1148,7 @@ section {
 .btn-kakao:hover { filter: brightness(0.96); transform: translateY(-2px); }
 
 /* ============================================================
-   LIGHTBOX
+   LIGHTBOX — 상품 상세 모달
    ============================================================ */
 .lightbox-overlay {
   display: none;
@@ -1164,14 +1164,14 @@ section {
 
 .lightbox-inner {
   position: relative;
-  max-width: 580px;
+  max-width: 600px;
   width: 100%;
   background: var(--bz-surface);
   border-radius: var(--bz-radius-xl);
   overflow: hidden;
   box-shadow: 0 24px 64px rgba(0,0,0,0.5);
   animation: popIn 0.25s var(--bz-ease);
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-y: auto;
 }
 @keyframes popIn {
@@ -1179,27 +1179,65 @@ section {
   to   { transform: scale(1);    opacity: 1; }
 }
 
+/* ── 라이트박스 이미지 + 워터마크 ── */
+.lb-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--bz-surface-2);
+  user-select: none;
+}
+.lb-img-wrap::after {
+  font-size: 13px !important;
+  padding: 6px 14px !important;
+  bottom: 14px !important;
+  right: 14px !important;
+  background: rgba(74,124,89,0.88) !important;
+}
 .lightbox-img {
   width: 100%;
   max-height: 380px;
   object-fit: contain;
-  background: var(--bz-surface-2);
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
-.lightbox-body { padding: 28px 32px 32px; }
+/* ── 라이트박스 본문 ── */
+.lightbox-body { padding: 24px 28px 32px; }
 
+/* 태그 + 가격 행 */
+.lb-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 .lightbox-tag {
   display: inline-block;
   background: var(--bz-green-pale);
   color: var(--bz-green);
-  font-family: var(--bz-font-en);
+  font-family: var(--bz-font-kr);
   font-size: var(--bz-text-xs);
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
   padding: 4px 12px;
   border-radius: var(--bz-radius-pill);
-  margin-bottom: 12px;
+}
+.lb-price-wrap { display: flex; align-items: center; gap: 8px; }
+.lb-price-orig {
+  font-family: var(--bz-font-en);
+  font-size: 13px;
+  color: var(--bz-gray-light);
+  text-decoration: line-through;
+}
+.lb-price-sale {
+  font-family: var(--bz-font-en);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--bz-green);
+  letter-spacing: -0.01em;
 }
 
 .lightbox-body h3 {
@@ -1207,65 +1245,189 @@ section {
   font-size: var(--bz-text-xl);
   font-weight: 700;
   color: var(--bz-ink);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   letter-spacing: -0.01em;
   line-height: 1.25;
 }
-
-.lightbox-price {
-  font-family: var(--bz-font-en);
-  font-size: var(--bz-text-lg);
-  font-weight: 700;
-  color: var(--bz-green);
-  margin-bottom: 20px;
-  letter-spacing: -0.01em;
-}
-
 .lightbox-divider {
   height: 1px;
   background: var(--bz-line);
-  margin: 16px 0;
+  margin: 14px 0;
 }
 
-.lightbox-body p {
+/* ── 섹션 공통 ── */
+.lb-section { margin-top: 18px; }
+.lb-sec-title {
   font-family: var(--bz-font-kr);
-  font-size: 14px;
-  color: var(--bz-gray);
-  line-height: 1.9;
-  margin-bottom: 8px;
-}
-
-.lightbox-section-title {
-  font-family: var(--bz-font-kr);
-  font-size: var(--bz-text-sm);
+  font-size: 13px;
   font-weight: 700;
   color: var(--bz-ink);
-  margin-top: 16px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  padding-bottom: 7px;
+  border-bottom: 1.5px solid var(--bz-line);
   display: flex;
   align-items: center;
   gap: 6px;
 }
+.lb-text {
+  font-family: var(--bz-font-kr);
+  font-size: 13px;
+  color: var(--bz-gray);
+  line-height: 1.9;
+  margin-bottom: 4px;
+}
 
+/* ── 사이즈 박스 ── */
+.lb-size-box {
+  background: var(--bz-cream);
+  border: 1px solid var(--bz-line);
+  border-radius: var(--bz-radius-sm);
+  padding: 13px 18px;
+  font-family: var(--bz-font-kr);
+  font-size: 13px;
+  color: var(--bz-ink-soft);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ── 주문 절차 스텝 ── */
+.lb-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.lb-step {
+  flex: 1;
+  min-width: 90px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+.lb-step-num {
+  width: 26px; height: 26px;
+  background: var(--bz-green);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--bz-font-en);
+  font-size: 12px; font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.lb-step-label {
+  font-family: var(--bz-font-kr);
+  font-size: 12px; font-weight: 700;
+  color: var(--bz-ink);
+  line-height: 1.4;
+  margin-bottom: 3px;
+}
+.lb-step-desc {
+  font-family: var(--bz-font-kr);
+  font-size: 11px;
+  color: var(--bz-gray);
+  line-height: 1.7;
+}
+.lb-step-arrow {
+  color: var(--bz-gray-light);
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  align-self: center;
+}
+
+/* ── 체크리스트 ── */
+.lb-checklist ul { list-style: none; padding: 0; }
+.lb-checklist ul li {
+  font-family: var(--bz-font-kr);
+  font-size: 12px;
+  color: var(--bz-gray);
+  line-height: 1.8;
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 3px;
+}
+.lb-checklist ul li::before {
+  content: '✓';
+  position: absolute; left: 0;
+  color: var(--bz-green); font-weight: 700;
+}
+
+/* ── CTA 버튼 영역 ── */
+.lb-cta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--bz-line);
+}
+.btn-kakao-lb {
+  background: #FEE500;
+  color: #3C1E1E;
+  border-color: #FEE500;
+  font-weight: 700;
+}
+.btn-kakao-lb:hover { filter: brightness(0.95); transform: translateY(-2px); }
+
+/* 닫기 버튼 */
 .lightbox-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  background: rgba(0,0,0,0.5);
+  top: 12px; right: 12px;
+  background: rgba(0,0,0,0.52);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  width: 34px; height: 34px;
   font-size: 18px;
   cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+  z-index: 10;
+}
+.lightbox-close:hover { background: rgba(0,0,0,0.8); }
+
+/* ── 주문/배송 모달 — 주문 절차 배너 ── */
+.info-process-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
-  line-height: 1;
+  gap: 8px;
+  padding: 18px 24px;
+  background: var(--bz-green-pale);
+  border-bottom: 1px solid rgba(74,124,89,0.12);
 }
-.lightbox-close:hover { background: rgba(0,0,0,0.75); }
+.info-proc-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 70px;
+}
+.info-proc-icon { font-size: 22px; }
+.info-proc-num {
+  width: 22px; height: 22px;
+  background: var(--bz-green);
+  color: white;
+  border-radius: 50%;
+  font-family: var(--bz-font-en);
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.info-proc-label {
+  font-family: var(--bz-font-kr);
+  font-size: 11px; font-weight: 700;
+  color: var(--bz-green-deep);
+  text-align: center;
+  line-height: 1.4;
+}
+.info-proc-arrow {
+  color: var(--bz-green);
+  font-size: 22px;
+  opacity: 0.5;
+}
 
 /* ============================================================
    FOOTER

@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>상품소개 - 브리즈컴퍼니</title>
-  <meta name="description" content="브리즈컴퍼니 상품 소개 — 서양란, 동양란, 관엽식물, 테이블용, 화환, 근조 화환. 클릭하여 상세 정보를 확인하세요." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -34,227 +33,388 @@
   <div class="page-banner">
     <p class="eyebrow">Our Products</p>
     <h1>상품 소개</h1>
-    <p>이미지를 클릭하면 상세 정보를 확인하실 수 있습니다 🔍</p>
+    <p>상품을 클릭하면 상세 정보를 확인하실 수 있습니다 🔍</p>
   </div>
 
-  <!-- ── CATEGORY NAV ── -->
+  <!-- ── CATEGORY TABS ── -->
   <nav class="cat-nav" aria-label="상품 카테고리">
     <div class="cat-nav-inner">
-      <a href="#section-orchid" class="cat-link">🌺 서양란</a>
-      <a href="#section-east" class="cat-link">🌿 동양란</a>
-      <a href="#section-plant" class="cat-link">🌱 관엽식물 &amp; 테이블용</a>
-      <a href="#section-wreath" class="cat-link">🎋 화환</a>
-      <a href="#section-funeral" class="cat-link">🕊️ 근조</a>
+      <a href="#section-wreath"   class="cat-link">🎋 축하화환</a>
+      <a href="#section-funeral"  class="cat-link">🕊️ 근조화환</a>
+      <a href="#section-east"     class="cat-link">🌿 동양난</a>
+      <a href="#section-orchid"   class="cat-link">🌺 서양난</a>
     </div>
   </nav>
 
-  <!-- ── 서양란 ── -->
-  <section id="section-orchid" class="prod-section" style="background: var(--bz-surface);">
+  <!-- ══════════════════════════════════════════
+       🎋 축하화환
+  ══════════════════════════════════════════ -->
+  <section id="section-wreath" class="prod-section" style="background:var(--bz-surface);">
     <div class="section-title reveal">
-      <span class="section-eyebrow">Orchid</span>
-      <h2>🌺 서양란</h2>
-      <p>우아하고 품격 있는 서양란으로 마음을 전해보세요</p>
+      <span class="section-eyebrow">Celebration Wreath</span>
+      <h2>🎋 축하화환</h2>
+      <p>개업, 취임, 축하 행사에 보내는 정성스러운 화환</p>
       <div class="section-line"></div>
     </div>
     <div class="product-grid">
-      <div class="product-card reveal" onclick="openLightbox(
-        'images/서양란.png', '서양란 기본형', '99,000원', '서양란',
-        '서양란(西洋蘭)은 동남아시아 원산의 난초과 식물로, 나비가 날개를 펼친 듯한 우아한 꽃 모양이 특징입니다.',
-        '꽃이 2~3개월 이상 오랫동안 피어있어 선물용으로 최적이며, 개업·이사·취임·축하 자리에 잘 어울립니다.',
-        '꽃대(줄기) 2~3대로 구성되며, 깔끔하고 단아하게 연출됩니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/서양란.png" alt="서양란 기본형" />
-          <span class="product-zoom-hint">🔍 자세히 보기</span>
-        </div>
-        <div class="product-info">
-          <h3>서양란 기본형</h3>
-          <p>꽃대 2~3대 구성. 개업·이사·축하 선물로 최적입니다.</p>
-          <span class="product-tag">99,000원</span>
-        </div>
-      </div>
-      <div class="product-card reveal reveal-d1" onclick="openLightbox(
-        'images/서양란.png', '서양란 고급형', '109,000원', '서양란',
-        '서양란(西洋蘭)은 동남아시아 원산의 난초과 식물로, 나비가 날개를 펼친 듯한 우아한 꽃 모양이 특징입니다.',
-        '꽃이 2~3개월 이상 오랫동안 피어있어 선물용으로 최적이며, 개업·이사·취임·축하 자리에 잘 어울립니다.',
-        '기본형보다 꽃대(줄기)가 더 많이 추가되고, 꽃의 뿌리(포기) 수가 더욱 풍성하게 구성됩니다. 볼륨감과 화려함이 높아져 더욱 인상적인 선물이 됩니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/서양란.png" alt="서양란 고급형" />
-          <span class="product-zoom-hint">🔍 자세히 보기</span>
-        </div>
-        <div class="product-info">
-          <h3>서양란 고급형</h3>
-          <p>꽃대 4~5대 이상, 뿌리가 더욱 풍성하게 구성됩니다.</p>
-          <span class="product-tag">109,000원</span>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ── 동양란 ── -->
-  <section id="section-east" class="prod-section" style="background: var(--bz-surface-2);">
-    <div class="section-title reveal">
-      <span class="section-eyebrow">Oriental Orchid</span>
-      <h2>🌿 동양란</h2>
-      <p>은은하고 기품 있는 동양란으로 마음을 전해보세요</p>
-      <div class="section-line"></div>
-    </div>
-    <div class="product-grid">
       <div class="product-card reveal" onclick="openLightbox(
-        'images/동양란.png', '동양란 A', '69,000원', '동양란',
-        '동양란(東洋蘭)은 한국·중국·일본 등 동아시아가 원산지인 난초로, 가늘고 길게 뻗은 잎과 은은한 향기가 특징입니다.',
-        '예로부터 사군자의 하나로 기품과 절개를 상징하며, 개업·취임·축하·감사의 자리에 격조 있는 선물로 사랑받고 있습니다.',
-        '동양란 A는 기본 포기 구성으로 단아하고 깔끔하게 연출됩니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/동양란.png" alt="동양란 A" />
-          <span class="product-zoom-hint">🔍 자세히 보기</span>
-        </div>
-        <div class="product-info">
-          <h3>동양란 A</h3>
-          <p>기품 있는 기본 구성. 개업·축하·감사 선물로 오래 기억됩니다.</p>
-          <span class="product-tag">69,000원</span>
-        </div>
-      </div>
-      <div class="product-card reveal reveal-d1" onclick="openLightbox(
-        'images/동양란.png', '동양란 B', '79,000원', '동양란',
-        '동양란(東洋蘭)은 한국·중국·일본 등 동아시아가 원산지인 난초로, 가늘고 길게 뻗은 잎과 은은한 향기가 특징입니다.',
-        '예로부터 사군자의 하나로 기품과 절개를 상징하며, 개업·취임·축하·감사의 자리에 격조 있는 선물로 사랑받고 있습니다.',
-        'A형보다 꽃의 뿌리(포기) 수가 더 많이 추가되어 훨씬 풍성하고 볼륨감 있게 구성됩니다. 더욱 격식 있는 자리에 어울립니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/동양란.png" alt="동양란 B" />
-          <span class="product-zoom-hint">🔍 자세히 보기</span>
-        </div>
-        <div class="product-info">
-          <h3>동양란 B</h3>
-          <p>A형보다 뿌리 포기가 더 풍성하게 추가된 구성입니다.</p>
-          <span class="product-tag">79,000원</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 관엽식물 & 테이블용 ── -->
-  <section id="section-plant" class="prod-section" style="background: var(--bz-cream);">
-    <div class="section-title reveal">
-      <span class="section-eyebrow">Plants &amp; Table</span>
-      <h2>🌱 관엽식물 &amp; 테이블용</h2>
-      <p>공간을 더욱 싱그럽게 만들어주는 식물과 꽃</p>
-      <div class="section-line"></div>
-    </div>
-    <div class="product-grid">
-      <div class="product-card reveal" onclick="openLightbox(
-        'images/04_관엽식물.jpg', '관엽식물 (공기정화식물)', '99,000 / 109,000원', '관엽식물',
-        '관엽식물은 잎이 넓고 풍성한 실내 식물로, 공기 중의 유해 물질을 흡수하고 습도를 조절하는 공기정화 효과가 뛰어납니다.',
-        '꽃이 아닌 잎을 감상하는 식물로 사계절 내내 초록빛을 유지하며, 인테리어 효과도 탁월합니다. 오래도록 함께하는 실용적인 선물입니다.',
-        '기본형(99,000원)과 고급형(109,000원)으로 구성되며, 고급형은 화기(화분)가 더 크고 식물의 볼륨이 더욱 풍성합니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/04_관엽식물.jpg" alt="관엽식물" />
-          <span class="product-zoom-hint">🔍 자세히 보기</span>
-        </div>
-        <div class="product-info">
-          <h3>관엽식물 (공기정화식물)</h3>
-          <p>공기정화 + 인테리어 효과. 오래 함께하는 실용적인 선물.</p>
-          <span class="product-tag">99,000 / 109,000원</span>
-        </div>
-      </div>
-      <div class="product-card reveal reveal-d1" onclick="openLightbox(
-        'images/05_테이블용.png', '테이블용', '65,000원', '테이블용',
-        '테이블용은 계절의 아름다운 꽃들을 정성스럽게 담아 테이블이나 공간을 화사하게 꾸며주는 꽃 장식입니다.',
-        '생일·기념일·감사·축하 등 다양한 자리에 따뜻한 마음을 전할 수 있으며, 실내 어디에나 잘 어울립니다.',
-        '시즌별 꽃으로 구성되어 계절감을 느낄 수 있습니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/05_테이블용.png" alt="테이블용" />
-          <span class="product-zoom-hint">🔍 자세히 보기</span>
-        </div>
-        <div class="product-info">
-          <h3>테이블용</h3>
-          <p>계절 꽃으로 공간을 화사하게. 생일·감사·축하 선물로 완벽합니다.</p>
-          <span class="product-tag">65,000원</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 화환 ── -->
-  <section id="section-wreath" class="prod-section" style="background: var(--bz-surface);">
-    <div class="section-title reveal">
-      <span class="section-eyebrow">Wreath</span>
-      <h2>🎋 화환</h2>
-      <p>개업, 취임, 축하 행사에 맞는 화환</p>
-      <div class="section-line"></div>
-    </div>
-    <div class="product-grid">
-      <div class="product-card reveal" onclick="openLightbox(
-        'images/07_화환_3단_핑크.jpg', '3단 화환 A', '69,000원', '화환',
-        '화환은 개업·취임·축하 등 경사스러운 행사 자리에 보내는 꽃 장식입니다. 행사장 입구에 세워 축하의 마음을 전달합니다.',
-        '3단 화환은 세 단으로 나뉘어 리본과 꽃으로 장식되며, 행사 이름과 보내는 분 이름이 적힌 리본이 함께 제작됩니다.',
-        '3단 화환 A는 기본 꽃 구성으로 화사하고 깔끔하게 연출됩니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/07_화환_3단_핑크.jpg" alt="3단 화환 A" />
+        'https://nas.maruw.co.kr/image/d/d-0001kb/d-0001kb_00.png',
+        '3단 화환 A','69,000원','축하화환',
+        '개업·취임·축하 등 경사스러운 행사에 보내는 기본형 3단 화환입니다.',
+        '행사장 입구에 세워 축하의 마음을 전달하며, 리본에 행사명과 보내는 분 이름이 제작됩니다.',
+        '기본 꽃 구성으로 화사하고 깔끔하게 연출됩니다.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/d/d-0001kb/d-0001kb_00.png" alt="3단 화환 A" />
           <span class="product-zoom-hint">🔍 자세히 보기</span>
         </div>
         <div class="product-info">
           <h3>3단 화환 A</h3>
-          <p>기본 꽃 구성의 화사한 3단 화환. 개업·취임·축하 행사에 적합합니다.</p>
-          <span class="product-tag">69,000원</span>
+          <p>개업·취임·축하 행사에 적합한 기본형 화환</p>
+          <div class="price-row">
+            <span class="price-original">75,000원</span>
+            <span class="price-sale">69,000원</span>
+          </div>
         </div>
       </div>
+
       <div class="product-card reveal reveal-d1" onclick="openLightbox(
-        'images/06_화환_2단_컬러.jpg', '3단 화환 고급형', '89,000원', '화환',
-        '화환은 개업·취임·축하 등 경사스러운 행사 자리에 보내는 꽃 장식입니다. 행사장 입구에 세워 축하의 마음을 전달합니다.',
-        '3단 화환은 세 단으로 나뉘어 리본과 꽃으로 장식되며, 행사 이름과 보내는 분 이름이 적힌 리본이 함께 제작됩니다.',
-        '고급형은 A형보다 꽃의 종류와 수량이 더 많이 들어가며, 더욱 풍성하고 화려하게 연출됩니다. 특별히 중요한 분께 보내는 화환으로 적합합니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/06_화환_2단_컬러.jpg" alt="3단 화환 고급형" />
+        'https://nas.maruw.co.kr/image/d/d-0002kb/d-0002kb_00.png',
+        '3단 화환 고급형','89,000원','축하화환',
+        '개업·취임·축하 등 경사스러운 행사에 보내는 고급형 3단 화환입니다.',
+        '행사장 입구에 세워 축하의 마음을 전달하며, 리본에 행사명과 보내는 분 이름이 제작됩니다.',
+        '기본형보다 꽃의 종류와 수량이 더 많아 더욱 풍성하고 화려하게 연출됩니다.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/d/d-0002kb/d-0002kb_00.png" alt="3단 화환 고급형" />
           <span class="product-zoom-hint">🔍 자세히 보기</span>
         </div>
         <div class="product-info">
           <h3>3단 화환 고급형</h3>
-          <p>꽃 종류와 수량이 더 많아 더욱 풍성하고 화려하게 연출됩니다.</p>
-          <span class="product-tag">89,000원</span>
+          <p>더욱 풍성하고 화려한 구성의 프리미엄 화환</p>
+          <div class="price-row">
+            <span class="price-original">99,000원</span>
+            <span class="price-sale">89,000원</span>
+          </div>
         </div>
       </div>
+
+      <div class="product-card reveal reveal-d2" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Ed-0098-14162114110.png',
+        '화환 대형','가격 문의','축하화환',
+        '대형 화환으로 더욱 웅장하고 화려한 분위기를 연출합니다.',
+        '큰 행사장, 넓은 공간에 어울리며 존재감 있는 화환입니다.',
+        '구성 및 가격은 카카오톡으로 문의해 주세요.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Ed-0098-14162114110.png" alt="화환 대형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>화환 대형</h3>
+          <p>웅장하고 화려한 대형 축하 화환</p>
+          <div class="price-row">
+            <span class="price-sale" style="color:var(--bz-gray);">가격 문의</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-d3" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Ed-0097-14162086650.png',
+        '화환 특대형','가격 문의','축하화환',
+        '최고급 특대형 화환으로 VIP급 행사에 어울립니다.',
+        '특별한 자리에 보내는 최고의 축하 화환입니다.',
+        '구성 및 가격은 카카오톡으로 문의해 주세요.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Ed-0097-14162086650.png" alt="화환 특대형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>화환 특대형</h3>
+          <p>VIP급 행사에 어울리는 최고급 특대형</p>
+          <div class="price-row">
+            <span class="price-sale" style="color:var(--bz-gray);">가격 문의</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- ── 근조 ── -->
-  <section id="section-funeral" class="prod-section" style="background: var(--bz-surface-2);">
+  <!-- ══════════════════════════════════════════
+       🕊️ 근조화환
+  ══════════════════════════════════════════ -->
+  <section id="section-funeral" class="prod-section" style="background:var(--bz-surface-2);">
     <div class="section-title reveal">
-      <span class="section-eyebrow">Funeral</span>
-      <h2>🕊️ 근조</h2>
-      <p>조문, 격식 있는 자리에 맞는 근조 화환</p>
+      <span class="section-eyebrow">Funeral Wreath</span>
+      <h2>🕊️ 근조화환</h2>
+      <p>고인을 추모하고 유족에게 위로의 마음을 전하는 근조 화환</p>
       <div class="section-line"></div>
     </div>
     <div class="product-grid">
+
       <div class="product-card reveal" onclick="openLightbox(
-        'images/09_화환_3단_화이트.jpg', '3단 근조 A', '69,000원', '근조',
-        '근조 화환은 고인을 추모하고 유족에게 위로의 마음을 전하는 꽃 장식입니다. 장례식장 입구에 세워 삼가 애도를 표합니다.',
-        '흰색과 차분한 컬러로 구성되어 격식 있는 조문 자리에 잘 어울리며, 리본에 보내는 분의 이름과 문구가 함께 제작됩니다.',
-        '3단 근조 A는 기본 꽃 구성으로 단정하고 정중하게 연출됩니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/09_화환_3단_화이트.jpg" alt="3단 근조 A" />
+        'https://nas.maruw.co.kr/image/e/e-0001kb/e-0001kb_00.png',
+        '3단 근조 A','69,000원','근조화환',
+        '고인을 추모하고 유족에게 위로의 마음을 전하는 기본형 근조 화환입니다.',
+        '흰색과 차분한 컬러로 구성되어 격식 있는 조문 자리에 잘 어울립니다.',
+        '단정하고 정중하게 연출되는 기본 구성입니다.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/e/e-0001kb/e-0001kb_00.png" alt="3단 근조 A" />
           <span class="product-zoom-hint">🔍 자세히 보기</span>
         </div>
         <div class="product-info">
           <h3>3단 근조 A</h3>
-          <p>단정하고 정중한 기본 근조 화환. 조문 자리에 잘 어울립니다.</p>
-          <span class="product-tag">69,000원</span>
+          <p>단정하고 정중한 기본형 근조 화환</p>
+          <div class="price-row">
+            <span class="price-original">75,000원</span>
+            <span class="price-sale">69,000원</span>
+          </div>
         </div>
       </div>
+
       <div class="product-card reveal reveal-d1" onclick="openLightbox(
-        'images/08_화환_3단_화이트크림.jpg', '3단 근조 고급형', '89,000원', '근조',
-        '근조 화환은 고인을 추모하고 유족에게 위로의 마음을 전하는 꽃 장식입니다. 장례식장 입구에 세워 삼가 애도를 표합니다.',
-        '흰색과 차분한 컬러로 구성되어 격식 있는 조문 자리에 잘 어울리며, 리본에 보내는 분의 이름과 문구가 함께 제작됩니다.',
-        '고급형은 A형보다 꽃의 종류와 수량이 더 많이 들어가 더욱 풍성하게 연출됩니다. 각별한 관계의 분께 보내는 근조 화환으로 적합합니다.')">
-        <div class="product-card-img-wrap">
-          <img class="product-card-img" src="images/08_화환_3단_화이트크림.jpg" alt="3단 근조 고급형" />
+        'https://nas.maruw.co.kr/image/e/e-0002kb/e-0002kb_00.png',
+        '3단 근조 고급형','89,000원','근조화환',
+        '고인을 추모하고 유족에게 위로의 마음을 전하는 고급형 근조 화환입니다.',
+        '흰색과 차분한 컬러로 구성되어 격식 있는 조문 자리에 잘 어울립니다.',
+        '기본형보다 꽃의 종류와 수량이 더 많아 더욱 풍성하게 연출됩니다.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/e/e-0002kb/e-0002kb_00.png" alt="3단 근조 고급형" />
           <span class="product-zoom-hint">🔍 자세히 보기</span>
         </div>
         <div class="product-info">
           <h3>3단 근조 고급형</h3>
-          <p>꽃 종류와 수량이 더 많아 더욱 풍성하게 연출됩니다.</p>
-          <span class="product-tag">89,000원</span>
+          <p>더욱 풍성하고 격조 있는 고급형 근조 화환</p>
+          <div class="price-row">
+            <span class="price-original">99,000원</span>
+            <span class="price-sale">89,000원</span>
+          </div>
         </div>
       </div>
+
+      <div class="product-card reveal reveal-d2" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Ee-0080-14143992680.png',
+        '근조화환 대형','가격 문의','근조화환',
+        '대형 근조 화환으로 더욱 격조 있는 조문을 표현합니다.',
+        '장례식장 넓은 공간에 위엄 있게 세울 수 있는 대형 근조 화환입니다.',
+        '구성 및 가격은 카카오톡으로 문의해 주세요.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Ee-0080-14143992680.png" alt="근조화환 대형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>근조화환 대형</h3>
+          <p>격조 있는 조문을 위한 대형 근조 화환</p>
+          <div class="price-row">
+            <span class="price-sale" style="color:var(--bz-gray);">가격 문의</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-d3" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Ee-5020-14144000990.png',
+        '근조화환 특대형','가격 문의','근조화환',
+        '특대형 근조 화환으로 각별한 관계의 분께 보내는 최고급 근조 화환입니다.',
+        '흰색과 차분한 프리미엄 꽃 구성으로 정중하게 애도를 표합니다.',
+        '구성 및 가격은 카카오톡으로 문의해 주세요.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Ee-5020-14144000990.png" alt="근조화환 특대형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>근조화환 특대형</h3>
+          <p>각별한 관계의 분께 보내는 최고급 근조 화환</p>
+          <div class="price-row">
+            <span class="price-sale" style="color:var(--bz-gray);">가격 문의</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       🌿 동양난
+  ══════════════════════════════════════════ -->
+  <section id="section-east" class="prod-section" style="background:var(--bz-cream);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Oriental Orchid</span>
+      <h2>🌿 동양난</h2>
+      <p>은은한 향기와 기품으로 마음을 전하는 동양란</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="product-grid">
+
+      <div class="product-card reveal" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/g/g-0092/g-0092_thumbnail.png',
+        '동양란 A','69,000원','동양난',
+        '한국·중국·일본 등 동아시아가 원산지인 난초로, 가늘고 길게 뻗은 잎과 은은한 향기가 특징입니다.',
+        '예로부터 사군자의 하나로 기품과 절개를 상징하며, 개업·취임·축하·감사 선물로 사랑받고 있습니다.',
+        '기본 포기 구성으로 단아하고 깔끔하게 연출됩니다.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/g/g-0092/g-0092_thumbnail.png" alt="동양란 A" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>동양란 A</h3>
+          <p>기품 있는 기본 포기 구성. 감사·축하 선물로 완벽합니다.</p>
+          <div class="price-row">
+            <span class="price-original">75,000원</span>
+            <span class="price-sale">69,000원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-d1" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/g/g-0082/g-0082_thumbnail.png',
+        '동양란 B','79,000원','동양난',
+        '한국·중국·일본 등 동아시아가 원산지인 난초로, 가늘고 길게 뻗은 잎과 은은한 향기가 특징입니다.',
+        '예로부터 사군자의 하나로 기품과 절개를 상징하며, 개업·취임·축하·감사 선물로 사랑받고 있습니다.',
+        'A형보다 꽃의 뿌리(포기) 수가 더 많이 추가되어 훨씬 풍성하고 볼륨감 있게 구성됩니다.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/g/g-0082/g-0082_thumbnail.png" alt="동양란 B" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>동양란 B</h3>
+          <p>A형보다 뿌리 포기가 더 풍성하게 추가된 구성</p>
+          <div class="price-row">
+            <span class="price-original">89,000원</span>
+            <span class="price-sale">79,000원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-d2" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/g/g-0093/g-0093_thumbnail.png',
+        '동양란 프리미엄','가격 문의','동양난',
+        '최고급 동양란으로 깊은 기품과 풍성한 볼륨을 자랑합니다.',
+        '특별히 격식 있는 자리, VIP 선물로 적합합니다.',
+        '구성 및 가격은 카카오톡으로 문의해 주세요.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/g/g-0093/g-0093_thumbnail.png" alt="동양란 프리미엄" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>동양란 프리미엄</h3>
+          <p>VIP 선물에 적합한 최고급 동양란</p>
+          <div class="price-row">
+            <span class="price-sale" style="color:var(--bz-gray);">가격 문의</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-d3" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/g/g-0083/g-0083_thumbnail.png',
+        '동양란 특선','가격 문의','동양난',
+        '희귀 품종의 동양란으로 더욱 특별한 선물을 원하시는 분께 추천드립니다.',
+        '독특한 색감과 향기로 받는 분께 깊은 인상을 남깁니다.',
+        '구성 및 가격은 카카오톡으로 문의해 주세요.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/g/g-0083/g-0083_thumbnail.png" alt="동양란 특선" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>동양란 특선</h3>
+          <p>희귀 품종의 특별한 동양란 선물</p>
+          <div class="price-row">
+            <span class="price-sale" style="color:var(--bz-gray);">가격 문의</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       🌺 서양난
+  ══════════════════════════════════════════ -->
+  <section id="section-orchid" class="prod-section" style="background:var(--bz-surface);">
+    <div class="section-title reveal">
+      <span class="section-eyebrow">Phalaenopsis</span>
+      <h2>🌺 서양난</h2>
+      <p>우아하고 품격 있는 서양란으로 특별한 마음을 전하세요</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="product-grid">
+
+      <div class="product-card reveal" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/h-0078-500.jpg',
+        '서양란 기본형','99,000원','서양난',
+        '서양란(西洋蘭)은 동남아시아 원산의 난초과 식물로, 나비가 날개를 펼친 듯한 우아한 꽃 모양이 특징입니다.',
+        '꽃이 2~3개월 이상 오랫동안 피어있어 선물용으로 최적이며, 개업·이사·취임·축하 자리에 잘 어울립니다.',
+        '꽃대(줄기) 2~3대로 구성되며 깔끔하고 단아하게 연출됩니다.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/h-0078-500.jpg" alt="서양란 기본형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>서양란 기본형</h3>
+          <p>꽃대 2~3대 구성. 개업·이사·축하 선물로 최적</p>
+          <div class="price-row">
+            <span class="price-original">110,000원</span>
+            <span class="price-sale">99,000원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-d1" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/h-0097-500.jpg',
+        '서양란 고급형','109,000원','서양난',
+        '서양란(西洋蘭)은 동남아시아 원산의 난초과 식물로, 나비가 날개를 펼친 듯한 우아한 꽃 모양이 특징입니다.',
+        '꽃이 2~3개월 이상 오랫동안 피어있어 선물용으로 최적이며, 개업·이사·취임·축하 자리에 잘 어울립니다.',
+        '기본형보다 꽃대가 더 많고 뿌리(포기)가 더욱 풍성하게 구성되어 볼륨감과 화려함이 높아집니다.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/h-0097-500.jpg" alt="서양란 고급형" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>서양란 고급형</h3>
+          <p>꽃대 4~5대 이상, 뿌리가 더욱 풍성한 구성</p>
+          <div class="price-row">
+            <span class="price-original">120,000원</span>
+            <span class="price-sale">109,000원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-d2" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Eh-0124-13965812350.png',
+        '만천홍 서양란','가격 문의','서양난',
+        '만천홍은 붉은 빛깔의 화려한 서양란으로 경사스러운 자리에 특히 잘 어울립니다.',
+        '강렬하고 아름다운 빨간색 꽃이 풍성하게 피어 고급스러운 분위기를 연출합니다.',
+        '구성 및 가격은 카카오톡으로 문의해 주세요.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/old.ecof.co.kr/data/GD020/IMG/Eh-0124-13965812350.png" alt="만천홍 서양란" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>만천홍 서양란</h3>
+          <p>강렬한 붉은빛의 화려한 프리미엄 서양란</p>
+          <div class="price-row">
+            <span class="price-sale" style="color:var(--bz-gray);">가격 문의</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-d3" onclick="openLightbox(
+        'https://nas.maruw.co.kr/image/h/h-0472/h-0472_thumbnail.png',
+        '핑크 호접란','가격 문의','서양난',
+        '사랑스러운 핑크 빛깔의 호접란으로 생일, 기념일, 감사 선물로 인기입니다.',
+        '우아하고 여성스러운 분위기로 소중한 분께 특별한 감동을 드립니다.',
+        '구성 및 가격은 카카오톡으로 문의해 주세요.')">
+        <div class="product-card-img-wrap img-wrap">
+          <img class="product-card-img" src="https://nas.maruw.co.kr/image/h/h-0472/h-0472_thumbnail.png" alt="핑크 호접란" />
+          <span class="product-zoom-hint">🔍 자세히 보기</span>
+        </div>
+        <div class="product-info">
+          <h3>핑크 호접란</h3>
+          <p>생일·기념일·감사 선물로 사랑받는 핑크 호접란</p>
+          <div class="price-row">
+            <span class="price-sale" style="color:var(--bz-gray);">가격 문의</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -262,9 +422,9 @@
   <div class="cta-banner">
     <div class="inner">
       <h2 class="reveal">마음에 드시는 상품이 있으신가요?</h2>
-      <p class="reveal">가격표 확인 후 주문 문의 주시면 빠르게 도와드리겠습니다.</p>
-      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;" class="reveal">
-        <a href="price.html" class="btn btn-white btn-outline" style="border-color:rgba(255,255,255,0.5); color:white;">가격표 보기</a>
+      <p class="reveal">카카오톡 채널로 문의 주시면 빠르게 도와드리겠습니다.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;" class="reveal">
+        <a href="price.html" class="btn btn-white btn-outline" style="border-color:rgba(255,255,255,0.5);color:white;">가격표 보기</a>
         <a href="order.html" class="btn btn-white">주문 문의하기</a>
       </div>
     </div>
@@ -284,12 +444,95 @@
         <p id="lb-desc2"></p>
         <p class="lightbox-section-title">📦 구성 안내</p>
         <p id="lb-desc3"></p>
-        <div style="margin-top:24px;">
-          <a href="order.html" class="btn btn-primary btn-sm" style="display:inline-flex; gap:8px;">주문 문의하기 →</a>
+        <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="order.html" class="btn btn-primary btn-sm">주문 문의하기 →</a>
+          <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="btn btn-sm" style="background:#FEE500;color:#3C1E1E;border-color:#FEE500;">💬 카카오톡 문의</a>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- ── 주문/배송 안내 모달 ── -->
+  <div class="info-modal-overlay" id="infoModal" onclick="closeInfoModal(event)">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>📋 주문 / 배송 안내</h3>
+        <button class="info-modal-close" onclick="closeInfoModal()">&times;</button>
+      </div>
+      <div class="info-modal-tabs">
+        <button class="info-modal-tab active" onclick="switchTab('order')">주문 / 배송</button>
+        <button class="info-modal-tab" onclick="switchTab('refund')">교환 / 환불</button>
+      </div>
+      <div class="info-modal-body">
+
+        <!-- 주문/배송 탭 -->
+        <div class="info-tab-content active" id="tab-order">
+          <div class="info-section">
+            <p class="info-section-title">⚠️ 주문 시 꼭 확인해주세요!</p>
+            <p>꽃 상품은 지역·계절에 따라 주문 시 선택한 상품의 디자인과 다를 수 있습니다.</p>
+            <p>동일 제작을 원하시는 경우 주문 완료 후 카카오톡으로 별도 요청해 주세요.</p>
+            <p>상품 제작은 입금 확인 후 이루어집니다. 입금이 늦어질 경우 배송이 지연될 수 있습니다.</p>
+            <p>배송 완료된 상품 사진이 필요하신 경우 카카오톡으로 별도 요청해 주세요.</p>
+          </div>
+          <div class="info-section">
+            <p class="info-section-title">🕐 주문 및 상담 가능 시간</p>
+            <p>카카오톡 채널 : 09:00 ~ 18:00 (평일)</p>
+            <p>주말·공휴일 : 별도 문의</p>
+          </div>
+          <div class="info-section">
+            <p class="info-section-title">📬 주문내역 확인</p>
+            <p>주문 완료 시 카카오톡으로 발송되는 확인 메시지를 통해 확인하실 수 있습니다.</p>
+          </div>
+          <div class="info-section">
+            <p class="info-section-title">🎀 리본 문구 수정 요청</p>
+            <p>제작 완료 및 상품 출발 후에는 교체 불가 또는 교체 비용이 발생합니다.</p>
+            <p class="warn">당일 배송 건은 주문 즉시 제작에 들어가므로 카카오톡으로 즉시 문의 주세요.</p>
+          </div>
+          <div class="info-section">
+            <p class="info-section-title">🚚 배송 시간 안내</p>
+            <p>기본 배송 시간은 주문 확인 후 3시간 내 배송입니다.</p>
+            <p>주말의 경우 지역에 따라 4~5시간 내 배송으로 진행됩니다.</p>
+            <p>특정 기념일 또는 인사이동 기간의 경우 배송 시간 지정이 불가합니다.</p>
+            <p class="warn">오후 6시 이후 주문 건은 다음날 오전 9시부터 배송 가능합니다.</p>
+          </div>
+          <div class="info-section">
+            <p class="info-section-title">📍 추가 배송료 발생 지역</p>
+            <p>국내 일부 지역은 교통·지리적 여건으로 추가 배송료가 발생합니다.</p>
+            <p>강원도 / 전남 일부 / 경남 일부 / 도서산간 지역 등</p>
+            <p>서울·수도권 주요 지역 무료 배송 / 그 외 지역 별도 안내드립니다.</p>
+          </div>
+        </div>
+
+        <!-- 교환/환불 탭 -->
+        <div class="info-tab-content" id="tab-refund">
+          <div class="info-section">
+            <p class="info-section-title">🔄 교환 안내</p>
+            <p>배송 시 파손된 상품의 경우 즉시 교환해 드립니다. (1~3시간 내 교체)</p>
+            <p>리본 문구가 잘못 기재되어 배송된 경우 추가 비용 없이 즉시 리본을 교체합니다.</p>
+          </div>
+          <div class="info-section">
+            <p class="info-section-title">💰 환불 안내</p>
+            <p>입금 후 30분 이내 요청 시 제작·배송 전인 경우 취소(환불) 가능합니다.</p>
+            <p>지역적 재해나 특이사항으로 품절되거나 배송 불가 시 취소(환불)될 수 있습니다.</p>
+            <p>화훼 상품 수령 후 이상이 있는 경우 즉시 연락 주셔야 교환·환불 확인이 가능합니다.</p>
+          </div>
+          <div class="info-section">
+            <p class="info-section-title warn">❌ 환불 불가 안내</p>
+            <p class="warn">고객 단순 변심</p>
+            <p class="warn">받는 분이 배송을 거절하신 경우</p>
+            <p class="warn">고객님의 실수로 정보가 잘못 입력된 경우 (배송지 오류, 리본 문구 오류)</p>
+            <p class="warn">제작이 완료된 화분·난 상품의 경우</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 주문/배송 안내 FAB ── -->
+  <button class="order-info-fab" onclick="openInfoModal()">
+    📋 주문 / 배송 안내
+  </button>
 
   <!-- ── KAKAO FLOAT ── -->
   <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="kakao-float" aria-label="카카오톡 문의">
@@ -326,11 +569,10 @@
         <div class="footer-col">
           <h4>상품</h4>
           <ul>
-            <li><a href="#section-orchid">서양란</a></li>
-            <li><a href="#section-east">동양란</a></li>
-            <li><a href="#section-plant">관엽식물</a></li>
-            <li><a href="#section-wreath">화환</a></li>
-            <li><a href="#section-funeral">근조</a></li>
+            <li><a href="#section-wreath">축하화환</a></li>
+            <li><a href="#section-funeral">근조화환</a></li>
+            <li><a href="#section-east">동양난</a></li>
+            <li><a href="#section-orchid">서양난</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -369,17 +611,25 @@
     // Category tab active on scroll
     const sections = document.querySelectorAll('.prod-section');
     const catLinks = document.querySelectorAll('.cat-link');
-    const catObserver = new IntersectionObserver((entries) => {
+    new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           catLinks.forEach(l => l.classList.remove('active'));
-          const id = e.target.id;
-          const activeLink = document.querySelector(`.cat-link[href="#${id}"]`);
-          if (activeLink) activeLink.classList.add('active');
+          const a = document.querySelector(`.cat-link[href="#${e.target.id}"]`);
+          if (a) a.classList.add('active');
         }
       });
-    }, { rootMargin: '-30% 0px -60% 0px' });
-    sections.forEach(s => catObserver.observe(s));
+    }, { rootMargin: '-30% 0px -60% 0px' }).observe && sections.forEach(s =>
+      new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            catLinks.forEach(l => l.classList.remove('active'));
+            const a = document.querySelector(`.cat-link[href="#${e.target.id}"]`);
+            if (a) a.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-30% 0px -60% 0px' }).observe(s)
+    );
 
     // Lightbox
     function openLightbox(img, name, price, tag, desc1, desc2, desc3) {
@@ -401,7 +651,25 @@
     function closeLightboxOutside(e) {
       if (e.target === document.getElementById('lightbox')) closeLightbox();
     }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    // Info Modal
+    function openInfoModal() {
+      document.getElementById('infoModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeInfoModal(e) {
+      if (!e || e.target === document.getElementById('infoModal') || e.currentTarget.classList.contains('info-modal-close')) {
+        document.getElementById('infoModal').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+    function switchTab(tab) {
+      document.querySelectorAll('.info-modal-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='order')||(i===1&&tab==='refund')));
+      document.getElementById('tab-order').classList.toggle('active', tab==='order');
+      document.getElementById('tab-refund').classList.toggle('active', tab==='refund');
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); closeInfoModal(); } });
   </script>
 
 </body>

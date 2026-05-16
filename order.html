@@ -113,6 +113,71 @@
         <div class="order-form-card" id="orderFormCard">
           <h3>✉️ 주문 / 문의 양식</h3>
 
+          <!-- ── AI 자동 입력 ── -->
+          <div id="ai-upload-box" style="
+            background: linear-gradient(135deg, #eaf2ec, #fce8ed);
+            border: 1.5px solid #c8e0ce;
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin-bottom: 28px;
+          ">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span style="font-size:18px;">✨</span>
+              <span style="font-family:'Noto Sans KR',sans-serif; font-size:15px; font-weight:700; color:#3a6347;">AI 자동 입력</span>
+              <span style="background:#4a7c59; color:white; font-size:10px; font-weight:700;
+                padding:2px 8px; border-radius:999px; letter-spacing:0.05em;">NEW</span>
+            </div>
+            <p style="font-family:'Noto Sans KR',sans-serif; font-size:13px; color:#666;
+              margin-bottom:14px; line-height:1.7;">
+              청첩장 또는 부고장 사진을 올리면<br/>
+              날짜·장소·이름을 <strong>자동으로 입력</strong>해드립니다
+            </p>
+
+            <!-- 업로드 버튼 -->
+            <label for="ai-image-input" id="ai-upload-label" style="
+              display: inline-flex; align-items:center; gap:8px;
+              background: #4a7c59; color: white;
+              font-family:'Noto Sans KR',sans-serif; font-size:14px; font-weight:600;
+              padding: 11px 22px; border-radius: 999px;
+              cursor: pointer; transition: background 0.2s;
+            ">
+              📎 사진 업로드
+            </label>
+            <input type="file" id="ai-image-input" accept="image/*" style="display:none" onchange="handleAiUpload(event)" />
+
+            <!-- 이미지 미리보기 -->
+            <div id="ai-preview-wrap" style="display:none; margin-top:14px;">
+              <img id="ai-preview-img" style="max-width:100%; max-height:180px; border-radius:10px;
+                object-fit:contain; border:1px solid #ddd;" />
+            </div>
+
+            <!-- 처리 중 -->
+            <div id="ai-loading" style="display:none; margin-top:14px;
+              font-family:'Noto Sans KR',sans-serif; font-size:13px; color:#4a7c59; font-weight:600;">
+              <span id="ai-loading-dots">⏳ AI가 내용을 읽고 있습니다</span>
+            </div>
+
+            <!-- 완료 -->
+            <div id="ai-done" style="display:none; margin-top:14px; padding:12px 16px;
+              background:white; border-radius:10px; border:1px solid #c8e0ce;">
+              <p style="font-family:'Noto Sans KR',sans-serif; font-size:13px;
+                color:#3a6347; font-weight:700; margin-bottom:6px;">✅ 자동 입력 완료!</p>
+              <p id="ai-filled-summary" style="font-family:'Noto Sans KR',sans-serif;
+                font-size:12px; color:#666; line-height:1.8; margin:0;"></p>
+              <p style="font-family:'Noto Sans KR',sans-serif; font-size:11px;
+                color:#aaa; margin-top:6px; margin-bottom:0;">
+                입력된 내용을 확인 후 필요하면 수정해 주세요
+              </p>
+            </div>
+
+            <!-- 오류 -->
+            <div id="ai-error" style="display:none; margin-top:14px; padding:12px 16px;
+              background:#fff5f5; border-radius:10px; border:1px solid #f2c0c0;">
+              <p id="ai-error-msg" style="font-family:'Noto Sans KR',sans-serif;
+                font-size:13px; color:#c75450; margin:0;"></p>
+            </div>
+          </div>
+
           <!-- 주문자 -->
           <div class="form-group">
             <label for="name">이름 <span class="req">*</span></label>
@@ -364,6 +429,149 @@
   </footer>
 
   <script>
+    // ★ Gemini API Key — aistudio.google.com에서 발급 후 여기에 입력
+    const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY';
+
+    // ── AI 자동 입력 ──────────────────────────────────────────
+    async function handleAiUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      // 미리보기
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('ai-preview-img').src = e.target.result;
+        document.getElementById('ai-preview-wrap').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+
+      // 상태 초기화
+      document.getElementById('ai-done').style.display    = 'none';
+      document.getElementById('ai-error').style.display   = 'none';
+      document.getElementById('ai-loading').style.display = 'block';
+
+      // 로딩 점 애니메이션
+      let dots = 0;
+      const loadingEl = document.getElementById('ai-loading-dots');
+      const dotTimer = setInterval(() => {
+        dots = (dots + 1) % 4;
+        loadingEl.textContent = '⏳ AI가 내용을 읽고 있습니다' + '.'.repeat(dots);
+      }, 400);
+
+      try {
+        // base64 변환
+        const base64 = await new Promise((resolve) => {
+          const r = new FileReader();
+          r.onload = (e) => resolve(e.target.result.split(',')[1]);
+          r.readAsDataURL(file);
+        });
+
+        const mimeType = file.type || 'image/jpeg';
+
+        // Gemini API 호출
+        const res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [
+                  {
+                    text: `이 이미지는 한국의 청첩장(결혼 초대장) 또는 부고장(장례 알림)입니다.
+아래 JSON 형식으로 정보를 추출해주세요. 없는 정보는 null로 처리하세요.
+날짜는 반드시 YYYY-MM-DD 형식으로, 연도가 없으면 2025년으로 추정하세요.
+
+{
+  "type": "wedding 또는 funeral",
+  "recipient": "받는 사람 이름 (신랑신부 이름 또는 고인 이름)",
+  "address": "행사 장소 전체 주소 (예식장/장례식장 주소)",
+  "date": "날짜 YYYY-MM-DD",
+  "time": "시간 (예: 오전 11시)",
+  "sender": "보내는 사람 관련 이름/단체",
+  "ribbon": "리본 문구 제안 (결혼이면 축하 문구, 장례면 근조 문구)"
+}
+
+JSON만 반환하고 다른 텍스트는 쓰지 마세요.`
+                  },
+                  {
+                    inline_data: { mime_type: mimeType, data: base64 }
+                  }
+                ]
+              }],
+              generationConfig: { temperature: 0.1 }
+            })
+          }
+        );
+
+        if (!res.ok) throw new Error('API 오류: ' + res.status);
+
+        const data = await res.json();
+        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        const jsonStr = rawText.replace(/```json|```/g, '').trim();
+        const info = JSON.parse(jsonStr);
+
+        clearInterval(dotTimer);
+        document.getElementById('ai-loading').style.display = 'none';
+
+        // ── 폼 자동 입력 ──
+        const filled = [];
+
+        if (info.recipient) {
+          document.getElementById('recipient').value = info.recipient;
+          filled.push('받는 사람: ' + info.recipient);
+        }
+        if (info.address) {
+          document.getElementById('address').value = info.address;
+          filled.push('주소: ' + info.address);
+        }
+        if (info.date) {
+          document.getElementById('delivery-date').value = info.date;
+          filled.push('날짜: ' + info.date);
+        }
+        if (info.time) {
+          // 시간 선택박스에서 가장 근접한 옵션 선택
+          const timeSelect = document.getElementById('delivery-time');
+          const t = info.time;
+          if (t.includes('오전') || t.includes('9') || t.includes('10') || t.includes('11')) {
+            timeSelect.value = '오전 중 (09:00~12:00)';
+          } else if (t.includes('12') || t.includes('13') || t.includes('1시') || t.includes('오후 1') || t.includes('오후 2')) {
+            timeSelect.value = '오후 초 (12:00~14:00)';
+          } else if (t.includes('14') || t.includes('15') || t.includes('16') || t.includes('오후 3') || t.includes('오후 4')) {
+            timeSelect.value = '오후 (14:00~17:00)';
+          }
+          filled.push('시간: ' + info.time);
+        }
+        if (info.type) {
+          const purposeSelect = document.getElementById('purpose');
+          if (info.type === 'wedding') {
+            purposeSelect.value = '결혼';
+            filled.push('용도: 결혼 축하');
+          } else if (info.type === 'funeral') {
+            purposeSelect.value = '조문';
+            filled.push('용도: 근조/장례식장');
+          }
+          updatePlaceholder();
+        }
+        if (info.ribbon) {
+          document.getElementById('ribbon').value = info.ribbon;
+          filled.push('리본 문구: ' + info.ribbon);
+        }
+
+        // 완료 표시
+        document.getElementById('ai-filled-summary').innerHTML =
+          filled.map(f => '• ' + f).join('<br/>');
+        document.getElementById('ai-done').style.display = 'block';
+
+      } catch (err) {
+        clearInterval(dotTimer);
+        document.getElementById('ai-loading').style.display = 'none';
+        document.getElementById('ai-error-msg').textContent =
+          '읽기에 실패했습니다. 사진이 선명한지 확인하거나 직접 입력해 주세요. (' + err.message + ')';
+        document.getElementById('ai-error').style.display = 'block';
+      }
+    }
+
     // Header
     const header = document.getElementById('site-header');
     window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 10));

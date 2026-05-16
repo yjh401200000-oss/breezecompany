@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>상품소개 - 브리즈컴퍼니</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="prices.js"></script>
 </head>
 <body>
 
@@ -1076,8 +1075,8 @@
     // ── Lightbox
     function openLightbox(img, name, salePrice, origPrice, tag, desc1, desc2, desc3, sizeInfo) {
       // 🔄 prices.js 최신 가격 반영
-      if (window.BZ_PRICES && BZ_PRICES[name]) {
-        const p = BZ_PRICES[name];
+      if (window.BZ_PRICES && window.BZ_PRICES[name]) {
+        const p = window.BZ_PRICES[name];
         if (p.sale !== null) {
           salePrice = p.sale.toLocaleString('ko-KR') + '원';
           origPrice = p.orig ? p.orig.toLocaleString('ko-KR') + '원' : '';
@@ -1150,13 +1149,13 @@
       if (e.key === 'Escape') { closeLightbox(); closeInfoModal(); }
     });
 
-    // ── prices.js 가격 카드 동기화
-    (function bzSyncPrices() {
+    // ── prices.js 가격 카드 동기화 (캐시 방지 동적 로드)
+    function bzSyncPrices() {
       if (!window.BZ_PRICES) return;
       document.querySelectorAll('.product-card').forEach(card => {
         const h3 = card.querySelector('h3');
         if (!h3) return;
-        const p = BZ_PRICES[h3.textContent.trim()];
+        const p = window.BZ_PRICES[h3.textContent.trim()];
         if (!p) return;
         const saleEl = card.querySelector('.price-sale');
         const origEl = card.querySelector('.price-original');
@@ -1168,6 +1167,13 @@
           if (origEl) { origEl.textContent = ''; origEl.style.display = 'none'; }
         }
       });
+    }
+    // prices.js를 매번 서버에서 새로 불러와 캐시 문제 방지
+    (function() {
+      var s = document.createElement('script');
+      s.src = 'prices.js?_=' + Date.now();
+      s.onload = bzSyncPrices;
+      document.head.appendChild(s);
     })();
 
     // ── 이미지 우클릭·드래그 방지 (워터마크 보호)

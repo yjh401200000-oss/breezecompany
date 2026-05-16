@@ -6,12 +6,6 @@
   <title>주문/문의 - 브리즈컴퍼니</title>
   <meta name="description" content="브리즈컴퍼니 주문 및 문의 — 원하시는 상품을 양식으로 문의해 주시면 카카오톡 채널로 빠르게 도와드립니다." />
   <link rel="stylesheet" href="style.css" />
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>
-    // ★ EmailJS 초기화 — Public Key를 여기에 입력하세요
-    (function() { emailjs.init({ publicKey: 'vHqNk1rOOHDBsiu9a' }); })();
-  </script>
 </head>
 <body>
 
@@ -240,21 +234,45 @@
             <textarea id="message" placeholder="용도를 먼저 선택하시면 예시 문구가 나타납니다."></textarea>
           </div>
 
-          <button class="form-submit" id="submit-btn" onclick="submitOrder()">
-            📨 주문 접수하기
+          <button class="form-submit" onclick="submitOrder()">
+            💬 카카오톡으로 주문 접수하기
           </button>
         </div>
 
         <!-- 완료 메시지 -->
         <div class="success-msg" id="success-msg">
           <div class="success-emoji">🌸</div>
-          <h3 id="success-title">주문이 접수되었습니다!</h3>
-          <p id="success-desc" style="margin-bottom:20px;line-height:1.9;"></p>
+          <h3>주문 내용이 복사되었습니다!</h3>
+
+          <!-- PC / 모바일 안내 -->
+          <div id="guide-mobile" style="display:none; margin-bottom:20px;">
+            <div style="background:#fff9e6; border:1.5px solid #fee500; border-radius:12px; padding:16px 18px; text-align:left;">
+              <p style="font-size:14px; font-weight:700; color:#3c1e1e; margin-bottom:10px;">📱 모바일 붙여넣기 방법</p>
+              <ol style="font-family:'Noto Sans KR',sans-serif; font-size:13px; color:#555; line-height:2; padding-left:18px; margin:0;">
+                <li>아래 <strong>카카오톡 채널 열기</strong> 버튼을 누르세요</li>
+                <li>채팅 입력창을 <strong>길게 꾹 누르세요</strong></li>
+                <li><strong>붙여넣기</strong>를 선택하세요</li>
+                <li><strong>전송</strong> 버튼을 눌러 주문을 완료하세요 ✅</li>
+              </ol>
+            </div>
+          </div>
+
+          <div id="guide-pc" style="display:none; margin-bottom:20px;">
+            <div style="background:#eaf2ec; border:1.5px solid #4a7c59; border-radius:12px; padding:16px 18px; text-align:left;">
+              <p style="font-size:14px; font-weight:700; color:#3a6347; margin-bottom:10px;">💻 PC 붙여넣기 방법</p>
+              <ol style="font-family:'Noto Sans KR',sans-serif; font-size:13px; color:#555; line-height:2; padding-left:18px; margin:0;">
+                <li>아래 <strong>카카오톡 채널 열기</strong> 버튼을 누르세요</li>
+                <li>채팅 입력창을 클릭하세요</li>
+                <li>키보드 <strong>Ctrl + V</strong> 를 눌러 붙여넣으세요</li>
+                <li><strong>Enter</strong> 또는 전송 버튼을 눌러 주문을 완료하세요 ✅</li>
+              </ol>
+            </div>
+          </div>
 
           <!-- 주문 내용 박스 -->
-          <div id="order-text-box" style="
-            background:#f5f5f5; border-radius:12px; padding:16px 18px;
-            text-align:left; margin-bottom:24px; position:relative;">
+          <div style="background:#f5f5f5; border-radius:12px; padding:16px 18px;
+            text-align:left; margin-bottom:20px; position:relative;">
+            <p style="font-size:11px; color:#aaa; margin-bottom:6px; font-family:'Noto Sans KR',sans-serif;">주문 내용 (이미 복사됨)</p>
             <pre id="order-text-display" style="
               font-family:'Noto Sans KR',sans-serif; font-size:13px;
               color:#444; line-height:1.8; white-space:pre-wrap;
@@ -267,10 +285,13 @@
               cursor:pointer; white-space:nowrap;">📋 복사</button>
           </div>
 
-          <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="btn-kakao">
-            💬 카카오톡으로 추가 문의하기
+          <a href="https://pf.kakao.com/_ixazxkn/chat" target="_blank" class="btn-kakao" style="display:block; text-align:center;">
+            💬 카카오톡 채널 열기
           </a>
-          <p style="font-size:12px; color:#aaa; margin-top:14px; line-height:1.7;" id="success-hint"></p>
+          <p style="font-size:12px; color:#aaa; margin-top:12px; line-height:1.7;">
+            버튼을 눌러 채널이 열리지 않으면<br/>
+            카카오톡에서 <strong style="color:#555;">브리즈컴퍼니</strong> 채널을 검색해 주세요.
+          </p>
         </div>
       </div>
 
@@ -412,28 +433,15 @@
       });
     }
 
-    // ★ EmailJS 설정 — emailjs.com에서 발급받은 값을 여기에 입력하세요
-    const EMAILJS_SERVICE_ID  = 'service_ubc4tul';
-    const EMAILJS_TEMPLATE_ID = 'template_n75wi4p';
-
     // 성공 화면 표시
-    function showSuccess(orderText, emailSent) {
+    function showSuccess(orderText) {
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
       document.getElementById('orderFormCard').style.display = 'none';
       document.getElementById('order-text-display').textContent = orderText;
 
-      const titleEl = document.getElementById('success-title');
-      const descEl  = document.getElementById('success-desc');
-      const hintEl  = document.getElementById('success-hint');
-
-      if (emailSent) {
-        titleEl.textContent = '✅ 주문이 접수되었습니다!';
-        descEl.innerHTML = '주문 내용이 <strong>자동으로 전송</strong>되었습니다.<br />확인 후 카카오톡으로 빠르게 연락드리겠습니다. 😊';
-        hintEl.textContent = '추가 문의는 아래 카카오톡 버튼을 이용해 주세요.';
-      } else {
-        titleEl.textContent = '주문 내용을 확인해 주세요';
-        descEl.innerHTML = '잠시 오류가 발생했습니다.<br />아래 내용을 <strong>복사</strong>한 뒤 카카오톡 채널에 붙여넣기 해주세요.';
-        hintEl.textContent = '복사 버튼을 누르거나 텍스트를 길게 눌러 복사할 수 있습니다.';
-      }
+      // PC / 모바일 안내 분기
+      document.getElementById(isMobile ? 'guide-mobile' : 'guide-pc').style.display = 'block';
 
       const successEl = document.getElementById('success-msg');
       successEl.style.display = 'block';
@@ -468,7 +476,7 @@
       };
 
       const orderText =
-`[브리즈컴퍼니 주문 접수]
+`[브리즈컴퍼니 주문 문의]
 ──────────────────
 👤 주문자: ${name}
 📞 연락처: ${phone}
@@ -479,43 +487,19 @@
 ──────────────────${sender ? `\n✍️ 발송명의: ${sender}` : ''}${ribbon ? `\n🎀 리본문구: ${ribbon}` : ''}${message ? `\n📝 요청사항:\n${message}` : ''}
 ──────────────────`;
 
-      // ── 버튼 로딩 상태 ──
-      const btn = document.getElementById('submit-btn');
-      btn.disabled = true;
-      btn.textContent = '⏳ 접수 중...';
-
-      // ── EmailJS 자동 전송 ──
-      let emailSent = false;
+      // ── 클립보드 복사 ──
       try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          customer_name : name,
-          phone         : phone,
-          product       : product,
-          quantity      : quantity + '개',
-          price         : price || '문의 필요',
-          purpose       : purposeMap[purpose] || purpose || '-',
-          recipient     : recipient,
-          address       : address || '-',
-          delivery_date : date || '-',
-          delivery_time : time || '-',
-          sender_name   : sender || '-',
-          ribbon        : ribbon || '-',
-          memo          : message || '-',
-          order_text    : orderText,
-        });
-        emailSent = true;
-      } catch (err) {
-        console.error('EmailJS 오류:', err);
-        // 실패해도 폼은 정상 표시 (클립보드 fallback으로 처리)
+        await navigator.clipboard.writeText(orderText);
+      } catch (e) {
+        // 클립보드 권한 없으면 텍스트박스에서 수동 복사
       }
 
-      btn.disabled = false;
-      btn.textContent = '📨 주문 접수하기';
+      showSuccess(orderText);
 
-      // ── 클립보드에도 복사 (이메일 전송 실패 시 대비) ──
-      try { await navigator.clipboard.writeText(orderText); } catch(e) {}
-
-      showSuccess(orderText, emailSent);
+      // ── 카카오톡 채널 채팅창 열기 ──
+      setTimeout(() => {
+        window.open('https://pf.kakao.com/_ixazxkn/chat', '_blank');
+      }, 800);
     }
   </script>
 

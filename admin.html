@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관리자 — 브리즈컴퍼니</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green:  #4a7c59;
+      --green2: #3a6449;
+      --green-l:#e8f0eb;
+      --cream:  #faf7f2;
+      --surface:#ffffff;
+      --gray:   #888;
+      --gray-l: #f3f0eb;
+      --border: #e0dbd3;
+      --text:   #2c2c2c;
+      --red:    #c0392b;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ──────── 비밀번호 게이트 ──────── */
+    #pw-gate {
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg, #4a7c59 0%, #2d5a3d 100%);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; transition: opacity .4s;
+    }
+    #pw-gate.hide { opacity: 0; pointer-events: none; }
+    .pw-box {
+      background: #fff; border-radius: 20px; padding: 48px 40px;
+      width: min(380px, 90vw); text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    .pw-logo { font-size: 32px; margin-bottom: 6px; }
+    .pw-title { font-size: 20px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+    .pw-sub   { font-size: 13px; color: var(--gray); margin-bottom: 28px; }
+    .pw-input {
+      width: 100%; padding: 12px 16px; border: 2px solid var(--border);
+      border-radius: var(--radius); font-size: 15px; font-family: inherit;
+      outline: none; transition: border .2s;
+    }
+    .pw-input:focus { border-color: var(--green); }
+    .pw-btn {
+      margin-top: 14px; width: 100%; padding: 13px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: var(--radius);
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: background .2s;
+    }
+    .pw-btn:hover { background: var(--green2); }
+    .pw-err { color: var(--red); font-size: 13px; margin-top: 10px; min-height: 18px; }
+
+    /* ──────── 관리자 헤더 ──────── */
+    .adm-header {
+      background: var(--green); color: #fff;
+      padding: 0 32px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    }
+    .adm-logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .adm-badge {
+      background: rgba(255,255,255,.2); color: #fff;
+      font-size: 11px; font-weight: 500; padding: 3px 9px;
+      border-radius: 20px; letter-spacing: .5px;
+    }
+    .adm-header-right { display: flex; align-items: center; gap: 12px; }
+    .btn-logout {
+      background: rgba(255,255,255,.15); color: #fff;
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 7px 16px; border-radius: 8px;
+      font-size: 13px; cursor: pointer; transition: background .2s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,.25); }
+    .btn-site {
+      background: #fff; color: var(--green);
+      border: none; padding: 7px 16px; border-radius: 8px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      text-decoration: none; transition: opacity .2s;
+    }
+    .btn-site:hover { opacity: .85; }
+
+    /* ──────── 본문 레이아웃 ──────── */
+    .adm-main { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* ──────── 카드 공통 ──────── */
+    .adm-card {
+      background: var(--surface); border-radius: 16px;
+      box-shadow: var(--shadow); margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .adm-card-header {
+      padding: 18px 24px; display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid var(--border); cursor: pointer;
+      user-select: none;
+    }
+    .adm-card-header h2 { font-size: 16px; font-weight: 700; flex: 1; }
+    .adm-card-header .toggle-ico { font-size: 18px; transition: transform .25s; }
+    .adm-card-header.open .toggle-ico { transform: rotate(90deg); }
+    .adm-card-body { padding: 24px; }
+    .adm-card-body.hidden { display: none; }
+
+    /* ──────── GitHub 설정 ──────── */
+    .gh-step { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+    .gh-step-num {
+      min-width: 26px; height: 26px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .gh-step-text { font-size: 14px; line-height: 1.6; }
+    .gh-step-text a { color: var(--green); font-weight: 600; }
+    .gh-step-text code {
+      background: var(--gray-l); padding: 1px 6px; border-radius: 4px;
+      font-size: 12px; font-family: monospace;
+    }
+    .gh-input-row { display: flex; gap: 10px; margin-top: 16px; }
+    .gh-input {
+      flex: 1; padding: 11px 14px; border: 2px solid var(--border);
+      border-radius: 10px; font-size: 14px; font-family: inherit; outline: none;
+      transition: border .2s;
+    }
+    .gh-input:focus { border-color: var(--green); }
+    .btn-save-pat {
+      padding: 11px 20px; background: var(--green); color: #fff;
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: background .2s;
+    }
+    .btn-save-pat:hover { background: var(--green2); }
+    .pat-status {
+      margin-top: 10px; font-size: 13px; padding: 8px 12px;
+      border-radius: 8px; display: none;
+    }
+    .pat-status.ok  { background: #e8f5eb; color: #2d6a4f; display: block; }
+    .pat-status.err { background: #fdecea; color: var(--red); display: block; }
+
+    /* ──────── 상태 바 ──────── */
+    .adm-status-bar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 20px; border-radius: 12px; margin-bottom: 20px;
+      font-size: 14px; font-weight: 500; display: none;
+    }
+    .adm-status-bar.info   { background: #e8f0fb; color: #1a56db; display: flex; }
+    .adm-status-bar.ok     { background: #e8f5eb; color: #2d6a4f; display: flex; }
+    .adm-status-bar.err    { background: #fdecea; color: var(--red); display: flex; }
+    .adm-status-bar.loading{ background: var(--gray-l); color: var(--text); display: flex; }
+
+    /* ──────── 가격 테이블 ──────── */
+    .price-section-title {
+      font-size: 15px; font-weight: 700; color: var(--green);
+      padding: 14px 20px 10px; border-bottom: 1px solid var(--green-l);
+      background: var(--green-l);
+    }
+    .price-table { width: 100%; border-collapse: collapse; }
+    .price-table th {
+      background: var(--gray-l); font-size: 12px; font-weight: 600;
+      color: var(--gray); text-align: left; padding: 10px 16px;
+      letter-spacing: .5px; text-transform: uppercase;
+    }
+    .price-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); }
+    .price-table tr:last-child td { border-bottom: none; }
+    .price-table tr:hover td { background: #fdfcfa; }
+
+    .td-name  { font-size: 14px; font-weight: 500; min-width: 110px; }
+    .td-price { min-width: 130px; }
+    .td-toggle{ min-width: 100px; text-align: center; }
+
+    .price-input {
+      width: 110px; padding: 7px 10px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 14px; font-family: inherit; outline: none;
+      transition: border .2s; text-align: right;
+    }
+    .price-input:focus { border-color: var(--green); }
+    .price-input:disabled { background: var(--gray-l); color: var(--gray); cursor: not-allowed; }
+    .price-suffix { font-size: 13px; color: var(--gray); margin-left: 4px; }
+
+    .inquiry-toggle { display: flex; align-items: center; gap: 6px; justify-content: center; }
+    .inquiry-toggle input[type=checkbox] {
+      width: 16px; height: 16px; accent-color: var(--green); cursor: pointer;
+    }
+    .inquiry-toggle label { font-size: 13px; color: var(--gray); cursor: pointer; }
+
+    /* ──────── 저장 버튼 영역 ──────── */
+    .adm-save-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #fff; border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.08); z-index: 50;
+    }
+    .adm-save-hint { font-size: 13px; color: var(--gray); }
+    .btn-save-main {
+      padding: 13px 32px; background: var(--green); color: #fff;
+      border: none; border-radius: var(--radius);
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      transition: background .2s, transform .1s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-save-main:hover  { background: var(--green2); }
+    .btn-save-main:active { transform: scale(.97); }
+    .btn-save-main:disabled { background: var(--gray); cursor: not-allowed; }
+
+    /* spinner */
+    .spinner {
+      width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin .7s linear infinite; display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .adm-header { padding: 0 16px; }
+      .adm-card-body { padding: 16px; }
+      .price-input { width: 90px; }
+      .adm-save-bar { flex-direction: column; gap: 10px; text-align: center; }
+      .btn-save-main { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     비밀번호 게이트
+════════════════════════════════ -->
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-logo">🌸</div>
+    <div class="pw-title">브리즈컴퍼니</div>
+    <div class="pw-sub">관리자 전용 페이지입니다</div>
+    <input class="pw-input" type="password" id="pw-input"
+           placeholder="비밀번호 입력" autocomplete="current-password" />
+    <button class="pw-btn" onclick="doLogin()">로그인</button>
+    <div class="pw-err" id="pw-err"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     관리자 본문 (로그인 후 표시)
+════════════════════════════════ -->
+<div id="admin-main" style="display:none">
+
+  <!-- 헤더 -->
+  <header class="adm-header">
+    <div class="adm-logo">
+      🌸 브리즈컴퍼니
+      <span class="adm-badge">관리자</span>
+    </div>
+    <div class="adm-header-right">
+      <a href="products.html" class="btn-site" target="_blank">🔗 사이트 보기</a>
+      <button class="btn-logout" onclick="doLogout()">로그아웃</button>
+    </div>
+  </header>
+
+  <div class="adm-main">
+
+    <!-- 상태 메시지 -->
+    <div class="adm-status-bar" id="status-bar">
+      <span id="status-icon">ℹ️</span>
+      <span id="status-msg"></span>
+    </div>
+
+    <!-- ── GitHub 연동 설정 ── -->
+    <div class="adm-card">
+      <div class="adm-card-header" id="gh-header" onclick="toggleCard('gh')">
+        <span>⚙️</span>
+        <h2>GitHub 연동 설정</h2>
+        <span class="toggle-ico" id="gh-ico">›</span>
+      </div>
+      <div class="adm-card-body" id="gh-body">
+        <div class="gh-step">
+          <div class="gh-step-num">1</div>
+          <div class="gh-step-text">
+            <a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub.com → Settings → Developer settings → Fine-grained tokens</a>
+            에서 새 토큰을 발급하세요.
+          </div>
+        </div>
+        <div class="gh-step">
+          <div class="gh-step-num">2</div>
+          <div class="gh-step-text">
+            <b>Repository access</b> → <code>yjh401200000-oss/breezecompany</code> 선택<br>
+            <b>Permissions → Contents</b> : <code>Read and write</code> 로 설정
+          </div>
+        </div>
+        <div class="gh-step">
+          <div class="gh-step-num">3</div>
+          <div class="gh-step-text">
+            발급된 토큰(<code>github_pat_...</code>)을 아래에 붙여넣고 저장하세요.<br>
+            <small style="color:var(--gray)">토큰은 이 기기 브라우저에만 저장되며, 외부로 전송되지 않습니다.</small>
+          </div>
+        </div>
+        <div class="gh-input-row">
+          <input class="gh-input" type="password" id="pat-input"
+                 placeholder="github_pat_XXXX..." autocomplete="off" />
+          <button class="btn-save-pat" onclick="savePat()">토큰 저장</button>
+        </div>
+        <div class="pat-status" id="pat-status"></div>
+      </div>
+    </div>
+
+    <!-- ── 가격 관리 테이블 ── -->
+    <div class="adm-card">
+      <div class="adm-card-header open" id="price-header" onclick="toggleCard('price')">
+        <span>💰</span>
+        <h2>상품 가격 관리</h2>
+        <span class="toggle-ico open" id="price-ico" style="transform:rotate(90deg)">›</span>
+      </div>
+      <div class="adm-card-body" id="price-body">
+        <div id="price-table-wrap">
+          <!-- JS로 동적 생성 -->
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /adm-main -->
+
+  <!-- ── 고정 저장 버튼 바 ── -->
+  <div class="adm-save-bar">
+    <div class="adm-save-hint">변경 후 "GitHub에 저장"을 누르면 약 1분 후 사이트에 반영됩니다.</div>
+    <button class="btn-save-main" id="save-btn" onclick="saveToGitHub()">
+      <div class="spinner" id="save-spinner"></div>
+      <span id="save-btn-text">💾 GitHub에 저장</span>
+    </button>
+  </div>
+
+</div><!-- /admin-main -->
+
+<script>
+// ════════════════════════════════════════════════════
+//  설정값
+// ════════════════════════════════════════════════════
+const ADMIN_PW   = 'breezeadmin';   // ← 비밀번호 변경 시 이 값을 수정하세요
+const GH_REPO    = 'yjh401200000-oss/breezecompany';
+const GH_FILE    = 'prices.js';
+const GH_BRANCH  = 'main';
+
+// ════════════════════════════════════════════════════
+//  상품 목록 (카테고리 + 이름)
+// ════════════════════════════════════════════════════
+const PRODUCTS = [
+  { cat:'🎋 축하화환',  name:'3단 화환 A'      },
+  { cat:'🎋 축하화환',  name:'3단 화환 고급형'  },
+  { cat:'🎋 축하화환',  name:'화환 대형'        },
+  { cat:'🎋 축하화환',  name:'화환 특대형'      },
+  { cat:'🕊️ 근조화환', name:'3단 근조 A'       },
+  { cat:'🕊️ 근조화환', name:'3단 근조 고급형'  },
+  { cat:'🕊️ 근조화환', name:'근조화환 대형'    },
+  { cat:'🕊️ 근조화환', name:'근조화환 특대형'  },
+  { cat:'🌿 동양난',    name:'동양란 A'         },
+  { cat:'🌿 동양난',    name:'동양란 B'         },
+  { cat:'🌿 동양난',    name:'동양란 프리미엄'  },
+  { cat:'🌿 동양난',    name:'동양란 특선'      },
+  { cat:'🌺 서양난',    name:'서양란 기본형'    },
+  { cat:'🌺 서양난',    name:'서양란 고급형'    },
+  { cat:'🌺 서양난',    name:'만천홍 서양란'    },
+  { cat:'🌺 서양난',    name:'핑크 호접란'      },
+  { cat:'🪴 관엽식물',  name:'고무나무'         },
+  { cat:'🪴 관엽식물',  name:'안시리움'         },
+  { cat:'🪴 관엽식물',  name:'금전수'           },
+  { cat:'🪴 관엽식물',  name:'산세베리아'       },
+  { cat:'🪴 관엽식물',  name:'인삼팬더'         },
+  { cat:'🪴 관엽식물',  name:'멜라니'           },
+  { cat:'🪴 관엽식물',  name:'크로톤'           },
+];
+
+// ════════════════════════════════════════════════════
+//  기본 가격 (prices.js와 동일값, 폴백용)
+// ════════════════════════════════════════════════════
+const DEFAULT_PRICES = {
+  "3단 화환 A"      :{ sale:69000,  orig:75000  },
+  "3단 화환 고급형" :{ sale:89000,  orig:99000  },
+  "화환 대형"       :{ sale:null,   orig:null   },
+  "화환 특대형"     :{ sale:null,   orig:null   },
+  "3단 근조 A"      :{ sale:69000,  orig:75000  },
+  "3단 근조 고급형" :{ sale:89000,  orig:99000  },
+  "근조화환 대형"   :{ sale:null,   orig:null   },
+  "근조화환 특대형" :{ sale:null,   orig:null   },
+  "동양란 A"        :{ sale:69000,  orig:75000  },
+  "동양란 B"        :{ sale:79000,  orig:89000  },
+  "동양란 프리미엄" :{ sale:null,   orig:null   },
+  "동양란 특선"     :{ sale:null,   orig:null   },
+  "서양란 기본형"   :{ sale:99000,  orig:110000 },
+  "서양란 고급형"   :{ sale:109000, orig:120000 },
+  "만천홍 서양란"   :{ sale:null,   orig:null   },
+  "핑크 호접란"     :{ sale:null,   orig:null   },
+  "고무나무"        :{ sale:57000,  orig:62700  },
+  "안시리움"        :{ sale:50000,  orig:55000  },
+  "금전수"          :{ sale:62000,  orig:68200  },
+  "산세베리아"      :{ sale:50000,  orig:55000  },
+  "인삼팬더"        :{ sale:50000,  orig:55000  },
+  "멜라니"          :{ sale:50000,  orig:55000  },
+  "크로톤"          :{ sale:66000,  orig:72600  },
+};
+
+// ════════════════════════════════════════════════════
+//  로그인 / 로그아웃
+// ════════════════════════════════════════════════════
+function doLogin() {
+  const val = document.getElementById('pw-input').value;
+  if (val === ADMIN_PW) {
+    localStorage.setItem('bz_admin_auth', '1');
+    document.getElementById('pw-gate').classList.add('hide');
+    setTimeout(() => {
+      document.getElementById('pw-gate').style.display = 'none';
+      document.getElementById('admin-main').style.display = 'block';
+      initAdmin();
+    }, 400);
+  } else {
+    document.getElementById('pw-err').textContent = '비밀번호가 틀렸습니다.';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function doLogout() {
+  localStorage.removeItem('bz_admin_auth');
+  location.reload();
+}
+
+document.getElementById('pw-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// 이미 로그인 상태라면 바로 진입
+if (localStorage.getItem('bz_admin_auth') === '1') {
+  document.getElementById('pw-gate').style.display = 'none';
+  document.getElementById('admin-main').style.display = 'block';
+  initAdmin();
+}
+
+// ════════════════════════════════════════════════════
+//  카드 토글
+// ════════════════════════════════════════════════════
+function toggleCard(id) {
+  const body = document.getElementById(id + '-body');
+  const ico  = document.getElementById(id + '-ico');
+  const header = document.getElementById(id + '-header');
+  const hidden = body.classList.toggle('hidden');
+  ico.style.transform = hidden ? '' : 'rotate(90deg)';
+  header.classList.toggle('open', !hidden);
+}
+
+// ════════════════════════════════════════════════════
+//  초기화
+// ════════════════════════════════════════════════════
+function initAdmin() {
+  // PAT 복원
+  const pat = localStorage.getItem('bz_admin_pat');
+  if (pat) {
+    document.getElementById('pat-input').value = pat;
+    showPatStatus('ok', '✅ GitHub 토큰이 저장되어 있습니다.');
+    // GitHub에서 최신 prices.js 불러오기
+    loadPricesFromGitHub(pat);
+  } else {
+    buildTable(DEFAULT_PRICES);
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  PAT 저장
+// ════════════════════════════════════════════════════
+function savePat() {
+  const pat = document.getElementById('pat-input').value.trim();
+  if (!pat) { showPatStatus('err', '❌ 토큰을 입력해주세요.'); return; }
+  localStorage.setItem('bz_admin_pat', pat);
+  showPatStatus('ok', '✅ 토큰이 저장되었습니다. GitHub에서 현재 가격을 불러옵니다…');
+  loadPricesFromGitHub(pat);
+}
+
+function showPatStatus(type, msg) {
+  const el = document.getElementById('pat-status');
+  el.className = 'pat-status ' + type;
+  el.textContent = msg;
+}
+
+// ════════════════════════════════════════════════════
+//  GitHub에서 현재 prices.js 불러오기
+// ════════════════════════════════════════════════════
+async function loadPricesFromGitHub(pat) {
+  setStatus('loading', '⏳ GitHub에서 현재 가격을 불러오는 중…');
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
+      { headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    const text = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    const prices = parsePricesJs(text);
+    buildTable(prices);
+    setStatus('ok', '✅ 현재 가격을 불러왔습니다. 수정 후 저장하세요.');
+    showPatStatus('ok', '✅ GitHub 토큰 연결 완료.');
+  } catch(e) {
+    buildTable(DEFAULT_PRICES);
+    setStatus('err', '⚠️ GitHub 연결 실패 — 기본 가격으로 표시합니다. 토큰을 확인해주세요.');
+    showPatStatus('err', '❌ 토큰 오류 또는 네트워크 문제 (' + e.message + ')');
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  prices.js 파싱 (정규식 기반)
+// ════════════════════════════════════════════════════
+function parsePricesJs(text) {
+  const result = {};
+  const re = /"([^"]+)"\s*:\s*\{\s*sale\s*:\s*([^,]+),\s*orig\s*:\s*([^\}]+)\}/g;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    const name = m[1];
+    const sale = m[2].trim() === 'null' ? null : parseInt(m[2].trim());
+    const orig = m[3].trim() === 'null' ? null : parseInt(m[3].trim());
+    result[name] = { sale, orig };
+  }
+  return Object.keys(result).length ? result : DEFAULT_PRICES;
+}
+
+// ════════════════════════════════════════════════════
+//  가격 테이블 생성
+// ════════════════════════════════════════════════════
+function buildTable(prices) {
+  const wrap = document.getElementById('price-table-wrap');
+  let html = '';
+  let lastCat = '';
+
+  PRODUCTS.forEach(({ cat, name }) => {
+    const p = prices[name] || { sale: null, orig: null };
+    const isInquiry = p.sale === null;
+    const safeId = name.replace(/\s/g, '_');
+
+    if (cat !== lastCat) {
+      if (lastCat) html += '</tbody></table>';
+      html += `
+        <div class="price-section-title">${cat}</div>
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>상품명</th>
+              <th>판매가 (원)</th>
+              <th>정가 (원)</th>
+              <th>가격 문의</th>
+            </tr>
+          </thead>
+          <tbody>`;
+      lastCat = cat;
+    }
+
+    html += `
+      <tr>
+        <td class="td-name">${name}</td>
+        <td class="td-price">
+          <input class="price-input" type="number" id="sale_${safeId}"
+                 value="${isInquiry ? '' : p.sale}"
+                 placeholder="예) 69000"
+                 min="0" step="1000"
+                 ${isInquiry ? 'disabled' : ''} />
+          <span class="price-suffix">원</span>
+        </td>
+        <td class="td-price">
+          <input class="price-input" type="number" id="orig_${safeId}"
+                 value="${isInquiry || !p.orig ? '' : p.orig}"
+                 placeholder="예) 75000"
+                 min="0" step="1000"
+                 ${isInquiry ? 'disabled' : ''} />
+          <span class="price-suffix">원</span>
+        </td>
+        <td class="td-toggle">
+          <label class="inquiry-toggle">
+            <input type="checkbox" id="inq_${safeId}"
+                   ${isInquiry ? 'checked' : ''}
+                   onchange="toggleInquiry('${safeId}')" />
+            <label for="inq_${safeId}">문의</label>
+          </label>
+        </td>
+      </tr>`;
+  });
+
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════
+//  가격 문의 토글
+// ════════════════════════════════════════════════════
+function toggleInquiry(safeId) {
+  const checked = document.getElementById('inq_' + safeId).checked;
+  const saleEl  = document.getElementById('sale_' + safeId);
+  const origEl  = document.getElementById('orig_' + safeId);
+  saleEl.disabled = checked;
+  origEl.disabled = checked;
+  if (checked) { saleEl.value = ''; origEl.value = ''; }
+}
+
+// ════════════════════════════════════════════════════
+//  prices.js 파일 내용 생성
+// ════════════════════════════════════════════════════
+function buildPricesJs() {
+  const now = new Date().toLocaleString('ko-KR');
+  let lines = [];
+
+  PRODUCTS.forEach(({ name }) => {
+    const safeId  = name.replace(/\s/g, '_');
+    const isInq   = document.getElementById('inq_' + safeId).checked;
+    const saleVal = document.getElementById('sale_' + safeId).value.trim();
+    const origVal = document.getElementById('orig_' + safeId).value.trim();
+
+    const sale = isInq || !saleVal ? 'null' : parseInt(saleVal);
+    const orig = isInq || !origVal ? 'null' : parseInt(origVal);
+
+    lines.push(`  "${name}"${' '.repeat(Math.max(1, 18 - name.length))}: { sale: ${sale},${' '.repeat(Math.max(1, 8 - String(sale).length))} orig: ${orig}  },`);
+  });
+
+  return `// ============================================================
+//  브리즈컴퍼니 상품 가격표  (prices.js)
+//  마지막 수정: ${now}
+//  ※ 직접 수정하지 말고 관리자 페이지(admin.html)를 이용하세요.
+// ============================================================
+
+const BZ_PRICES = {
+  // ── 축하화환 ──────────────────────────────
+${lines.slice(0,4).join('\n')}
+
+  // ── 근조화환 ──────────────────────────────
+${lines.slice(4,8).join('\n')}
+
+  // ── 동양난 ────────────────────────────────
+${lines.slice(8,12).join('\n')}
+
+  // ── 서양난 ────────────────────────────────
+${lines.slice(12,16).join('\n')}
+
+  // ── 관엽식물 ──────────────────────────────
+${lines.slice(16).join('\n')}
+};
+`;
+}
+
+// ════════════════════════════════════════════════════
+//  GitHub에 저장
+// ════════════════════════════════════════════════════
+async function saveToGitHub() {
+  const pat = localStorage.getItem('bz_admin_pat');
+  if (!pat) {
+    alert('❌ GitHub 토큰이 설정되지 않았습니다.\n위의 "GitHub 연동 설정"에서 토큰을 먼저 저장해주세요.');
+    return;
+  }
+
+  setSaveBtnLoading(true);
+  setStatus('loading', '⏳ GitHub에 저장 중…');
+
+  try {
+    // 1) 현재 파일의 SHA 가져오기
+    const getRes = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
+      { headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if (!getRes.ok) throw new Error('파일 조회 실패 (HTTP ' + getRes.status + ')');
+    const fileData = await getRes.json();
+    const sha = fileData.sha;
+
+    // 2) 새 파일 내용 생성 + Base64 인코딩
+    const newContent = buildPricesJs();
+    const encoded    = btoa(unescape(encodeURIComponent(newContent)));
+
+    // 3) PUT으로 업데이트
+    const putRes = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${pat}`,
+          'Accept':        'application/vnd.github.v3+json',
+          'Content-Type':  'application/json',
+        },
+        body: JSON.stringify({
+          message: `[가격 수정] ${new Date().toLocaleString('ko-KR')}`,
+          content: encoded,
+          sha:     sha,
+          branch:  GH_BRANCH,
+        }),
+      }
+    );
+    if (!putRes.ok) {
+      const errBody = await putRes.json().catch(() => ({}));
+      throw new Error((errBody.message || '') + ' (HTTP ' + putRes.status + ')');
+    }
+
+    setStatus('ok', '🎉 저장 완료! GitHub Pages 배포 중입니다. 약 1~2분 후 사이트에 반영됩니다.');
+  } catch (e) {
+    setStatus('err', '❌ 저장 실패: ' + e.message + ' — 토큰 권한(Contents: Read and write)을 확인해주세요.');
+  } finally {
+    setSaveBtnLoading(false);
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  UI 헬퍼
+// ════════════════════════════════════════════════════
+function setStatus(type, msg) {
+  const bar = document.getElementById('status-bar');
+  bar.className = 'adm-status-bar ' + type;
+  document.getElementById('status-msg').textContent = msg;
+  bar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function setSaveBtnLoading(on) {
+  const btn  = document.getElementById('save-btn');
+  const spin = document.getElementById('save-spinner');
+  const txt  = document.getElementById('save-btn-text');
+  btn.disabled = on;
+  spin.style.display = on ? 'block' : 'none';
+  txt.textContent    = on ? '저장 중…' : '💾 GitHub에 저장';
+}
+</script>
+
+</body>
+</html>

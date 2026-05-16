@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>상품소개 - 브리즈컴퍼니</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="prices.js"></script>
 </head>
 <body>
 
@@ -906,6 +907,18 @@
 
     // ── Lightbox
     function openLightbox(img, name, salePrice, origPrice, tag, desc1, desc2, desc3, sizeInfo) {
+      // 🔄 prices.js 최신 가격 반영
+      if (window.BZ_PRICES && BZ_PRICES[name]) {
+        const p = BZ_PRICES[name];
+        if (p.sale !== null) {
+          salePrice = p.sale.toLocaleString('ko-KR') + '원';
+          origPrice = p.orig ? p.orig.toLocaleString('ko-KR') + '원' : '';
+        } else {
+          salePrice = '가격 문의';
+          origPrice = '';
+        }
+      }
+
       document.getElementById('lb-img').src = img;
       document.getElementById('lb-img').alt = name;
       document.getElementById('lb-tag').textContent = tag;
@@ -968,6 +981,26 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') { closeLightbox(); closeInfoModal(); }
     });
+
+    // ── prices.js 가격 카드 동기화
+    (function bzSyncPrices() {
+      if (!window.BZ_PRICES) return;
+      document.querySelectorAll('.product-card').forEach(card => {
+        const h3 = card.querySelector('h3');
+        if (!h3) return;
+        const p = BZ_PRICES[h3.textContent.trim()];
+        if (!p) return;
+        const saleEl = card.querySelector('.price-sale');
+        const origEl = card.querySelector('.price-original');
+        if (p.sale !== null) {
+          if (saleEl) { saleEl.textContent = p.sale.toLocaleString('ko-KR') + '원'; saleEl.style.color = ''; }
+          if (origEl) { origEl.textContent = p.orig ? p.orig.toLocaleString('ko-KR') + '원' : ''; origEl.style.display = ''; }
+        } else {
+          if (saleEl) { saleEl.textContent = '가격 문의'; saleEl.style.color = 'var(--bz-gray)'; }
+          if (origEl) { origEl.textContent = ''; origEl.style.display = 'none'; }
+        }
+      });
+    })();
 
     // ── 이미지 우클릭·드래그 방지 (워터마크 보호)
     document.addEventListener('contextmenu', e => {

@@ -351,10 +351,12 @@ const GH_BRANCH  = 'main';
 const PRODUCTS = [
   { cat:'🎋 축하화환',  name:'3단 화환 A'      },
   { cat:'🎋 축하화환',  name:'3단 화환 고급형'  },
+  { cat:'🎋 축하화환',  name:'4단 화환'        },
   { cat:'🎋 축하화환',  name:'화환 대형'        },
   { cat:'🎋 축하화환',  name:'화환 특대형'      },
   { cat:'🕊️ 근조화환', name:'3단 근조 A'       },
   { cat:'🕊️ 근조화환', name:'3단 근조 고급형'  },
+  { cat:'🕊️ 근조화환', name:'4단 근조'        },
   { cat:'🕊️ 근조화환', name:'근조화환 대형'    },
   { cat:'🕊️ 근조화환', name:'근조화환 특대형'  },
   { cat:'🌿 동양난',    name:'동양란 A'         },
@@ -386,12 +388,14 @@ const PRODUCTS = [
 //  기본 가격 (prices.js와 동일값, 폴백용)
 // ════════════════════════════════════════════════════
 const DEFAULT_PRICES = {
-  "3단 화환 A"      :{ sale:69000,  orig:75000  },
-  "3단 화환 고급형" :{ sale:89000,  orig:99000  },
+  "3단 화환 A"      :{ sale:65000,  orig:75000  },
+  "3단 화환 고급형" :{ sale:85000,  orig:99000  },
+  "4단 화환"        :{ sale:150000, orig:165000 },
   "화환 대형"       :{ sale:null,   orig:null   },
   "화환 특대형"     :{ sale:null,   orig:null   },
-  "3단 근조 A"      :{ sale:69000,  orig:75000  },
-  "3단 근조 고급형" :{ sale:89000,  orig:99000  },
+  "3단 근조 A"      :{ sale:65000,  orig:75000  },
+  "3단 근조 고급형" :{ sale:85000,  orig:99000  },
+  "4단 근조"        :{ sale:150000, orig:165000 },
   "근조화환 대형"   :{ sale:null,   orig:null   },
   "근조화환 특대형" :{ sale:null,   orig:null   },
   "동양란 A"        :{ sale:69000,  orig:75000  },
@@ -643,19 +647,19 @@ function buildPricesJs() {
 
 window.BZ_PRICES = {
   // ── 축하화환 ──────────────────────────────
-${lines.slice(0,4).join('\n')}
+${lines.slice(0,5).join('\n')}
 
   // ── 근조화환 ──────────────────────────────
-${lines.slice(4,8).join('\n')}
+${lines.slice(5,10).join('\n')}
 
   // ── 동양난 ────────────────────────────────
-${lines.slice(8,12).join('\n')}
+${lines.slice(10,14).join('\n')}
 
   // ── 서양난 ────────────────────────────────
-${lines.slice(12,16).join('\n')}
+${lines.slice(14,18).join('\n')}
 
   // ── 관엽식물 ──────────────────────────────
-${lines.slice(16).join('\n')}
+${lines.slice(18).join('\n')}
 };
 `;
 }

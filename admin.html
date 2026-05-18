@@ -367,6 +367,9 @@ const PRODUCTS = [
   { cat:'🌺 서양난',    name:'서양란 고급형'    },
   { cat:'🌺 서양난',    name:'만천홍 서양란'    },
   { cat:'🌺 서양난',    name:'핑크 호접란'      },
+  { cat:'🪴 관엽식물',  name:'관엽식물 기본형'  },
+  { cat:'🪴 관엽식물',  name:'관엽식물 고급형'  },
+  { cat:'🪴 관엽식물',  name:'테이블용'         },
   { cat:'🪴 관엽식물',  name:'고무나무'         },
   { cat:'🪴 관엽식물',  name:'안시리움'         },
   { cat:'🪴 관엽식물',  name:'금전수'           },
@@ -406,6 +409,9 @@ const DEFAULT_PRICES = {
   "서양란 고급형"   :{ sale:109000, orig:120000 },
   "만천홍 서양란"   :{ sale:null,   orig:null   },
   "핑크 호접란"     :{ sale:null,   orig:null   },
+  "관엽식물 기본형" :{ sale:99000,  orig:null   },
+  "관엽식물 고급형" :{ sale:109000, orig:null   },
+  "테이블용"        :{ sale:65000,  orig:null   },
   "고무나무"        :{ sale:57000,  orig:62700  },
   "안시리움"        :{ sale:50000,  orig:55000  },
   "금전수"          :{ sale:62000,  orig:68200  },
@@ -744,7 +750,10 @@ ${lines.slice(10,14).join('\n')}
 ${lines.slice(14,18).join('\n')}
 
   // ── 관엽식물 ──────────────────────────────
-${lines.slice(18).join('\n')}
+${lines.slice(18,21).join('\n')}
+
+  // ── 관엽식물 (개별) ───────────────────────
+${lines.slice(21).join('\n')}
 };
 `;
 }

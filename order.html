@@ -174,6 +174,24 @@
                   분석
                 </button>
               </div>
+              <!-- URL 안내 문구 -->
+              <div style="margin-top:10px; padding:12px 14px; background:#f4faf6;
+                border:1px solid #c8e0ce; border-radius:10px; font-size:12px; color:#444; line-height:1.9;">
+                <div style="margin-bottom:6px; font-weight:700; color:#2d6a4f;">📋 URL 분석 지원 안내</div>
+                <div style="margin-bottom:4px;">✅ <strong>분석 가능</strong> — 일반 웹페이지 형태의 청첩장·부고장</div>
+                <div style="margin-bottom:8px; color:#777; padding-left:18px; font-size:11.5px;">
+                  예) 직접 제작한 웹 청첩장, 블로그형 부고 안내 페이지 등
+                </div>
+                <div style="margin-bottom:4px;">❌ <strong>분석 불가</strong> — 앱 기반 모바일 청첩장·부고장</div>
+                <div style="color:#777; padding-left:18px; font-size:11.5px;">
+                  예) 카카오 청첩장, BC카드 모바일 청첩장, 네이버 청첩장, 모바일청첩장 앱 링크 등
+                </div>
+                <div style="margin-top:10px; padding:8px 10px; background:#fff3cd;
+                  border-radius:8px; color:#7a5c00; font-size:11.5px;">
+                  📸 앱 기반 청첩장은 화면을 <strong>캡처(스크린샷)</strong> 후
+                  <strong>사진 업로드</strong> 탭을 이용해 주세요!
+                </div>
+              </div>
             </div>
 
             <!-- 이미지 미리보기 -->
@@ -460,8 +478,78 @@
   </footer>
 
   <script>
-    // ★ Gemini API Key — aistudio.google.com에서 발급 후 여기에 입력
-    const GEMINI_API_KEY = 'AIzaSyA6cdreHRRs6x1-zJ55rWlJVBfWV-iLEEw';
+    // ★ Groq API Key — console.groq.com에서 발급
+    const GROQ_API_KEY = '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';
+    const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+
+    // ── Groq 텍스트 호출 ─────────────────────────────────────
+    async function callGroqText(prompt) {
+      const res = await fetch(GROQ_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.1,
+          max_tokens: 500
+        })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(`AI 오류 (${res.status}): ${err?.error?.message || ''}`);
+      }
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || '';
+    }
+
+    // ── Groq 이미지(Vision) 호출 ─────────────────────────────
+    async function callGroqVision(prompt, base64, mimeType) {
+      const res = await fetch(GROQ_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+        body: JSON.stringify({
+          model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+          messages: [{
+            role: 'user',
+            content: [
+              { type: 'text', text: prompt },
+              { type: 'image_url', image_url: { url: `data:${mimeType};base64,${base64}` } }
+            ]
+          }],
+          temperature: 0.1,
+          max_tokens: 500
+        })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(`AI 오류 (${res.status}): ${err?.error?.message || ''}`);
+      }
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || '';
+    }
+
+    // 이미지 리사이즈/압축
+    function compressImage(file) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          const MAX = 1200;
+          let w = img.width, h = img.height;
+          if (w > MAX || h > MAX) {
+            if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+            else        { w = Math.round(w * MAX / h); h = MAX; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.85);
+        };
+        img.onerror = () => resolve(file); // 실패하면 원본 사용
+        img.src = url;
+      });
+    }
 
     // ── AI 탭 전환 ───────────────────────────────────────────
     function switchAiTab(tab) {
@@ -539,7 +627,7 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
     }
     function showAiError(msg) {
       document.getElementById('ai-loading').style.display = 'none';
-      document.getElementById('ai-error-msg').textContent = msg;
+      document.getElementById('ai-error-msg').innerHTML = msg.replace(/\n/g, '<br>');
       document.getElementById('ai-error').style.display = 'block';
     }
 
@@ -598,24 +686,10 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
           } catch (e) { lastErr = e.message; }
         }
 
-        if (!pageText) throw new Error('모든 프록시 실패: ' + lastErr + '\n사진 업로드 방식을 이용해 주세요.');
+        if (!pageText) throw new Error('이 URL은 자동 분석이 어렵습니다.\n카카오, BC카드, 네이버 등 앱 기반 청첩장은 URL 분석이 지원되지 않아요.\n📸 대신 청첩장 화면을 캡처해서 사진 업로드를 이용해 주세요!');
 
-        // Gemini API 호출 (텍스트 모드)
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: AI_PROMPT + '\n\n---\n\n' + pageText }] }],
-              generationConfig: { temperature: 0.1 }
-            })
-          }
-        );
-        if (!geminiRes.ok) throw new Error('AI 분석 오류: ' + geminiRes.status);
-
-        const geminiData = await geminiRes.json();
-        const rawText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        // Groq API 호출 (텍스트 모드)
+        const rawText = await callGroqText(AI_PROMPT + '\n\n---\n\n' + pageText);
         const jsonStr = rawText.replace(/```json|```/g, '').trim();
         const info = JSON.parse(jsonStr);
 
@@ -655,28 +729,19 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
       }, 400);
 
       try {
-        // base64 변환
+        // 이미지 압축 후 base64 변환
+        const compressed = await compressImage(file);
         const base64 = await new Promise((resolve) => {
           const r = new FileReader();
           r.onload = (e) => resolve(e.target.result.split(',')[1]);
-          r.readAsDataURL(file);
+          r.readAsDataURL(compressed);
         });
 
-        const mimeType = file.type || 'image/jpeg';
+        const mimeType = 'image/jpeg'; // 압축 후 항상 jpeg
 
-        // Gemini API 호출
-        const res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{
-                parts: [
-                  {
-                    text: `이 이미지는 한국의 청첩장(결혼 초대장) 또는 부고장(장례 알림)입니다.
+        const visionPrompt = `이 이미지는 한국의 청첩장(결혼 초대장) 또는 부고장(장례 알림)입니다.
 아래 JSON 형식으로 정보를 추출해주세요. 없는 정보는 null로 처리하세요.
-날짜는 반드시 YYYY-MM-DD 형식으로, 연도가 없으면 2025년으로 추정하세요.
+날짜는 반드시 YYYY-MM-DD 형식으로, 연도가 없으면 2026년으로 추정하세요.
 
 {
   "type": "wedding 또는 funeral",
@@ -688,22 +753,10 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
   "ribbon": "리본 문구 제안 (결혼이면 축하 문구, 장례면 근조 문구)"
 }
 
-JSON만 반환하고 다른 텍스트는 쓰지 마세요.`
-                  },
-                  {
-                    inline_data: { mime_type: mimeType, data: base64 }
-                  }
-                ]
-              }],
-              generationConfig: { temperature: 0.1 }
-            })
-          }
-        );
+JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
 
-        if (!res.ok) throw new Error('API 오류: ' + res.status);
-
-        const data = await res.json();
-        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        // Groq Vision API 호출
+        const rawText = await callGroqVision(visionPrompt, base64, mimeType);
         const jsonStr = rawText.replace(/```json|```/g, '').trim();
         const info = JSON.parse(jsonStr);
 
@@ -712,7 +765,7 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`
 
       } catch (err) {
         clearInterval(dotTimer);
-        showAiError('읽기에 실패했습니다. 사진이 선명한지 확인하거나 직접 입력해 주세요. (' + err.message + ')');
+        showAiError('읽기에 실패했습니다. 사진이 선명한지 확인하거나 직접 입력해 주세요.<br><small style="color:#999">' + err.message.replace(/\n/g, '<br>') + '</small>');
       }
     }
 

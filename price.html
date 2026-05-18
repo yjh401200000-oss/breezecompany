@@ -6,6 +6,7 @@
   <title>가격표 - 브리즈컴퍼니</title>
   <meta name="description" content="브리즈컴퍼니 가격표 — 서양란, 동양란, 관엽식물, 테이블용, 화환, 근조 화환의 합리적인 가격을 확인하세요." />
   <link rel="stylesheet" href="style.css" />
+  <script src="products.js"></script>
 </head>
 <body>
 
@@ -39,119 +40,7 @@
 
   <!-- ── PRICE CARDS ── -->
   <section style="background: var(--bz-surface);">
-    <div class="price-grid reveal">
-
-      <!-- 란 -->
-      <div class="price-card">
-        <div class="price-card-head">
-          <span class="cat-emoji">🌺</span>
-          <h3>란</h3>
-          <p>서양란 · 동양란</p>
-        </div>
-        <div class="price-items">
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">서양란 기본형</p>
-              <p class="price-item-use">개업 · 이사 · 취임 · 축하</p>
-            </div>
-            <p class="price-item-price">99,000원</p>
-          </div>
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">서양란 고급형</p>
-              <p class="price-item-use">개업 · 이사 · 취임 · 축하</p>
-            </div>
-            <p class="price-item-price">109,000원</p>
-          </div>
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">동양란 A</p>
-              <p class="price-item-use">축하 · 감사 · 선물</p>
-            </div>
-            <p class="price-item-price">69,000원</p>
-          </div>
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">동양란 B</p>
-              <p class="price-item-use">축하 · 감사 · 선물</p>
-            </div>
-            <p class="price-item-price">79,000원</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 관엽식물 & 테이블용 -->
-      <div class="price-card">
-        <div class="price-card-head">
-          <span class="cat-emoji">🌿</span>
-          <h3>관엽식물 &amp; 테이블용</h3>
-          <p>공기정화식물 · 계절꽃</p>
-        </div>
-        <div class="price-items">
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">관엽식물 기본형</p>
-              <p class="price-item-use">인테리어 · 공기정화 · 선물</p>
-            </div>
-            <p class="price-item-price">99,000원</p>
-          </div>
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">관엽식물 고급형</p>
-              <p class="price-item-use">인테리어 · 공기정화 · 선물</p>
-            </div>
-            <p class="price-item-price">109,000원</p>
-          </div>
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">테이블용</p>
-              <p class="price-item-use">생일 · 기념일 · 축하 · 감사</p>
-            </div>
-            <p class="price-item-price">65,000원</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 화환 & 근조 -->
-      <div class="price-card">
-        <div class="price-card-head">
-          <span class="cat-emoji">🎋</span>
-          <h3>화환 &amp; 근조</h3>
-          <p>3단 화환 · 근조 화환</p>
-        </div>
-        <div class="price-items">
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">3단 화환 A</p>
-              <p class="price-item-use">개업 · 취임 · 축하</p>
-            </div>
-            <p class="price-item-price">69,000원</p>
-          </div>
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">3단 화환 고급형</p>
-              <p class="price-item-use">개업 · 취임 · 고급 행사</p>
-            </div>
-            <p class="price-item-price">89,000원</p>
-          </div>
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">3단 근조 A</p>
-              <p class="price-item-use">조문 · 격식 행사</p>
-            </div>
-            <p class="price-item-price">69,000원</p>
-          </div>
-          <div class="price-item">
-            <div class="price-item-left">
-              <p class="price-item-name">3단 근조 고급형</p>
-              <p class="price-item-use">조문 · 격식 고급 행사</p>
-            </div>
-            <p class="price-item-price">89,000원</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <div class="price-grid reveal" id="price-grid-dynamic"></div>
 
     <!-- 안내 -->
     <div class="price-note reveal">
@@ -237,6 +126,24 @@
   </footer>
 
   <script>
+    (function() {
+      const grid = document.getElementById('price-grid-dynamic');
+      (window.BZ_PRODUCTS || []).forEach(g => {
+        const items = g.items.map(item => {
+          const priceText = !item.price ? '가격 문의'
+            : item.price2 ? `${item.price.toLocaleString()}원 / ${item.price2.toLocaleString()}원`
+            : `${item.price.toLocaleString()}원`;
+          return `<div class="price-item"><div class="price-item-left">
+            <p class="price-item-name">${item.name}</p>
+            <p class="price-item-use">${item.use}</p>
+          </div><p class="price-item-price">${priceText}</p></div>`;
+        }).join('');
+        grid.innerHTML += `<div class="price-card"><div class="price-card-head">
+          <span class="cat-emoji">${g.emoji}</span><h3>${g.group}</h3><p>${g.desc}</p>
+        </div><div class="price-items">${items}</div></div>`;
+      });
+    })();
+
     const header = document.getElementById('site-header');
     window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 10));
     const toggle = document.getElementById('navToggle');

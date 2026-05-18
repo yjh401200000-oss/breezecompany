@@ -156,6 +156,59 @@
     .adm-status-bar.err    { background: #fdecea; color: var(--red); display: flex; }
     .adm-status-bar.loading{ background: var(--gray-l); color: var(--text); display: flex; }
 
+    /* ──────── 상품 관리 ──────── */
+    .prod-group { margin-bottom: 20px; border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .prod-group-head {
+      background: var(--green-l); padding: 10px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .prod-group-head input {
+      border: 1.5px solid var(--border); border-radius: 8px;
+      padding: 5px 10px; font-size: 14px; font-family: inherit; outline: none;
+      transition: border .2s; background: #fff;
+    }
+    .prod-group-head input:focus { border-color: var(--green); }
+    .prod-group-head .inp-emoji { width: 54px; text-align: center; font-size: 18px; }
+    .prod-group-head .inp-gname { flex: 1; font-weight: 600; }
+    .prod-group-head .inp-gdesc { flex: 1.5; color: var(--gray); }
+    .btn-del-group {
+      padding: 4px 10px; background: #fdecea; color: var(--red);
+      border: 1px solid #f5c6c2; border-radius: 6px;
+      font-size: 12px; cursor: pointer; white-space: nowrap;
+    }
+    .prod-item-table { width: 100%; border-collapse: collapse; }
+    .prod-item-table th {
+      background: var(--gray-l); font-size: 11px; font-weight: 600;
+      color: var(--gray); text-align: left; padding: 8px 12px;
+      letter-spacing: .4px;
+    }
+    .prod-item-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+    .prod-item-table tr:last-child td { border-bottom: none; }
+    .prod-item-table input {
+      width: 100%; padding: 6px 8px;
+      border: 1.5px solid var(--border); border-radius: 7px;
+      font-size: 13px; font-family: inherit; outline: none; transition: border .2s;
+    }
+    .prod-item-table input:focus { border-color: var(--green); }
+    .prod-item-table input.inp-price { text-align: right; }
+    .btn-del-row {
+      padding: 5px 9px; background: #fdecea; color: var(--red);
+      border: 1px solid #f5c6c2; border-radius: 6px;
+      font-size: 13px; cursor: pointer; line-height: 1;
+    }
+    .btn-add-item {
+      margin: 10px 12px; padding: 7px 14px;
+      background: var(--green-l); color: var(--green);
+      border: 1.5px dashed var(--green); border-radius: 8px;
+      font-size: 13px; font-weight: 600; cursor: pointer; width: calc(100% - 24px);
+    }
+    .btn-add-group {
+      width: 100%; padding: 10px; margin-top: 4px;
+      background: var(--gray-l); color: var(--gray);
+      border: 1.5px dashed var(--border); border-radius: 10px;
+      font-size: 14px; cursor: pointer;
+    }
+
     /* ──────── 가격 테이블 ──────── */
     .price-section-title {
       font-size: 15px; font-weight: 700; color: var(--green);
@@ -309,6 +362,22 @@
       </div>
     </div>
 
+    <!-- ── 상품 관리 ── -->
+    <div class="adm-card">
+      <div class="adm-card-header open" id="prod-header" onclick="toggleCard('prod')">
+        <span>🛍️</span>
+        <h2>상품 관리 (고객 노출 상품)</h2>
+        <span class="toggle-ico" id="prod-ico" style="transform:rotate(90deg)">›</span>
+      </div>
+      <div class="adm-card-body" id="prod-body">
+        <p style="font-size:13px; color:var(--gray); margin-bottom:16px;">
+          가격표(price.html)와 주문서(order.html)에 보이는 상품 목록을 관리합니다.
+        </p>
+        <div id="prod-groups-wrap"></div>
+        <button class="btn-add-group" onclick="addProductGroup()">＋ 그룹 추가</button>
+      </div>
+    </div>
+
     <!-- ── 가격 관리 테이블 ── -->
     <div class="adm-card">
       <div class="adm-card-header open" id="price-header" onclick="toggleCard('price')">
@@ -424,6 +493,197 @@ const DEFAULT_PRICES = {
 };
 
 // ════════════════════════════════════════════════════
+//  GitHub 파일 저장 공통 헬퍼
+// ════════════════════════════════════════════════════
+async function saveFileToGitHub(pat, filename, content, commitMsg) {
+  // SHA 조회
+  const getRes = await fetch(
+    `https://api.github.com/repos/${GH_REPO}/contents/${filename}?ref=${GH_BRANCH}`,
+    { headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json' } }
+  );
+  let sha = null;
+  if (getRes.ok) { const d = await getRes.json(); sha = d.sha; }
+  else if (getRes.status !== 404) throw new Error(`${filename} 조회 실패 (HTTP ${getRes.status})`);
+
+  const encoded = btoa(unescape(encodeURIComponent(content)));
+  const body = { message: commitMsg, content: encoded, branch: GH_BRANCH };
+  if (sha) body.sha = sha;
+
+  const putRes = await fetch(
+    `https://api.github.com/repos/${GH_REPO}/contents/${filename}`,
+    {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }
+  );
+  if (!putRes.ok) {
+    const e = await putRes.json().catch(() => ({}));
+    throw new Error(`${filename} 저장 실패: ${e.message || ''} (HTTP ${putRes.status})`);
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  상품 관리 UI
+// ════════════════════════════════════════════════════
+let _prodData = []; // 현재 상품 데이터
+
+function initProductAdmin() {
+  // products.js 로드 시도
+  const script = document.createElement('script');
+  script.src = 'products.js?t=' + Date.now();
+  script.onload = () => {
+    _prodData = JSON.parse(JSON.stringify(window.BZ_PRODUCTS || []));
+    renderProductAdmin();
+  };
+  script.onerror = () => {
+    _prodData = getDefaultProducts();
+    renderProductAdmin();
+  };
+  document.head.appendChild(script);
+}
+
+function getDefaultProducts() {
+  return [
+    { emoji:'🌺', group:'란', desc:'서양란 · 동양란', items:[
+      { name:'서양란 화이트', use:'개업 · 이사 · 취임 · 축하', price:99000, price2:109000 },
+      { name:'동양란 A',     use:'축하 · 감사 · 선물',         price:69000, price2:null   }
+    ]},
+    { emoji:'🌿', group:'관엽식물 & 테이블용', desc:'공기정화식물 · 계절꽃', items:[
+      { name:'관엽식물 기본형', use:'인테리어 · 공기정화 · 선물', price:99000, price2:null }
+    ]},
+    { emoji:'🎋', group:'화환 & 근조', desc:'3단 화환 · 근조 화환', items:[
+      { name:'3단 화환 A', use:'개업 · 취임 · 축하', price:69000, price2:null }
+    ]}
+  ];
+}
+
+function renderProductAdmin() {
+  const wrap = document.getElementById('prod-groups-wrap');
+  wrap.innerHTML = '';
+  _prodData.forEach((g, gi) => wrap.appendChild(buildGroupEl(g, gi)));
+}
+
+function buildGroupEl(g, gi) {
+  const div = document.createElement('div');
+  div.className = 'prod-group';
+  div.dataset.gi = gi;
+
+  // 그룹 헤더
+  const head = document.createElement('div');
+  head.className = 'prod-group-head';
+  head.innerHTML = `
+    <input class="inp-emoji" value="${g.emoji}" placeholder="🌺" data-field="emoji" data-gi="${gi}" />
+    <input class="inp-gname" value="${g.group}" placeholder="그룹명" data-field="group" data-gi="${gi}" />
+    <input class="inp-gdesc" value="${g.desc}"  placeholder="설명" data-field="desc" data-gi="${gi}" />
+    <button class="btn-del-group" onclick="deleteGroup(${gi})">그룹 삭제</button>`;
+  div.appendChild(head);
+
+  // 상품 테이블
+  const table = document.createElement('table');
+  table.className = 'prod-item-table';
+  table.innerHTML = `<thead><tr>
+    <th style="width:25%">상품명</th>
+    <th style="width:35%">용도 설명</th>
+    <th style="width:13%">가격(원)</th>
+    <th style="width:13%">2단가격(원)</th>
+    <th style="width:6%"></th>
+  </tr></thead><tbody id="prod-tbody-${gi}"></tbody>`;
+  div.appendChild(table);
+
+  const tbody = table.querySelector('tbody');
+  g.items.forEach((item, ii) => tbody.appendChild(buildItemRow(gi, ii, item)));
+
+  // 상품 추가 버튼
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn-add-item';
+  addBtn.textContent = '＋ 상품 추가';
+  addBtn.onclick = () => addProductItem(gi);
+  div.appendChild(addBtn);
+
+  return div;
+}
+
+function buildItemRow(gi, ii, item) {
+  const tr = document.createElement('tr');
+  tr.dataset.ii = ii;
+  tr.innerHTML = `
+    <td><input value="${item.name}"  placeholder="상품명"   data-gi="${gi}" data-ii="${ii}" data-field="name"   onchange="updateProduct(this)" /></td>
+    <td><input value="${item.use}"   placeholder="용도 설명" data-gi="${gi}" data-ii="${ii}" data-field="use"    onchange="updateProduct(this)" /></td>
+    <td><input class="inp-price" type="number" value="${item.price ?? ''}" placeholder="69000" data-gi="${gi}" data-ii="${ii}" data-field="price"  onchange="updateProduct(this)" /></td>
+    <td><input class="inp-price" type="number" value="${item.price2 ?? ''}" placeholder="없으면 빈칸" data-gi="${gi}" data-ii="${ii}" data-field="price2" onchange="updateProduct(this)" /></td>
+    <td><button class="btn-del-row" onclick="deleteProductItem(${gi},${ii})">🗑️</button></td>`;
+  return tr;
+}
+
+function updateProduct(input) {
+  const gi = +input.dataset.gi, ii = +input.dataset.ii, field = input.dataset.field;
+  let val = input.value;
+  if (field === 'price' || field === 'price2') val = val === '' ? null : parseInt(val) || null;
+  _prodData[gi].items[ii][field] = val;
+}
+
+function deleteProductItem(gi, ii) {
+  if (!confirm('이 상품을 삭제할까요?')) return;
+  _prodData[gi].items.splice(ii, 1);
+  renderProductAdmin();
+}
+
+function addProductItem(gi) {
+  _prodData[gi].items.push({ name: '', use: '', price: null, price2: null });
+  renderProductAdmin();
+  // 마지막 행 name 포커스
+  const tbody = document.getElementById(`prod-tbody-${gi}`);
+  if (tbody) tbody.lastElementChild?.querySelector('input')?.focus();
+}
+
+function deleteGroup(gi) {
+  if (!confirm('이 그룹 전체를 삭제할까요?')) return;
+  _prodData.splice(gi, 1);
+  renderProductAdmin();
+}
+
+function addProductGroup() {
+  // 그룹 헤더 입력 전에 먼저 배열에 추가
+  _prodData.push({ emoji: '🌸', group: '새 그룹', desc: '설명', items: [] });
+  renderProductAdmin();
+}
+
+// 그룹 헤더 입력 변경 반영 (oninput 대신 onchange 사용 시 배열 동기화)
+document.addEventListener('input', e => {
+  const inp = e.target;
+  if (!inp.dataset.gi || !inp.dataset.field) return;
+  const gi = +inp.dataset.gi, field = inp.dataset.field;
+  if (['emoji','group','desc'].includes(field)) _prodData[gi][field] = inp.value;
+});
+
+// products.js 파일 내용 생성
+function buildProductsJs() {
+  // UI에서 최신 값 읽기
+  document.querySelectorAll('[data-field][data-gi][data-ii]').forEach(updateProduct);
+  document.querySelectorAll('[data-field][data-gi]:not([data-ii])').forEach(inp => {
+    const gi = +inp.dataset.gi, field = inp.dataset.field;
+    if (['emoji','group','desc'].includes(field)) _prodData[gi][field] = inp.value;
+  });
+
+  const now = new Date().toLocaleString('ko-KR');
+  const json = JSON.stringify(_prodData, null, 2)
+    .replace(/"([^"]+)":/g, '$1:')   // key에서 따옴표 제거 (JS 객체처럼)
+    .replace(/null/g, 'null');
+
+  // 사실 JSON.stringify 결과를 그대로 써도 되므로 안전하게 JSON 방식 유지
+  const content = `// ============================================================
+//  브리즈컴퍼니 상품 목록 (products.js)
+//  마지막 수정: ${now}
+//  ※ 직접 수정하지 말고 관리자 페이지(admin.html)를 이용하세요.
+// ============================================================
+
+window.BZ_PRODUCTS = ${JSON.stringify(_prodData, null, 2)};
+`;
+  return content;
+}
+
+// ════════════════════════════════════════════════════
 //  로그인 / 로그아웃
 // ════════════════════════════════════════════════════
 function doLogin() {
@@ -480,11 +740,12 @@ function initAdmin() {
   if (pat) {
     document.getElementById('pat-input').value = pat;
     showPatStatus('ok', '✅ GitHub 토큰이 저장되어 있습니다.');
-    // GitHub에서 최신 prices.js 불러오기
     loadPricesFromGitHub(pat);
   } else {
     buildTable(DEFAULT_PRICES);
   }
+  // 상품 관리 초기화
+  initProductAdmin();
 }
 
 // ════════════════════════════════════════════════════
@@ -677,44 +938,14 @@ async function saveToGitHub() {
   setSaveBtnLoading(true);
   setStatus('loading', '⏳ GitHub에 저장 중…');
 
+  const ts = new Date().toLocaleString('ko-KR');
   try {
-    // 1) 현재 파일의 SHA 가져오기
-    const getRes = await fetch(
-      `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
-      { headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json' } }
-    );
-    if (!getRes.ok) throw new Error('파일 조회 실패 (HTTP ' + getRes.status + ')');
-    const fileData = await getRes.json();
-    const sha = fileData.sha;
+    // prices.js 저장
+    await saveFileToGitHub(pat, GH_FILE, buildPricesJs(), `[가격 수정] ${ts}`);
+    // products.js 저장
+    await saveFileToGitHub(pat, 'products.js', buildProductsJs(), `[상품 수정] ${ts}`);
 
-    // 2) 새 파일 내용 생성 + Base64 인코딩
-    const newContent = buildPricesJs();
-    const encoded    = btoa(unescape(encodeURIComponent(newContent)));
-
-    // 3) PUT으로 업데이트
-    const putRes = await fetch(
-      `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${pat}`,
-          'Accept':        'application/vnd.github.v3+json',
-          'Content-Type':  'application/json',
-        },
-        body: JSON.stringify({
-          message: `[가격 수정] ${new Date().toLocaleString('ko-KR')}`,
-          content: encoded,
-          sha:     sha,
-          branch:  GH_BRANCH,
-        }),
-      }
-    );
-    if (!putRes.ok) {
-      const errBody = await putRes.json().catch(() => ({}));
-      throw new Error((errBody.message || '') + ' (HTTP ' + putRes.status + ')');
-    }
-
-    setStatus('ok', '🎉 저장 완료! 저장 내용을 확인 중…');
+    setStatus('ok', '🎉 저장 완료! 약 1~2분 후 사이트에 반영됩니다.');
     setTimeout(() => loadPricesFromGitHub(pat), 2000);
   } catch (e) {
     setStatus('err', '❌ 저장 실패: ' + e.message + ' — 토큰 권한(Contents: Read and write)을 확인해주세요.');

@@ -6,6 +6,7 @@
   <title>주문/문의 - 브리즈컴퍼니</title>
   <meta name="description" content="브리즈컴퍼니 주문 및 문의 — 원하시는 상품을 양식으로 문의해 주시면 카카오톡 채널로 빠르게 도와드립니다." />
   <link rel="stylesheet" href="style.css" />
+  <script src="products.js"></script>
 </head>
 <body>
 
@@ -242,28 +243,6 @@
             <label for="product">상품 선택 <span class="req">*</span></label>
             <select id="product" onchange="calcPrice()">
               <option value="">상품을 선택해 주세요</option>
-              <optgroup label="🌺 서양란">
-                <option value="서양란 화이트" data-price="99000" data-price2="109000">서양란 화이트 (99,000 / 109,000원)</option>
-                <option value="서양란 핑크" data-price="99000" data-price2="109000">서양란 핑크 (99,000 / 109,000원)</option>
-                <option value="서양란 옐로우" data-price="99000" data-price2="109000">서양란 옐로우 (99,000 / 109,000원)</option>
-              </optgroup>
-              <optgroup label="🌿 동양란">
-                <option value="동양란 A" data-price="69000">동양란 A (69,000원)</option>
-                <option value="동양란 B" data-price="79000">동양란 B (79,000원)</option>
-              </optgroup>
-              <optgroup label="🎋 화환">
-                <option value="3단 화환 A" data-price="69000">3단 화환 A (69,000원)</option>
-                <option value="3단 화환 고급형" data-price="89000">3단 화환 고급형 (89,000원)</option>
-              </optgroup>
-              <optgroup label="🕊️ 근조">
-                <option value="3단 근조 A" data-price="69000">3단 근조 A (69,000원)</option>
-                <option value="3단 근조 고급형" data-price="89000">3단 근조 고급형 (89,000원)</option>
-              </optgroup>
-              <optgroup label="🌱 기타">
-                <option value="관엽식물(공기정화식물)" data-price="99000" data-price2="109000">관엽식물 (99,000 / 109,000원)</option>
-                <option value="테이블용" data-price="65000">테이블용 (65,000원)</option>
-                <option value="기타 문의">기타 문의</option>
-              </optgroup>
             </select>
           </div>
 
@@ -478,6 +457,35 @@
   </footer>
 
   <script>
+    // ── 상품 드롭다운 동적 생성 ──────────────────────────────
+    (function() {
+      const sel = document.getElementById('product');
+      const products = window.BZ_PRODUCTS || [];
+      products.forEach(g => {
+        const og = document.createElement('optgroup');
+        og.label = g.emoji + ' ' + g.group;
+        g.items.forEach(item => {
+          const opt = document.createElement('option');
+          opt.value = item.name;
+          if (item.price)  opt.dataset.price  = item.price;
+          if (item.price2) opt.dataset.price2 = item.price2;
+          let label = item.name;
+          if (item.price && item.price2) label += ` (${item.price.toLocaleString()} / ${item.price2.toLocaleString()}원)`;
+          else if (item.price)           label += ` (${item.price.toLocaleString()}원)`;
+          opt.textContent = label;
+          og.appendChild(opt);
+        });
+        sel.appendChild(og);
+      });
+      // 기타 문의 항목
+      const ogEtc = document.createElement('optgroup');
+      ogEtc.label = '🌱 기타';
+      const optEtc = document.createElement('option');
+      optEtc.value = '기타 문의'; optEtc.textContent = '기타 문의';
+      ogEtc.appendChild(optEtc);
+      sel.appendChild(ogEtc);
+    })();
+
     // ★ Groq API Key — console.groq.com에서 발급
     const GROQ_API_KEY = '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';
     const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';

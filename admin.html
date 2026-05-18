@@ -156,23 +156,6 @@
     .adm-status-bar.err    { background: #fdecea; color: var(--red); display: flex; }
     .adm-status-bar.loading{ background: var(--gray-l); color: var(--text); display: flex; }
 
-    /* ──────── 상품명 수정 ──────── */
-    .name-section-title {
-      font-size: 14px; font-weight: 700; color: var(--green);
-      padding: 10px 20px 8px; border-bottom: 1px solid var(--green-l);
-      background: var(--green-l);
-    }
-    .name-table { width: 100%; border-collapse: collapse; }
-    .name-table td { padding: 9px 16px; border-bottom: 1px solid var(--border); }
-    .name-table tr:last-child td { border-bottom: none; }
-    .name-table .td-orig { font-size: 13px; color: var(--gray); width: 40%; }
-    .name-input {
-      width: 100%; padding: 7px 10px;
-      border: 1.5px solid var(--border); border-radius: 8px;
-      font-size: 14px; font-family: inherit; outline: none; transition: border .2s;
-    }
-    .name-input:focus { border-color: var(--green); }
-
     /* ──────── 가격 테이블 ──────── */
     .price-section-title {
       font-size: 15px; font-weight: 700; color: var(--green);
@@ -326,21 +309,6 @@
       </div>
     </div>
 
-    <!-- ── 상품명 수정 ── -->
-    <div class="adm-card">
-      <div class="adm-card-header open" id="prod-header" onclick="toggleCard('prod')">
-        <span>🏷️</span>
-        <h2>상품명 수정</h2>
-        <span class="toggle-ico" id="prod-ico" style="transform:rotate(90deg)">›</span>
-      </div>
-      <div class="adm-card-body" id="prod-body">
-        <p style="font-size:13px; color:var(--gray); margin-bottom:16px;">
-          가격표와 주문서에 표시되는 상품명을 수정하세요. 저장하면 사이트에 바로 반영됩니다.
-        </p>
-        <div id="prod-name-wrap"></div>
-      </div>
-    </div>
-
     <!-- ── 가격 관리 테이블 ── -->
     <div class="adm-card">
       <div class="adm-card-header open" id="price-header" onclick="toggleCard('price')">
@@ -486,57 +454,6 @@ async function saveFileToGitHub(pat, filename, content, commitMsg) {
   }
 }
 
-// ════════════════════════════════════════════════════
-//  상품명 수정 UI
-// ════════════════════════════════════════════════════
-let _prodData = [];
-
-function initProductAdmin() {
-  const script = document.createElement('script');
-  script.src = 'products.js?t=' + Date.now();
-  script.onload = () => {
-    _prodData = JSON.parse(JSON.stringify(window.BZ_PRODUCTS || []));
-    renderNameTable();
-  };
-  script.onerror = renderNameTable;
-  document.head.appendChild(script);
-}
-
-function renderNameTable() {
-  const wrap = document.getElementById('prod-name-wrap');
-  let html = '';
-  _prodData.forEach((g, gi) => {
-    html += `<div class="name-section-title">${g.emoji} ${g.group}</div>
-    <table class="name-table"><tbody>`;
-    g.items.forEach((item, ii) => {
-      html += `<tr>
-        <td class="td-orig">${item.name}</td>
-        <td><input class="name-input" id="pname_${gi}_${ii}" value="${item.name}" placeholder="${item.name}" /></td>
-      </tr>`;
-    });
-    html += '</tbody></table>';
-  });
-  wrap.innerHTML = html;
-}
-
-function buildProductsJs() {
-  // UI 입력값 반영
-  _prodData.forEach((g, gi) => {
-    g.items.forEach((item, ii) => {
-      const inp = document.getElementById(`pname_${gi}_${ii}`);
-      if (inp) item.name = inp.value.trim() || item.name;
-    });
-  });
-  const now = new Date().toLocaleString('ko-KR');
-  return `// ============================================================
-//  브리즈컴퍼니 상품 목록 (products.js)
-//  마지막 수정: ${now}
-//  ※ 직접 수정하지 말고 관리자 페이지(admin.html)를 이용하세요.
-// ============================================================
-
-window.BZ_PRODUCTS = ${JSON.stringify(_prodData, null, 2)};
-`;
-}
 
 // ════════════════════════════════════════════════════
 //  로그인 / 로그아웃
@@ -599,8 +516,6 @@ function initAdmin() {
   } else {
     buildTable(DEFAULT_PRICES);
   }
-  // 상품 관리 초기화
-  initProductAdmin();
 }
 
 // ════════════════════════════════════════════════════
@@ -692,7 +607,10 @@ function buildTable(prices) {
 
     html += `
       <tr>
-        <td class="td-name">${name}</td>
+        <td class="td-name">
+          <input class="price-input" id="pname_${safeId}" value="${name}"
+            style="width:100%; font-weight:500;" placeholder="${name}" />
+        </td>
         <td class="td-price">
           <input class="price-input" type="number" id="sale_${safeId}"
                  value="${isInquiry ? '' : p.sale}"
@@ -745,6 +663,7 @@ function buildPricesJs() {
 
   PRODUCTS.forEach(({ name }) => {
     const safeId  = name.replace(/\s/g, '_');
+    const newName = (document.getElementById('pname_' + safeId)?.value.trim()) || name;
     const isInq   = document.getElementById('inq_' + safeId).checked;
     const saleVal = document.getElementById('sale_' + safeId).value.trim();
     const origVal = document.getElementById('orig_' + safeId).value.trim();
@@ -752,7 +671,7 @@ function buildPricesJs() {
     const sale = isInq || !saleVal ? 'null' : parseInt(saleVal);
     const orig = isInq || !origVal ? 'null' : parseInt(origVal);
 
-    lines.push(`  "${name}"${' '.repeat(Math.max(1, 18 - name.length))}: { sale: ${sale},${' '.repeat(Math.max(1, 8 - String(sale).length))} orig: ${orig}  },`);
+    lines.push(`  "${newName}"${' '.repeat(Math.max(1, 18 - newName.length))}: { sale: ${sale},${' '.repeat(Math.max(1, 8 - String(sale).length))} orig: ${orig}  },`);
   });
 
   return `// ============================================================
@@ -795,10 +714,7 @@ async function saveToGitHub() {
 
   const ts = new Date().toLocaleString('ko-KR');
   try {
-    // prices.js 저장
-    await saveFileToGitHub(pat, GH_FILE, buildPricesJs(), `[가격 수정] ${ts}`);
-    // products.js 저장
-    await saveFileToGitHub(pat, 'products.js', buildProductsJs(), `[상품 수정] ${ts}`);
+    await saveFileToGitHub(pat, GH_FILE, buildPricesJs(), `[가격/상품명 수정] ${ts}`);
 
     setStatus('ok', '🎉 저장 완료! 약 1~2분 후 사이트에 반영됩니다.');
     setTimeout(() => loadPricesFromGitHub(pat), 2000);

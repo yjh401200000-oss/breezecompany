@@ -483,26 +483,10 @@ header.scrolled {
 
 .logo {
   display: flex;
-  align-items: center;
-  text-decoration: none;
+  flex-direction: column;
+  line-height: 1.2;
+  gap: 2px;
 }
-.logo-img {
-  height: 52px;
-  width: auto;
-  display: block;
-  object-fit: contain;
-}
-/* 푸터 로고 이미지 */
-.footer-logo-img {
-  height: 44px;
-  width: auto;
-  display: block;
-  object-fit: contain;
-  /* 다크 배경 위에서 어울리도록 밝기 조절 */
-  filter: brightness(0) invert(1);
-  opacity: 0.85;
-}
-/* 기존 텍스트 로고 호환 (혹시 남아있을 경우) */
 .logo-main {
   font-family: var(--bz-font-kr);
   font-size: 20px;

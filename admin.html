@@ -367,9 +367,6 @@ const PRODUCTS = [
   { cat:'🌺 서양난',    name:'서양란 고급형'    },
   { cat:'🌺 서양난',    name:'만천홍 서양란'    },
   { cat:'🌺 서양난',    name:'핑크 호접란'      },
-  { cat:'🪴 관엽식물',  name:'관엽식물 기본형'  },
-  { cat:'🪴 관엽식물',  name:'관엽식물 고급형'  },
-  { cat:'🪴 관엽식물',  name:'테이블용'         },
   { cat:'🪴 관엽식물',  name:'고무나무'         },
   { cat:'🪴 관엽식물',  name:'안시리움'         },
   { cat:'🪴 관엽식물',  name:'금전수'           },
@@ -409,9 +406,6 @@ const DEFAULT_PRICES = {
   "서양란 고급형"   :{ sale:109000, orig:120000 },
   "만천홍 서양란"   :{ sale:null,   orig:null   },
   "핑크 호접란"     :{ sale:null,   orig:null   },
-  "관엽식물 기본형" :{ sale:99000,  orig:null   },
-  "관엽식물 고급형" :{ sale:109000, orig:null   },
-  "테이블용"        :{ sale:65000,  orig:null   },
   "고무나무"        :{ sale:57000,  orig:62700  },
   "안시리움"        :{ sale:50000,  orig:55000  },
   "금전수"          :{ sale:62000,  orig:68200  },
@@ -556,12 +550,35 @@ async function loadPricesFromGitHub(pat) {
     const text = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
     const prices = parsePricesJs(text);
     buildTable(prices);
+    await syncDisplayNames();  // products.js에서 현재 표시명 동기화
     setStatus('ok', '✅ 가격 확인 완료. 수정 후 저장하세요. (사이트 반영까지 약 1~2분 소요)');
     showPatStatus('ok', '✅ GitHub 토큰 연결 완료.');
   } catch(e) {
     buildTable(DEFAULT_PRICES);
     setStatus('err', '⚠️ GitHub 연결 실패 — 기본 가격으로 표시합니다. 토큰을 확인해주세요.');
     showPatStatus('err', '❌ 토큰 오류 또는 네트워크 문제 (' + e.message + ')');
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  products.js에서 현재 표시명 읽어 pname_ 입력칸 동기화
+// ════════════════════════════════════════════════════
+async function syncDisplayNames() {
+  try {
+    const res = await fetch('products.js?_=' + Date.now(), { cache: 'no-store' });
+    const text = await res.text();
+    // JSON 배열 파싱
+    const match = text.match(/window\.BZ_PRODUCTS\s*=\s*(\[[\s\S]*?\]);\s*$/m);
+    if (!match) return;
+    const groups = JSON.parse(match[1]);
+    groups.forEach(g => (g.items || []).forEach(item => {
+      if (!item.key || item.key === item.name) return; // 이름 변경이 있을 때만
+      const safeId = item.key.replace(/\s/g, '_');
+      const el = document.getElementById('pname_' + safeId);
+      if (el) el.value = item.name;
+    }));
+  } catch(e) {
+    console.warn('표시명 동기화 실패:', e);
   }
 }
 
@@ -747,7 +764,7 @@ function buildPricesJs() {
 
   PRODUCTS.forEach(({ name }) => {
     const safeId  = name.replace(/\s/g, '_');
-    const newName = (document.getElementById('pname_' + safeId)?.value.trim()) || name;
+    // prices.js 키는 항상 원본 이름 고정 (표시명이 바뀌어도 키는 불변)
     const isInq   = document.getElementById('inq_' + safeId).checked;
     const saleVal = document.getElementById('sale_' + safeId).value.trim();
     const origVal = document.getElementById('orig_' + safeId).value.trim();
@@ -755,7 +772,7 @@ function buildPricesJs() {
     const sale = isInq || !saleVal ? 'null' : parseInt(saleVal);
     const orig = isInq || !origVal ? 'null' : parseInt(origVal);
 
-    lines.push(`  "${newName}"${' '.repeat(Math.max(1, 18 - newName.length))}: { sale: ${sale},${' '.repeat(Math.max(1, 8 - String(sale).length))} orig: ${orig}  },`);
+    lines.push(`  "${name}"${' '.repeat(Math.max(1, 18 - name.length))}: { sale: ${sale},${' '.repeat(Math.max(1, 8 - String(sale).length))} orig: ${orig}  },`);
   });
 
   return `// ============================================================
@@ -778,10 +795,7 @@ ${lines.slice(10,14).join('\n')}
 ${lines.slice(14,18).join('\n')}
 
   // ── 관엽식물 ──────────────────────────────
-${lines.slice(18,21).join('\n')}
-
-  // ── 관엽식물 (개별) ───────────────────────
-${lines.slice(21).join('\n')}
+${lines.slice(18).join('\n')}
 };
 `;
 }

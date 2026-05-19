@@ -725,7 +725,7 @@ function buildProductsJs() {
       const isInq  = document.getElementById('inq_' + safeId)?.checked;
       const saleVal = document.getElementById('sale_' + safeId)?.value.trim();
       const sale = isInq || !saleVal ? null : parseInt(saleVal);
-      return { name: newName, use: item.use, price: sale, price2: null };
+      return { key: item.origName, name: newName, use: item.use, price: sale, price2: null };
     })
   }));
   return `// ============================================================

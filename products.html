@@ -1115,23 +1115,31 @@
     );
 
     // ── Lightbox
-    function openLightbox(img, name, salePrice, origPrice, tag, desc1, desc2, desc3, sizeInfo) {
-      // 🔄 prices.js 최신 가격 반영
-      if (window.BZ_PRICES && window.BZ_PRICES[name]) {
-        const p = window.BZ_PRICES[name];
-        if (p.sale !== null) {
-          salePrice = p.sale.toLocaleString('ko-KR') + '원';
-          origPrice = p.orig ? p.orig.toLocaleString('ko-KR') + '원' : '';
-        } else {
-          salePrice = '가격 문의';
-          origPrice = '';
+    function openLightbox(img, keyName, salePrice, origPrice, tag, desc1, desc2, desc3, sizeInfo) {
+      // 🔄 products.js 최신 이름·가격 반영
+      let name = keyName;
+      if (window.BZ_PRODUCTS) {
+        let found = null;
+        for (const g of window.BZ_PRODUCTS) {
+          found = g.items.find(i => (i.key || i.name) === keyName);
+          if (found) break;
+        }
+        if (found) {
+          name = found.name;
+          if (found.price !== null) {
+            salePrice = found.price.toLocaleString('ko-KR') + '원';
+            origPrice = found.price2 ? found.price2.toLocaleString('ko-KR') + '원' : '';
+          } else {
+            salePrice = '가격 문의';
+            origPrice = '';
+          }
         }
       }
 
       document.getElementById('lb-img').src = img;
       document.getElementById('lb-img').alt = name;
       document.getElementById('lb-tag').textContent = tag;
-      document.getElementById('lb-name').textContent = name;
+      document.getElementById('lb-name').textContent = name;  // 최신 이름 반영
 
       // 가격 표시
       const pw = document.getElementById('lb-price-wrap');
@@ -1191,30 +1199,43 @@
       if (e.key === 'Escape') { closeLightbox(); closeInfoModal(); }
     });
 
-    // ── prices.js 가격 카드 동기화 (캐시 방지 동적 로드)
-    function bzSyncPrices() {
-      if (!window.BZ_PRICES) return;
+    // ── products.js 기반 카드 이름·가격 동기화 (캐시 방지 동적 로드)
+    function bzSyncProducts() {
+      if (!window.BZ_PRODUCTS) return;
+      // key → item 맵 생성
+      const map = {};
+      window.BZ_PRODUCTS.forEach(g => g.items.forEach(item => {
+        map[item.key || item.name] = item;
+      }));
       document.querySelectorAll('.product-card').forEach(card => {
         const h3 = card.querySelector('h3');
         if (!h3) return;
-        const p = window.BZ_PRICES[h3.textContent.trim()];
-        if (!p) return;
+        // 첫 실행 시 원본 이름을 data-key로 저장 (이후 변경돼도 식별 가능)
+        if (!card.dataset.key) card.dataset.key = h3.textContent.trim();
+        const item = map[card.dataset.key];
+        if (!item) return;
+        // 상품명 업데이트
+        h3.textContent = item.name;
+        // 가격 업데이트
         const saleEl = card.querySelector('.price-sale');
         const origEl = card.querySelector('.price-original');
-        if (p.sale !== null) {
-          if (saleEl) { saleEl.textContent = p.sale.toLocaleString('ko-KR') + '원'; saleEl.style.color = ''; }
-          if (origEl) { origEl.textContent = p.orig ? p.orig.toLocaleString('ko-KR') + '원' : ''; origEl.style.display = ''; }
+        if (item.price !== null) {
+          if (saleEl) { saleEl.textContent = item.price.toLocaleString('ko-KR') + '원'; saleEl.style.color = ''; }
+          if (origEl) {
+            if (item.price2) { origEl.textContent = item.price2.toLocaleString('ko-KR') + '원'; origEl.style.display = ''; }
+            else { origEl.textContent = ''; origEl.style.display = 'none'; }
+          }
         } else {
           if (saleEl) { saleEl.textContent = '가격 문의'; saleEl.style.color = 'var(--bz-gray)'; }
           if (origEl) { origEl.textContent = ''; origEl.style.display = 'none'; }
         }
       });
     }
-    // prices.js를 매번 서버에서 새로 불러와 캐시 문제 방지
+    // products.js를 매번 서버에서 새로 불러와 캐시 문제 방지
     (function() {
       var s = document.createElement('script');
-      s.src = 'prices.js?_=' + Date.now();
-      s.onload = bzSyncPrices;
+      s.src = 'products.js?_=' + Date.now();
+      s.onload = bzSyncProducts;
       document.head.appendChild(s);
     })();
 

@@ -368,6 +368,41 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+    // ── 인기상품 이름·가격 동기화 (products.js 기반)
+    function bzSyncPopular() {
+      if (!window.BZ_PRODUCTS) return;
+      const map = {};
+      window.BZ_PRODUCTS.forEach(g => g.items.forEach(item => {
+        map[item.key || item.name] = item;
+      }));
+      document.querySelectorAll('.product-card').forEach(card => {
+        const h3 = card.querySelector('h3');
+        if (!h3) return;
+        if (!card.dataset.key) card.dataset.key = h3.textContent.trim();
+        const item = map[card.dataset.key];
+        if (!item) return;
+        h3.textContent = item.name;
+        const saleEl = card.querySelector('.price-sale');
+        const origEl = card.querySelector('.price-original');
+        if (item.price !== null) {
+          if (saleEl) { saleEl.textContent = item.price.toLocaleString('ko-KR') + '원'; saleEl.style.color = ''; }
+          if (origEl) {
+            if (item.price2) { origEl.textContent = item.price2.toLocaleString('ko-KR') + '원'; origEl.style.display = ''; }
+            else { origEl.textContent = ''; origEl.style.display = 'none'; }
+          }
+        } else {
+          if (saleEl) { saleEl.textContent = '가격 문의'; saleEl.style.color = 'var(--bz-gray)'; }
+          if (origEl) { origEl.textContent = ''; origEl.style.display = 'none'; }
+        }
+      });
+    }
+    (function() {
+      var s = document.createElement('script');
+      s.src = 'products.js?_=' + Date.now();
+      s.onload = bzSyncPopular;
+      document.head.appendChild(s);
+    })();
+
     // ── Count-up animation
     function countUp(el) {
       const target   = parseInt(el.dataset.count);

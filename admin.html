@@ -433,10 +433,10 @@ const DEFAULT_PRICES = {
 //  GitHub 파일 저장 공통 헬퍼
 // ════════════════════════════════════════════════════
 async function saveFileToGitHub(pat, filename, content, commitMsg) {
-  // SHA 조회
+  // SHA 조회 (캐시 완전 방지 — 항상 최신 SHA를 가져옴)
   const getRes = await fetch(
-    `https://api.github.com/repos/${GH_REPO}/contents/${filename}?ref=${GH_BRANCH}`,
-    { headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json' } }
+    `https://api.github.com/repos/${GH_REPO}/contents/${filename}?ref=${GH_BRANCH}&_=${Date.now()}`,
+    { headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache' }, cache: 'no-store' }
   );
   let sha = null;
   if (getRes.ok) { const d = await getRes.json(); sha = d.sha; }

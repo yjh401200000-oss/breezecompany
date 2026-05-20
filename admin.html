@@ -435,6 +435,20 @@
           <button class="upload-preview-reset" onclick="resetGalleryFile()" title="사진 다시 선택">✕</button>
         </div>
 
+        <!-- AI 분석 상태 -->
+        <div id="aiAnalyzeBox" style="display:none; margin-bottom:14px; padding:12px 16px;
+             border-radius:12px; background:var(--green-l); border:1.5px solid #b5d4bf;
+             font-size:13px; color:var(--green2); line-height:1.6;">
+          <div id="aiAnalyzeLoading" style="display:none; align-items:center; gap:8px;">
+            <div class="spinner" style="display:block; width:16px; height:16px; border-color:rgba(74,124,89,.3); border-top-color:var(--green);"></div>
+            <span>🤖 AI가 사진을 분석하고 있습니다…</span>
+          </div>
+          <div id="aiAnalyzeDone" style="display:none;">
+            ✅ <strong>AI 자동 입력 완료!</strong> 내용을 확인하고 필요시 수정하세요.
+          </div>
+          <div id="aiAnalyzeError" style="display:none; color:#b94f3a;"></div>
+        </div>
+
         <!-- 입력 필드 -->
         <div class="upload-field">
           <label>제목 *</label>
@@ -1080,16 +1094,129 @@ window.BZ_GALLERY = ${JSON.stringify(items, null, 2)};
 `;
 }
 
-// 파일 선택 시 미리보기
+// ════════════════════════════════════════════════════
+//  Groq Vision AI — 납품사례 사진 자동 분석
+// ════════════════════════════════════════════════════
+const GROQ_API_KEY = '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';
+const GROQ_URL     = 'https://api.groq.com/openai/v1/chat/completions';
+
+async function callGroqVision(base64, mimeType) {
+  const prompt = `이 사진은 한국 꽃집(브리즈컴퍼니)의 납품 현장 사진입니다.
+사진을 분석해서 아래 JSON만 반환하세요. 다른 설명은 쓰지 마세요.
+
+{
+  "title": "리본/현수막에 쓰인 수신인이나 행사명 (예: 홍길동 귀중, ○○ 개업 축하). 글자가 안 보이면 행사 종류로 작성",
+  "cat": "아래 중 정확히 하나만: wreath(축하화환) / funeral(근조화환) / east(동양란) / orchid(서양란) / plant(관엽식물)",
+  "desc": "납품 상품 종류 (예: 3단 화환, 서양란 고급형, 아레카야자 등)"
+}`;
+
+  const res = await fetch(GROQ_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+    body: JSON.stringify({
+      model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'text', text: prompt },
+          { type: 'image_url', image_url: { url: `data:${mimeType};base64,${base64}` } }
+        ]
+      }],
+      temperature: 0.1,
+      max_tokens: 300
+    })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(`AI 오류 (${res.status}): ${err?.error?.message || '알 수 없는 오류'}`);
+  }
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+// 이미지 압축 (API 전송용)
+function compressForAI(file) {
+  return new Promise(resolve => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const MAX = 1200;
+      let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else        { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      canvas.toBlob(blob => resolve(blob || file), 'image/jpeg', 0.82);
+    };
+    img.onerror = () => resolve(file);
+    img.src = url;
+  });
+}
+
+// 파일 선택 시 미리보기 + AI 자동 분석
 function onGalleryFileSelected(event) {
   const file = event.target.files[0];
   if (!file) return;
+
+  // 미리보기
   const reader = new FileReader();
   reader.onload = e => {
     document.getElementById('uploadPreviewImg').src = e.target.result;
     document.getElementById('uploadPreviewWrap').classList.add('show');
   };
   reader.readAsDataURL(file);
+
+  // AI 분석 시작
+  analyzePhotoWithAI(file);
+}
+
+async function analyzePhotoWithAI(file) {
+  const box     = document.getElementById('aiAnalyzeBox');
+  const loading = document.getElementById('aiAnalyzeLoading');
+  const done    = document.getElementById('aiAnalyzeDone');
+  const errEl   = document.getElementById('aiAnalyzeError');
+
+  // 초기화
+  box.style.display     = 'block';
+  loading.style.display = 'flex';
+  done.style.display    = 'none';
+  errEl.style.display   = 'none';
+
+  try {
+    // 압축 후 base64 변환
+    const compressed = await compressForAI(file);
+    const base64 = await new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = e => resolve(e.target.result.split(',')[1]);
+      r.onerror = reject;
+      r.readAsDataURL(compressed);
+    });
+
+    // Groq Vision 호출
+    const raw = await callGroqVision(base64, 'image/jpeg');
+
+    // JSON 파싱
+    const jsonMatch = raw.match(/\{[\s\S]*?\}/);
+    if (!jsonMatch) throw new Error('AI 응답을 파싱할 수 없습니다.');
+    const result = JSON.parse(jsonMatch[0]);
+
+    // 폼 자동 입력
+    if (result.title) document.getElementById('galleryTitle').value = result.title;
+    if (result.cat && CAT_MAP[result.cat]) document.getElementById('galleryCat').value = result.cat;
+    if (result.desc)  document.getElementById('galleryDesc').value  = result.desc;
+
+    loading.style.display = 'none';
+    done.style.display    = 'block';
+
+  } catch(e) {
+    loading.style.display = 'none';
+    errEl.style.display   = 'block';
+    errEl.textContent     = '⚠️ AI 분석 실패: ' + e.message + ' — 직접 입력해주세요.';
+  }
 }
 
 // 미리보기 초기화
@@ -1097,6 +1224,9 @@ function resetGalleryFile() {
   document.getElementById('galleryFileInput').value = '';
   document.getElementById('uploadPreviewWrap').classList.remove('show');
   document.getElementById('uploadPreviewImg').src = '';
+  document.getElementById('aiAnalyzeBox').style.display = 'none';
+  document.getElementById('galleryTitle').value = '';
+  document.getElementById('galleryDesc').value  = '';
 }
 
 // 이미지 파일 GitHub 업로드 (바이너리 base64 직접 전송)

@@ -61,8 +61,9 @@
         <button class="gallery-filter-btn" data-filter="plant">관엽식물</button>
       </div>
 
-      <!-- 갤러리 그리드 -->
+      <!-- 갤러리 그리드 (gallery-data.js에서 동적 렌더링) -->
       <div class="gallery-grid" id="galleryGrid">
+        <div style="grid-column:1/-1;text-align:center;color:#aaa;padding:60px 0;font-size:14px;">⏳ 사진을 불러오는 중...</div>
 
         <div class="gallery-item reveal" data-cat="wreath" data-title="○○ 사업장 개업식" data-desc="3단 축하 실속형 화환 납품 · 대구 수성구">
           <div class="gallery-item-img-wrap">
@@ -304,27 +305,79 @@
       this.classList.toggle('open');
     });
 
-    // ── Reveal on scroll
-    const revealEls = document.querySelectorAll('.reveal');
+    // ── Reveal observer
     const revealObserver = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => revealObserver.observe(el));
+    }, { threshold: 0.10 });
 
-    // ── 필터
+    // ── 정적 reveal 요소 등록
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ── HTML 이스케이프
+    function esc(str) {
+      return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── 현재 필터 상태
+    let currentFilter = 'all';
+
+    // ── 필터 버튼
     const filterBtns = document.querySelectorAll('.gallery-filter-btn');
-    const items = document.querySelectorAll('.gallery-item');
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        items.forEach(item => {
-          const show = filter === 'all' || item.dataset.cat === filter;
-          item.style.display = show ? '' : 'none';
-        });
+        currentFilter = btn.dataset.filter;
+        applyFilter();
       });
     });
+
+    function applyFilter() {
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        const show = currentFilter === 'all' || item.dataset.cat === currentFilter;
+        item.style.display = show ? '' : 'none';
+      });
+    }
+
+    // ── 갤러리 동적 렌더링
+    function renderGallery(bzGallery) {
+      const grid = document.getElementById('galleryGrid');
+      if (!bzGallery || !bzGallery.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:60px 0;font-size:15px;">아직 등록된 납품사례가 없습니다.</div>';
+        return;
+      }
+      grid.innerHTML = bzGallery.map(item => `
+        <div class="gallery-item reveal" data-cat="${esc(item.cat)}" data-title="${esc(item.title)}" data-desc="${esc(item.desc)}">
+          <div class="gallery-item-img-wrap">
+            ${item.img
+              ? `<img class="gallery-item-img" src="${esc(item.img)}" alt="${esc(item.title)}" loading="lazy" />`
+              : `<div class="gallery-item-placeholder" style="background:${esc(item.bg)}">${item.placeholder}</div>`
+            }
+            <div class="gallery-item-overlay"><span>크게 보기 ↗</span></div>
+          </div>
+          <div class="gallery-item-info">
+            <span class="gallery-item-tag">${esc(item.tag)}</span>
+            <strong>${esc(item.title)}</strong>
+            <p>${esc(item.desc)}</p>
+          </div>
+        </div>
+      `).join('');
+      // reveal 새 요소 등록
+      grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+      // 필터 재적용
+      applyFilter();
+      // 클릭 이벤트 연결
+      grid.querySelectorAll('.gallery-item').forEach(item => item.addEventListener('click', () => openLb(item)));
+    }
+
+    // ── gallery-data.js 동적 로드
+    (function loadGalleryData() {
+      const s = document.createElement('script');
+      s.src = 'gallery-data.js?_=' + Date.now();
+      s.onload = () => { if (window.BZ_GALLERY) renderGallery(window.BZ_GALLERY); };
+      s.onerror = () => renderGallery([]);
+      document.head.appendChild(s);
+    })();
 
     // ── 라이트박스
     const lb = document.getElementById('galleryLb');

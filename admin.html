@@ -227,6 +227,88 @@
       .adm-save-bar { flex-direction: column; gap: 10px; text-align: center; }
       .btn-save-main { width: 100%; justify-content: center; }
     }
+
+    /* ──────── 납품사례 사진 업로드 ──────── */
+    .upload-drop-zone {
+      border: 2.5px dashed var(--border); border-radius: 16px;
+      padding: 28px 20px; text-align: center; cursor: pointer;
+      transition: border-color .2s, background .2s; margin-bottom: 16px;
+      background: var(--cream);
+    }
+    .upload-drop-zone:hover { border-color: var(--green); background: var(--green-l); }
+    .upload-drop-zone-ico { font-size: 38px; margin-bottom: 8px; }
+    .upload-drop-zone-title { font-size: 15px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+    .upload-drop-zone-hint  { font-size: 12px; color: var(--gray); }
+    .upload-preview-wrap { margin-bottom: 16px; border-radius: 14px; overflow: hidden; display: none; position: relative; }
+    .upload-preview-wrap.show { display: block; }
+    .upload-preview-img { width: 100%; max-height: 240px; object-fit: cover; display: block; }
+    .upload-preview-reset {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(0,0,0,.55); color: #fff; border: none;
+      border-radius: 50%; width: 30px; height: 30px; font-size: 16px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .upload-field { margin-bottom: 13px; }
+    .upload-field label { display: block; font-size: 12px; font-weight: 700; color: var(--gray); margin-bottom: 5px; letter-spacing: .3px; text-transform: uppercase; }
+    .upload-field input,
+    .upload-field select {
+      width: 100%; padding: 10px 13px;
+      border: 2px solid var(--border); border-radius: 10px;
+      font-size: 14px; font-family: inherit; outline: none;
+      transition: border .2s; background: #fff; color: var(--text);
+    }
+    .upload-field input:focus,
+    .upload-field select:focus { border-color: var(--green); }
+    .btn-gallery-upload {
+      width: 100%; padding: 14px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background .2s; margin-bottom: 28px;
+    }
+    .btn-gallery-upload:hover { background: var(--green2); }
+    .btn-gallery-upload:disabled { background: var(--gray); cursor: not-allowed; }
+    .gallery-upload-status {
+      padding: 10px 14px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; margin-bottom: 16px; display: none; line-height: 1.5;
+    }
+    .gallery-upload-status.ok      { background: #e8f5eb; color: #2d6a4f; display: block; }
+    .gallery-upload-status.err     { background: #fdecea; color: var(--red); display: block; }
+    .gallery-upload-status.loading { background: var(--gray-l); color: var(--text); display: block; }
+    .gallery-divider { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .gallery-count-badge { background: var(--green-l); color: var(--green); font-size: 12px; padding: 2px 10px; border-radius: 10px; font-weight: 600; }
+    .gallery-admin-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .gallery-admin-item:last-child { border-bottom: none; }
+    .gallery-admin-thumb {
+      width: 62px; height: 62px; border-radius: 10px;
+      flex-shrink: 0; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+    .gallery-admin-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-admin-info { flex: 1; min-width: 0; }
+    .gallery-admin-info strong { display: block; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+    .gallery-admin-info span { font-size: 11px; color: var(--gray); }
+    .btn-gallery-del {
+      padding: 6px 12px; background: #fdecea; color: var(--red);
+      border: none; border-radius: 8px; font-size: 12px; font-weight: 700;
+      cursor: pointer; flex-shrink: 0; transition: background .2s;
+    }
+    .btn-gallery-del:hover { background: #fbd0cd; }
+    .gallery-empty { text-align: center; color: var(--gray); font-size: 13px; padding: 28px 0; }
+    .gallery-progress-bar {
+      height: 4px; background: var(--green-l); border-radius: 4px;
+      margin-bottom: 8px; overflow: hidden; display: none;
+    }
+    .gallery-progress-bar.show { display: block; }
+    .gallery-progress-fill {
+      height: 100%; background: var(--green);
+      border-radius: 4px; transition: width .3s;
+    }
   </style>
 </head>
 <body>
@@ -320,6 +402,73 @@
         <div id="price-table-wrap">
           <!-- JS로 동적 생성 -->
         </div>
+      </div>
+    </div>
+
+    <!-- ── 납품사례 사진 관리 ── -->
+    <div class="adm-card">
+      <div class="adm-card-header" id="gallery-header" onclick="toggleCard('gallery')">
+        <span>📸</span>
+        <h2>납품사례 사진 관리</h2>
+        <span class="toggle-ico" id="gallery-ico">›</span>
+      </div>
+      <div class="adm-card-body hidden" id="gallery-body">
+
+        <!-- 상태 메시지 -->
+        <div class="gallery-upload-status" id="gallery-status"></div>
+        <div class="gallery-progress-bar" id="galleryProgressBar">
+          <div class="gallery-progress-fill" id="galleryProgressFill" style="width:0%"></div>
+        </div>
+
+        <!-- 사진 선택 영역 -->
+        <input type="file" id="galleryFileInput" accept="image/*"
+               style="display:none" onchange="onGalleryFileSelected(event)" />
+        <div class="upload-drop-zone" onclick="document.getElementById('galleryFileInput').click()">
+          <div class="upload-drop-zone-ico">📷</div>
+          <div class="upload-drop-zone-title">사진 선택 / 촬영</div>
+          <div class="upload-drop-zone-hint">클릭 → 갤러리 또는 카메라에서 선택</div>
+        </div>
+
+        <!-- 미리보기 -->
+        <div class="upload-preview-wrap" id="uploadPreviewWrap">
+          <img class="upload-preview-img" id="uploadPreviewImg" alt="미리보기" />
+          <button class="upload-preview-reset" onclick="resetGalleryFile()" title="사진 다시 선택">✕</button>
+        </div>
+
+        <!-- 입력 필드 -->
+        <div class="upload-field">
+          <label>제목 *</label>
+          <input type="text" id="galleryTitle" placeholder="예) ○○ 사업장 개업식" />
+        </div>
+        <div class="upload-field">
+          <label>카테고리 *</label>
+          <select id="galleryCat">
+            <option value="wreath">🎋 축하화환</option>
+            <option value="funeral">🕊️ 근조화환</option>
+            <option value="east">🌿 동양란</option>
+            <option value="orchid">🌺 서양란</option>
+            <option value="plant">🪴 관엽식물</option>
+          </select>
+        </div>
+        <div class="upload-field">
+          <label>장소 / 납품 설명</label>
+          <input type="text" id="galleryDesc" placeholder="예) 3단 화환 납품 · 대구 수성구" />
+        </div>
+
+        <button class="btn-gallery-upload" id="galleryUploadBtn" onclick="uploadGalleryPhoto()">
+          <div class="spinner" id="gallerySpinner"></div>
+          <span id="galleryUploadText">📤 업로드하기</span>
+        </button>
+
+        <!-- 등록된 사진 목록 -->
+        <div class="gallery-divider">
+          <span>📋 등록된 납품사례</span>
+          <span class="gallery-count-badge" id="galleryCountBadge">0건</span>
+        </div>
+        <div id="galleryAdminList">
+          <div class="gallery-empty">⏳ 불러오는 중…</div>
+        </div>
+
       </div>
     </div>
 
@@ -494,6 +643,8 @@ if (localStorage.getItem('bz_admin_auth') === '1') {
 // ════════════════════════════════════════════════════
 //  카드 토글
 // ════════════════════════════════════════════════════
+let galleryDataLoaded = false;
+
 function toggleCard(id) {
   const body = document.getElementById(id + '-body');
   const ico  = document.getElementById(id + '-ico');
@@ -501,6 +652,14 @@ function toggleCard(id) {
   const hidden = body.classList.toggle('hidden');
   ico.style.transform = hidden ? '' : 'rotate(90deg)';
   header.classList.toggle('open', !hidden);
+
+  // 갤러리 카드 처음 열 때 데이터 로드
+  if (id === 'gallery' && !hidden && !galleryDataLoaded) {
+    galleryDataLoaded = true;
+    const pat = localStorage.getItem('bz_admin_pat');
+    if (pat) loadGalleryDataFromGitHub(pat);
+    else renderGalleryAdmin([]);
+  }
 }
 
 // ════════════════════════════════════════════════════
@@ -844,6 +1003,231 @@ function setSaveBtnLoading(on) {
   btn.disabled = on;
   spin.style.display = on ? 'block' : 'none';
   txt.textContent    = on ? '저장 중…' : '💾 GitHub에 저장';
+}
+
+// ════════════════════════════════════════════════════
+//  납품사례 갤러리 관리
+// ════════════════════════════════════════════════════
+const CAT_MAP = {
+  wreath:  { tag:'축하화환', emoji:'🎋', bg:'linear-gradient(135deg,#eaf4ee,#c8e6d0)' },
+  funeral: { tag:'근조화환', emoji:'🕊️', bg:'linear-gradient(135deg,#e8f0fe,#d2e3fc)' },
+  east:    { tag:'동양란',   emoji:'🌿', bg:'linear-gradient(135deg,#eaf2ec,#b8dfc4)' },
+  orchid:  { tag:'서양란',   emoji:'🌺', bg:'linear-gradient(135deg,#fce8ed,#f9d0db)' },
+  plant:   { tag:'관엽식물', emoji:'🪴', bg:'linear-gradient(135deg,#f3f0ff,#e0d8fa)' },
+};
+
+let galleryItems = [];
+
+// gallery-data.js를 GitHub API로 불러오기
+async function loadGalleryDataFromGitHub(pat) {
+  setGalleryStatus('loading', '⏳ 납품사례 목록 불러오는 중…');
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GH_REPO}/contents/gallery-data.js?ref=${GH_BRANCH}&_=${Date.now()}`,
+      { headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json' }, cache: 'no-store' }
+    );
+    if (!res.ok) { renderGalleryAdmin([]); setGalleryStatus('', ''); return; }
+    const data = await res.json();
+    const text = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    const match = text.match(/window\.BZ_GALLERY\s*=\s*(\[[\s\S]*?\]);/);
+    galleryItems = match ? JSON.parse(match[1]) : [];
+    renderGalleryAdmin(galleryItems);
+    setGalleryStatus('', '');
+  } catch(e) {
+    renderGalleryAdmin([]);
+    setGalleryStatus('err', '⚠️ 목록 불러오기 실패: ' + e.message);
+  }
+}
+
+// 관리자 갤러리 목록 렌더링
+function renderGalleryAdmin(items) {
+  const wrap = document.getElementById('galleryAdminList');
+  document.getElementById('galleryCountBadge').textContent = items.length + '건';
+  if (!items.length) {
+    wrap.innerHTML = '<div class="gallery-empty">아직 등록된 사진이 없습니다.<br>위에서 사진을 업로드해주세요.</div>';
+    return;
+  }
+  wrap.innerHTML = items.map(item => `
+    <div class="gallery-admin-item" id="gadmin-${item.id}">
+      <div class="gallery-admin-thumb" style="${!item.img ? 'background:' + item.bg : ''}">
+        ${item.img
+          ? `<img src="${item.img}" alt="${item.title}" onerror="this.parentElement.textContent='${item.placeholder}'" />`
+          : item.placeholder}
+      </div>
+      <div class="gallery-admin-info">
+        <strong>${escHtml(item.title)}</strong>
+        <span>${escHtml(item.tag)} · ${escHtml(item.desc)}</span>
+      </div>
+      <button class="btn-gallery-del" onclick="deleteGalleryPhoto('${item.id}')">삭제</button>
+    </div>
+  `).join('');
+}
+
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// gallery-data.js 파일 내용 생성
+function buildGalleryDataJs(items) {
+  const now = new Date().toLocaleString('ko-KR');
+  return `// ============================================================
+//  브리즈컴퍼니 납품사례 데이터 (gallery-data.js)
+//  마지막 수정: ${now}
+//  ※ 관리자 페이지(admin.html)에서 자동 생성됩니다.
+// ============================================================
+
+window.BZ_GALLERY = ${JSON.stringify(items, null, 2)};
+`;
+}
+
+// 파일 선택 시 미리보기
+function onGalleryFileSelected(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('uploadPreviewImg').src = e.target.result;
+    document.getElementById('uploadPreviewWrap').classList.add('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+// 미리보기 초기화
+function resetGalleryFile() {
+  document.getElementById('galleryFileInput').value = '';
+  document.getElementById('uploadPreviewWrap').classList.remove('show');
+  document.getElementById('uploadPreviewImg').src = '';
+}
+
+// 이미지 파일 GitHub 업로드 (바이너리 base64 직접 전송)
+async function saveImageToGitHub(pat, filename, base64Content, commitMsg) {
+  const getRes = await fetch(
+    `https://api.github.com/repos/${GH_REPO}/contents/${filename}?ref=${GH_BRANCH}&_=${Date.now()}`,
+    { headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json' }, cache: 'no-store' }
+  );
+  let sha = null;
+  if (getRes.ok) { const d = await getRes.json(); sha = d.sha; }
+
+  const body = { message: commitMsg, content: base64Content, branch: GH_BRANCH };
+  if (sha) body.sha = sha;
+
+  const putRes = await fetch(
+    `https://api.github.com/repos/${GH_REPO}/contents/${filename}`,
+    {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${pat}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }
+  );
+  if (!putRes.ok) {
+    const e = await putRes.json().catch(() => ({}));
+    throw new Error(`이미지 업로드 실패: ${e.message || ''} (HTTP ${putRes.status})`);
+  }
+}
+
+// 사진 업로드 실행
+async function uploadGalleryPhoto() {
+  const pat = localStorage.getItem('bz_admin_pat');
+  if (!pat) { setGalleryStatus('err', '❌ GitHub 토큰을 먼저 저장해주세요.'); return; }
+
+  const fileInput = document.getElementById('galleryFileInput');
+  const title     = document.getElementById('galleryTitle').value.trim();
+  const catKey    = document.getElementById('galleryCat').value;
+  const desc      = document.getElementById('galleryDesc').value.trim();
+
+  if (!fileInput.files[0]) { setGalleryStatus('err', '❌ 사진을 선택해주세요.'); return; }
+  if (!title)               { setGalleryStatus('err', '❌ 제목을 입력해주세요.'); return; }
+
+  const file    = fileInput.files[0];
+  const catInfo = CAT_MAP[catKey];
+  const id      = 'g' + Date.now();
+  const ext     = (file.name.split('.').pop() || 'jpg').toLowerCase();
+  const filename = `gallery-images/${id}.${ext}`;
+
+  setGalleryUploadLoading(true);
+  setGalleryStatus('loading', '⏳ 사진 업로드 중… (용량에 따라 10~30초 소요)');
+  setProgress(30);
+
+  try {
+    // base64 변환
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+    setProgress(55);
+
+    // 이미지 GitHub 저장
+    await saveImageToGitHub(pat, filename, base64, `[납품사례] 사진 추가: ${title}`);
+    setProgress(78);
+
+    // gallery-data.js 업데이트
+    const newItem = {
+      id, cat: catKey, tag: catInfo.tag,
+      title, desc: desc || catInfo.tag,
+      img: filename, placeholder: catInfo.emoji, bg: catInfo.bg
+    };
+    galleryItems = [newItem, ...galleryItems];
+    await saveFileToGitHub(pat, 'gallery-data.js', buildGalleryDataJs(galleryItems), `[납품사례] 목록 업데이트`);
+    setProgress(100);
+
+    setGalleryStatus('ok', '✅ 업로드 완료! 약 1~2분 후 사이트에 반영됩니다.');
+    renderGalleryAdmin(galleryItems);
+
+    // 폼 초기화
+    document.getElementById('galleryTitle').value = '';
+    document.getElementById('galleryDesc').value  = '';
+    resetGalleryFile();
+  } catch(e) {
+    setGalleryStatus('err', '❌ 업로드 실패: ' + e.message);
+  } finally {
+    setGalleryUploadLoading(false);
+    setTimeout(() => setProgress(0), 1000);
+  }
+}
+
+// 사진 삭제
+async function deleteGalleryPhoto(id) {
+  if (!confirm('이 납품사례를 삭제하시겠습니까?')) return;
+  const pat = localStorage.getItem('bz_admin_pat');
+  if (!pat) { setGalleryStatus('err', '❌ GitHub 토큰을 먼저 저장해주세요.'); return; }
+
+  setGalleryStatus('loading', '⏳ 삭제 중…');
+  try {
+    galleryItems = galleryItems.filter(item => item.id !== id);
+    await saveFileToGitHub(pat, 'gallery-data.js', buildGalleryDataJs(galleryItems), `[납품사례] 사진 삭제`);
+    setGalleryStatus('ok', '✅ 삭제 완료! 약 1~2분 후 사이트에 반영됩니다.');
+    renderGalleryAdmin(galleryItems);
+  } catch(e) {
+    setGalleryStatus('err', '❌ 삭제 실패: ' + e.message);
+  }
+}
+
+// UI 헬퍼
+function setGalleryStatus(type, msg) {
+  const el = document.getElementById('gallery-status');
+  el.className = 'gallery-upload-status' + (type ? ' ' + type : '');
+  el.textContent = msg;
+  if (type) el.style.display = 'block';
+  else el.style.display = 'none';
+}
+
+function setGalleryUploadLoading(on) {
+  const btn  = document.getElementById('galleryUploadBtn');
+  const spin = document.getElementById('gallerySpinner');
+  const txt  = document.getElementById('galleryUploadText');
+  btn.disabled = on;
+  spin.style.display = on ? 'block' : 'none';
+  txt.textContent = on ? '업로드 중…' : '📤 업로드하기';
+}
+
+function setProgress(pct) {
+  const bar  = document.getElementById('galleryProgressBar');
+  const fill = document.getElementById('galleryProgressFill');
+  if (pct > 0 && pct < 100) bar.classList.add('show');
+  else bar.classList.remove('show');
+  fill.style.width = pct + '%';
 }
 </script>
 

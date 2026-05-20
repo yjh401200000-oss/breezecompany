@@ -224,10 +224,11 @@
   <div class="gallery-lb-backdrop" id="galleryLb" role="dialog" aria-modal="true">
     <div class="gallery-lb-box">
       <button class="gallery-lb-close" id="galleryLbClose" aria-label="닫기">✕</button>
-      <div id="galleryLbMedia" class="gallery-lb-placeholder">🌸</div>
+      <div id="galleryLbMedia" class="gallery-lb-placeholder" style="cursor:pointer;" title="탭하여 닫기">🌸</div>
       <div class="gallery-lb-content">
         <strong id="galleryLbTitle">제목</strong>
         <p id="galleryLbDesc">설명</p>
+        <p style="font-size:11px;color:#bbb;margin-top:8px;text-align:right;">사진을 탭하거나 ✕를 눌러 닫으세요</p>
       </div>
     </div>
   </div>
@@ -414,9 +415,15 @@
       document.body.style.overflow = '';
     }
 
-    items.forEach(item => item.addEventListener('click', () => openLb(item)));
+    // ✕ 버튼
     lbClose.addEventListener('click', closeLb);
-    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    // 배경(backdrop) 탭 — 박스 바깥 영역 클릭 시 닫기
+    lb.addEventListener('click', e => {
+      if (!e.target.closest('.gallery-lb-box')) closeLb();
+    });
+    // 라이트박스 이미지 탭으로도 닫기 (모바일 편의)
+    lbMedia.addEventListener('click', closeLb);
+    // 키보드 ESC
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
   </script>
 </body>

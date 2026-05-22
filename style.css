@@ -169,7 +169,7 @@ img { max-width: 100%; display: block; }
   border-color: var(--bz-kakao-yellow);
   font-weight: 700;
 }
-.btn-kakao-hero:hover { filter: brightness(0.95); transform: translateY(-2px); }
+.btn-kakao-hero:hover { filter: brightness(0.95); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
 
 /* 히어로 카테고리 빠른 링크 */
 .hero-cats {
@@ -641,8 +641,8 @@ header.scrolled {
 .btn-primary:hover {
   background: var(--bz-green-deep);
   border-color: var(--bz-green-deep);
-  transform: translateY(-2px);
-  box-shadow: var(--bz-shadow-cta);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(74,124,89,0.5);
 }
 
 .btn-outline {
@@ -1875,11 +1875,86 @@ section {
 }
 
 /* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.testimonials {
+  padding: var(--bz-sp-9) var(--bz-gutter);
+}
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--bz-sp-5);
+  max-width: var(--bz-container);
+  margin: 0 auto;
+}
+.testimonial-card {
+  background: var(--bz-surface);
+  border-radius: var(--bz-radius-lg);
+  padding: var(--bz-sp-6) var(--bz-sp-5);
+  box-shadow: var(--bz-shadow-sm);
+  border: 1px solid var(--bz-line);
+  transition: transform var(--bz-dur) var(--bz-ease), box-shadow var(--bz-dur) var(--bz-ease), border-color var(--bz-dur) var(--bz-ease);
+  display: flex;
+  flex-direction: column;
+}
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--bz-shadow-md);
+  border-color: var(--bz-green-pale);
+}
+.testimonial-stars {
+  color: #f5b942;
+  font-size: var(--bz-text-md);
+  margin-bottom: var(--bz-sp-4);
+  letter-spacing: 0.12em;
+}
+.testimonial-text {
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-base);
+  color: var(--bz-ink-soft);
+  line-height: 1.8;
+  margin-bottom: var(--bz-sp-5);
+  flex-grow: 1;
+}
+.testimonial-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: var(--bz-sp-3);
+  border-top: 1px solid var(--bz-line);
+}
+.testimonial-author {
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-sm);
+  font-weight: 600;
+  color: var(--bz-ink);
+}
+.testimonial-tag {
+  background: var(--bz-green-pale);
+  color: var(--bz-green);
+  font-family: var(--bz-font-kr);
+  font-size: var(--bz-text-xs);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--bz-radius-pill);
+  letter-spacing: 0.02em;
+}
+@media (max-width: 1024px) {
+  .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .testimonials { padding: var(--bz-sp-7) var(--bz-gutter); }
+  .testimonial-grid { grid-template-columns: 1fr; gap: var(--bz-sp-4); }
+  .testimonial-card { padding: var(--bz-sp-5) var(--bz-sp-4); }
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 footer {
   background: #1e1e1e;
-  color: #aaa;
+  color: rgba(255,255,255,0.8);
   padding: 56px var(--bz-gutter) 32px;
 }
 .footer-inner {
@@ -1893,13 +1968,13 @@ footer {
   margin-bottom: 48px;
 }
 .footer-brand .logo-main { color: white; font-size: 18px; }
-.footer-brand .logo-sub { color: #555; }
+.footer-brand .logo-sub { color: rgba(255,255,255,0.4); }
 .footer-brand-desc {
   font-family: var(--bz-font-kr);
   font-size: var(--bz-text-sm);
   line-height: 1.9;
   margin-top: 14px;
-  color: #888;
+  color: rgba(255,255,255,0.65);
 }
 .footer-tagline {
   font-family: var(--bz-font-display);
@@ -1922,14 +1997,14 @@ footer {
 .footer-col ul li a {
   font-family: var(--bz-font-kr);
   font-size: var(--bz-text-sm);
-  color: #888;
+  color: rgba(255,255,255,0.65);
   transition: color 0.2s;
 }
 .footer-col ul li a:hover { color: var(--bz-pink); }
 .footer-col .biz-line {
   font-family: var(--bz-font-kr);
   font-size: var(--bz-text-sm);
-  color: #666;
+  color: rgba(255,255,255,0.5);
   line-height: 1.8;
 }
 
@@ -1945,14 +2020,17 @@ footer {
 .footer-bottom p {
   font-family: var(--bz-font-kr);
   font-size: 12px;
-  color: #555;
+  color: rgba(255,255,255,0.4);
 }
 .footer-bottom .biz-info {
   font-family: var(--bz-font-en);
   font-size: var(--bz-text-xs);
-  color: #444;
+  color: rgba(255,255,255,0.35);
   letter-spacing: 0.02em;
 }
+
+/* Hamburger menu - prevent background scroll when open */
+body.no-scroll { overflow: hidden; }
 
 /* ============================================================
    KAKAO FLOAT

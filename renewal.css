@@ -45,3 +45,25 @@ body{color:var(--bz-ink);background:var(--bz-surface);font-size:16px}a,button{-w
     overflow-wrap: anywhere;
   }
 }
+
+/* Mobile inquiry flow: form first, contextual information afterwards. */
+.order-note { font-size: 14px; line-height: 1.8; margin-bottom: 24px; }
+#copy-status { white-space: pre-line; }
+@media (max-width: 640px) {
+  .order-layout { display: flex; flex-direction: column; }
+  .order-layout > .reveal { order: -1; width: 100%; }
+  .order-info-panel { width: 100%; }
+  .order-form-card { padding: 22px 18px; }
+  .form-group input, .form-group select, .form-group textarea { font-size: 16px; }
+  body { padding-bottom: 66px; }
+  .kakao-float { bottom: 0; right: 0; left: 0; width: 100%; height: 56px; background: var(--dispatch-accent); display: flex; justify-content: center; align-items: center; }
+  .kakao-float-btn { width: 38px; height: 38px; }
+  .kakao-float-tooltip { position: static; opacity: 1; transform: none; background: transparent; color: var(--bz-ink); font-size: 14px; }
+  .lightbox-overlay.active ~ .kakao-float { display: none; }
+  .dispatch-hero { padding-top: 68px; }
+  .dispatch-layout { gap: 24px; }
+}
+@media (max-width: 640px) {
+  .kakao-float { flex-direction: row; gap: 10px; padding: 8px; }
+  .kakao-float-label { margin: 0; padding: 0; background: transparent; color: var(--bz-ink); font-size: 14px; }
+}

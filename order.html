@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://breezecompany.co.kr/og-image.png" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="renewal.css" />
+  <link rel="stylesheet" href="renewal.css?v=20260908-2" />
   <script src="products.js"></script>
 </head>
 <body>
@@ -48,7 +48,7 @@
   <div class="page-banner">
     <p class="eyebrow">Order &amp; Inquiry</p>
     <h1>주문 / 문의</h1>
-    <p>양식을 작성하시면 카카오톡 채널로 빠르게 연결해 드립니다</p>
+    <p>주문 내용 작성 → 복사 → 카카오톡 채널에 전송</p>
   </div>
 
   <!-- ── 주문 절차 컴팩트 배너 ── -->
@@ -127,135 +127,7 @@
         <div class="order-form-card" id="orderFormCard">
           <h3>✉️ 주문 / 문의 양식</h3>
 
-          <!-- ── AI 자동 입력 ── -->
-          <div id="ai-upload-box" style="
-            background: linear-gradient(135deg, #eaf2ec, #fce8ed);
-            border: 1.5px solid #c8e0ce;
-            border-radius: 14px;
-            padding: 20px 22px;
-            margin-bottom: 28px;
-          ">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-              <span style="font-size:18px;">✨</span>
-              <span style="font-family:'Noto Sans KR',sans-serif; font-size:15px; font-weight:700; color:#3a6347;">AI 자동 입력</span>
-              <span style="background:#4a7c59; color:white; font-size:10px; font-weight:700;
-                padding:2px 8px; border-radius:999px; letter-spacing:0.05em;">NEW</span>
-            </div>
-            <p style="font-family:'Noto Sans KR',sans-serif; font-size:13px; color:#666;
-              margin-bottom:14px; line-height:1.7;">
-              청첩장 또는 부고장 사진을 올리면<br/>
-              날짜·장소·이름을 <strong>자동으로 입력</strong>해드립니다
-            </p>
-
-            <!-- 탭 선택 -->
-            <div style="display:flex; gap:8px; margin-bottom:14px;">
-              <button onclick="switchAiTab('image')" id="tab-image" style="
-                flex:1; padding:9px; border-radius:8px; border:1.5px solid #4a7c59;
-                background:#4a7c59; color:white; font-family:'Noto Sans KR',sans-serif;
-                font-size:13px; font-weight:600; cursor:pointer;">📎 사진 업로드</button>
-              <button onclick="switchAiTab('url')" id="tab-url" style="
-                flex:1; padding:9px; border-radius:8px; border:1.5px solid #4a7c59;
-                background:white; color:#4a7c59; font-family:'Noto Sans KR',sans-serif;
-                font-size:13px; font-weight:600; cursor:pointer;">🔗 URL 입력</button>
-            </div>
-
-            <!-- 사진 업로드 영역 -->
-            <div id="ai-tab-image">
-              <label for="ai-image-input" style="
-                display: inline-flex; align-items:center; gap:8px;
-                background: #4a7c59; color: white;
-                font-family:'Noto Sans KR',sans-serif; font-size:14px; font-weight:600;
-                padding: 11px 22px; border-radius: 999px;
-                cursor: pointer; transition: background 0.2s;">
-                📎 사진 선택하기
-              </label>
-              <input type="file" id="ai-image-input" accept="image/*" style="display:none" onchange="handleAiUpload(event)" />
-              <!-- 주의사항 -->
-              <div style="
-                margin-top:12px;
-                padding:10px 14px;
-                background:#fffbea;
-                border:1px solid #f0d870;
-                border-radius:10px;
-                font-family:'Noto Sans KR',sans-serif;
-                font-size:12.5px;
-                color:#7a6000;
-                line-height:1.7;">
-                ⚠️ <strong>주의사항</strong><br />
-                AI가 사진을 자동으로 읽어 양식을 채워드리지만, <strong>내용이 잘못 인식될 수 있습니다.</strong><br />
-                자동 입력 후 <strong>행사일, 장소, 받으시는 분 이름 등 모든 항목을 반드시 직접 확인</strong>해 주세요.
-              </div>
-            </div>
-
-            <!-- URL 입력 영역 -->
-            <div id="ai-tab-url" style="display:none;">
-              <div style="display:flex; gap:8px;">
-                <input type="url" id="ai-url-input"
-                  placeholder="청첩장 또는 부고장 URL을 붙여넣으세요"
-                  style="flex:1; padding:11px 14px; border:1.5px solid #c8e0ce;
-                    border-radius:10px; font-family:'Noto Sans KR',sans-serif;
-                    font-size:13px; color:#333; outline:none;"
-                  onkeydown="if(event.key==='Enter') handleAiUrl()" />
-                <button onclick="handleAiUrl()" style="
-                  padding:11px 18px; background:#4a7c59; color:white; border:none;
-                  border-radius:10px; font-family:'Noto Sans KR',sans-serif;
-                  font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap;">
-                  분석
-                </button>
-              </div>
-              <!-- URL 안내 문구 -->
-              <div style="margin-top:10px; padding:12px 14px; background:#f4faf6;
-                border:1px solid #c8e0ce; border-radius:10px; font-size:12px; color:#444; line-height:1.9;">
-                <div style="margin-bottom:6px; font-weight:700; color:#2d6a4f;">📋 URL 분석 지원 안내</div>
-                <div style="margin-bottom:4px;">✅ <strong>분석 가능</strong> — 일반 웹페이지 형태의 청첩장·부고장</div>
-                <div style="margin-bottom:8px; color:#777; padding-left:18px; font-size:11.5px;">
-                  예) 직접 제작한 웹 청첩장, 블로그형 부고 안내 페이지 등
-                </div>
-                <div style="margin-bottom:4px;">❌ <strong>분석 불가</strong> — 앱 기반 모바일 청첩장·부고장</div>
-                <div style="color:#777; padding-left:18px; font-size:11.5px;">
-                  예) 카카오 청첩장, BC카드 모바일 청첩장, 네이버 청첩장, 모바일청첩장 앱 링크 등
-                </div>
-                <div style="margin-top:10px; padding:8px 10px; background:#fff3cd;
-                  border-radius:8px; color:#7a5c00; font-size:11.5px;">
-                  📸 앱 기반 청첩장은 화면을 <strong>캡처(스크린샷)</strong> 후
-                  <strong>사진 업로드</strong> 탭을 이용해 주세요!
-                </div>
-              </div>
-            </div>
-
-            <!-- 이미지 미리보기 -->
-            <div id="ai-preview-wrap" style="display:none; margin-top:14px;">
-              <img id="ai-preview-img" style="max-width:100%; max-height:180px; border-radius:10px;
-                object-fit:contain; border:1px solid #ddd;" />
-            </div>
-
-            <!-- 처리 중 -->
-            <div id="ai-loading" style="display:none; margin-top:14px;
-              font-family:'Noto Sans KR',sans-serif; font-size:13px; color:#4a7c59; font-weight:600;">
-              <span id="ai-loading-dots">⏳ AI가 내용을 읽고 있습니다</span>
-            </div>
-
-            <!-- 완료 -->
-            <div id="ai-done" style="display:none; margin-top:14px; padding:12px 16px;
-              background:white; border-radius:10px; border:1px solid #c8e0ce;">
-              <p style="font-family:'Noto Sans KR',sans-serif; font-size:13px;
-                color:#3a6347; font-weight:700; margin-bottom:6px;">✅ 자동 입력 완료!</p>
-              <p id="ai-filled-summary" style="font-family:'Noto Sans KR',sans-serif;
-                font-size:12px; color:#666; line-height:1.8; margin:0;"></p>
-              <p style="font-family:'Noto Sans KR',sans-serif; font-size:11px;
-                color:#aaa; margin-top:6px; margin-bottom:0;">
-                입력된 내용을 확인 후 필요하면 수정해 주세요
-              </p>
-            </div>
-
-            <!-- 오류 -->
-            <div id="ai-error" style="display:none; margin-top:14px; padding:12px 16px;
-              background:#fff5f5; border-radius:10px; border:1px solid #f2c0c0;">
-              <p id="ai-error-msg" style="font-family:'Noto Sans KR',sans-serif;
-                font-size:13px; color:#c75450; margin:0;"></p>
-            </div>
-          </div>
-
+          <p class="order-note">아래 내용을 작성한 후 카카오톡 채널에 전송해 주세요. 사진·청첩장은 상담 채팅에서 함께 보내실 수 있습니다.</p>
           <!-- 주문자 -->
           <div class="form-group">
             <label for="name">이름 <span class="req">*</span></label>
@@ -285,7 +157,7 @@
 
           <div class="form-group">
             <label for="quantity">수량</label>
-            <input type="number" id="quantity" placeholder="수량을 입력해 주세요" min="1" value="1" oninput="calcPrice()" />
+            <input type="number" id="quantity" placeholder="수량을 입력해 주세요" min="1" step="1" value="1" oninput="calcPrice()" />
           </div>
 
           <!-- 가격 표시 -->
@@ -356,15 +228,16 @@
           </div>
 
           <button class="form-submit" onclick="submitOrder()">
-            💬 카카오톡으로 주문 접수하기
+            💬 주문 내용 만들기 →
           </button>
         </div>
 
         <!-- 완료 메시지 -->
         <div class="success-msg" id="success-msg">
           <div class="success-emoji">🌸</div>
-          <h3>주문 내용이 복사되었습니다!</h3>
+          <h3>주문 내용이 준비되었습니다</h3>
 
+          <p id="copy-status" role="status"></p><p>아직 접수되지 않았습니다. 카카오톡에서 내용을 전송하고 상담 확인을 받아주세요.</p><button type="button" onclick="editOrder()" class="btn">내용 수정하기</button>
           <!-- PC / 모바일 안내 -->
           <div id="guide-mobile" style="display:none; margin-bottom:20px;">
             <div style="background:#fff9e6; border:1.5px solid #fee500; border-radius:12px; padding:16px 18px; text-align:left;">
@@ -393,7 +266,7 @@
           <!-- 주문 내용 박스 -->
           <div style="background:#f5f5f5; border-radius:12px; padding:16px 18px;
             text-align:left; margin-bottom:20px; position:relative;">
-            <p style="font-size:11px; color:#aaa; margin-bottom:6px; font-family:'Noto Sans KR',sans-serif;">주문 내용 (이미 복사됨)</p>
+            <p style="font-size:11px; color:#aaa; margin-bottom:6px; font-family:'Noto Sans KR',sans-serif;">주문 내용</p>
             <pre id="order-text-display" style="
               font-family:'Noto Sans KR',sans-serif; font-size:13px;
               color:#444; line-height:1.8; white-space:pre-wrap;
@@ -479,7 +352,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 브리즈컴퍼니. All rights reserved.</p>
+        <p>© 2026 브리즈컴퍼니. All rights reserved.</p>
         <p class="biz-info">사업자등록번호: 539-37-01600 | 대표: 신아영</p>
       </div>
     </div>
@@ -495,10 +368,11 @@
         g.items.forEach(item => {
           const opt = document.createElement('option');
           opt.value = item.name;
+          opt.dataset.key = item.key || item.name;
           if (item.price)  opt.dataset.price  = item.price;
           if (item.price2) opt.dataset.price2 = item.price2;
           opt.textContent = item.price2
-            ? `${item.name} (${item.price.toLocaleString()} / ${item.price2.toLocaleString()}원)`
+            ? `${item.name} (${item.price.toLocaleString()}원)`
             : item.price ? `${item.name} (${item.price.toLocaleString()}원)` : item.name;
           og.appendChild(opt);
         });
@@ -508,297 +382,6 @@
       const optEtc = document.createElement('option'); optEtc.value = '기타 문의'; optEtc.textContent = '기타 문의';
       ogEtc.appendChild(optEtc); sel.appendChild(ogEtc);
     })();
-
-    // ★ Groq API Key — console.groq.com에서 발급
-    const GROQ_API_KEY = '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';
-    const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-
-    // ── Groq 텍스트 호출 ─────────────────────────────────────
-    async function callGroqText(prompt) {
-      const res = await fetch(GROQ_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.1,
-          max_tokens: 500
-        })
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(`AI 오류 (${res.status}): ${err?.error?.message || ''}`);
-      }
-      const data = await res.json();
-      return data.choices?.[0]?.message?.content || '';
-    }
-
-    // ── Groq 이미지(Vision) 호출 ─────────────────────────────
-    async function callGroqVision(prompt, base64, mimeType) {
-      const res = await fetch(GROQ_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
-        body: JSON.stringify({
-          model: 'meta-llama/llama-4-scout-17b-16e-instruct',
-          messages: [{
-            role: 'user',
-            content: [
-              { type: 'text', text: prompt },
-              { type: 'image_url', image_url: { url: `data:${mimeType};base64,${base64}` } }
-            ]
-          }],
-          temperature: 0.1,
-          max_tokens: 500
-        })
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(`AI 오류 (${res.status}): ${err?.error?.message || ''}`);
-      }
-      const data = await res.json();
-      return data.choices?.[0]?.message?.content || '';
-    }
-
-    // 이미지 리사이즈/압축
-    function compressImage(file) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-        img.onload = () => {
-          URL.revokeObjectURL(url);
-          const MAX = 1200;
-          let w = img.width, h = img.height;
-          if (w > MAX || h > MAX) {
-            if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
-            else        { w = Math.round(w * MAX / h); h = MAX; }
-          }
-          const canvas = document.createElement('canvas');
-          canvas.width = w; canvas.height = h;
-          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.85);
-        };
-        img.onerror = () => resolve(file); // 실패하면 원본 사용
-        img.src = url;
-      });
-    }
-
-    // ── AI 탭 전환 ───────────────────────────────────────────
-    function switchAiTab(tab) {
-      const isImage = tab === 'image';
-      document.getElementById('ai-tab-image').style.display = isImage ? 'block' : 'none';
-      document.getElementById('ai-tab-url').style.display   = isImage ? 'none'  : 'block';
-      document.getElementById('tab-image').style.background = isImage ? '#4a7c59' : 'white';
-      document.getElementById('tab-image').style.color      = isImage ? 'white'   : '#4a7c59';
-      document.getElementById('tab-url').style.background   = isImage ? 'white'   : '#4a7c59';
-      document.getElementById('tab-url').style.color        = isImage ? '#4a7c59' : 'white';
-      // 상태 초기화
-      document.getElementById('ai-done').style.display    = 'none';
-      document.getElementById('ai-error').style.display   = 'none';
-      document.getElementById('ai-preview-wrap').style.display = 'none';
-    }
-
-    // ── 공통: 폼 자동 입력 ──────────────────────────────────
-    function applyAiResult(info) {
-      const filled = [];
-      if (info.recipient) {
-        document.getElementById('recipient').value = info.recipient;
-        filled.push('받는 사람: ' + info.recipient);
-      }
-      if (info.address) {
-        document.getElementById('address').value = info.address;
-        filled.push('주소: ' + info.address);
-      }
-      if (info.date) {
-        document.getElementById('delivery-date').value = info.date;
-        filled.push('날짜: ' + info.date);
-      }
-      if (info.time) {
-        const timeSelect = document.getElementById('delivery-time');
-        const t = info.time;
-        if      (t.includes('오전') || /[9]|10|11/.test(t))           timeSelect.value = '오전 중 (09:00~12:00)';
-        else if (t.includes('12') || /오후\s*1|오후\s*2/.test(t))     timeSelect.value = '오후 초 (12:00~14:00)';
-        else if (/14|15|16|오후\s*[34]/.test(t))                      timeSelect.value = '오후 (14:00~17:00)';
-        else if (/17|18|19|오후\s*[567]|저녁/.test(t))                timeSelect.value = '저녁 (17:00~20:00)';
-        filled.push('시간: ' + info.time);
-      }
-      if (info.type) {
-        const purposeSelect = document.getElementById('purpose');
-        if (info.type === 'wedding') { purposeSelect.value = '결혼'; filled.push('용도: 결혼 축하'); }
-        else if (info.type === 'funeral') { purposeSelect.value = '조문'; filled.push('용도: 근조/장례식장'); }
-        updatePlaceholder();
-      }
-      if (info.ribbon) {
-        document.getElementById('ribbon').value = info.ribbon;
-        filled.push('리본 문구: ' + info.ribbon);
-      }
-      return filled;
-    }
-
-    // ── 공통: Gemini 텍스트 추출 프롬프트 ──────────────────
-    const AI_PROMPT = `이 내용은 한국의 청첩장(결혼 초대장) 또는 부고장(장례 알림)입니다.
-아래 JSON 형식으로 정보를 추출해주세요. 없는 정보는 null로 처리하세요.
-날짜는 반드시 YYYY-MM-DD 형식으로, 연도가 없으면 2025년으로 추정하세요.
-
-{
-  "type": "wedding 또는 funeral",
-  "recipient": "받는 사람 이름 (신랑신부 이름 또는 고인 이름)",
-  "address": "행사 장소 전체 주소 (예식장/장례식장 주소)",
-  "date": "날짜 YYYY-MM-DD",
-  "time": "시간 (예: 오전 11시)",
-  "ribbon": "리본 문구 제안 (결혼이면 축하 문구, 장례면 근조 문구)"
-}
-
-JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
-
-    // ── 공통: 완료/오류 표시 ────────────────────────────────
-    function showAiDone(filled) {
-      document.getElementById('ai-loading').style.display = 'none';
-      document.getElementById('ai-filled-summary').innerHTML = filled.map(f => '• ' + f).join('<br/>');
-      document.getElementById('ai-done').style.display = 'block';
-    }
-    function showAiError(msg) {
-      document.getElementById('ai-loading').style.display = 'none';
-      document.getElementById('ai-error-msg').innerHTML = msg.replace(/\n/g, '<br>');
-      document.getElementById('ai-error').style.display = 'block';
-    }
-
-    // ── URL 분석 ─────────────────────────────────────────────
-    async function handleAiUrl() {
-      const url = document.getElementById('ai-url-input').value.trim();
-      if (!url) { alert('URL을 입력해주세요.'); return; }
-
-      document.getElementById('ai-done').style.display  = 'none';
-      document.getElementById('ai-error').style.display = 'none';
-      document.getElementById('ai-loading').style.display = 'block';
-
-      let dots = 0;
-      const loadingEl = document.getElementById('ai-loading-dots');
-      const dotTimer = setInterval(() => {
-        dots = (dots + 1) % 4;
-        loadingEl.textContent = '⏳ 페이지 내용을 읽고 있습니다' + '.'.repeat(dots);
-      }, 400);
-
-      try {
-        // 여러 CORS 프록시 순서대로 시도
-        const proxies = [
-          u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
-          u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
-          u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-          u => `https://thingproxy.freeboard.io/fetch/${u}`,
-        ];
-
-        let pageText = '';
-        let lastErr = '';
-
-        for (const makeProxy of proxies) {
-          try {
-            const proxyUrl = makeProxy(url);
-            const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
-            if (!res.ok) { lastErr = `HTTP ${res.status}`; continue; }
-
-            // allorigins는 JSON, 나머지는 text
-            let html = '';
-            const ct = res.headers.get('content-type') || '';
-            if (ct.includes('json')) {
-              const d = await res.json();
-              html = d.contents || d.data || '';
-            } else {
-              html = await res.text();
-            }
-
-            // HTML → 텍스트 추출
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            doc.querySelectorAll('script, style, noscript, svg').forEach(el => el.remove());
-            const text = (doc.body?.innerText || doc.body?.textContent || '').replace(/\s+/g, ' ').trim();
-
-            if (text.length > 50) { pageText = text.slice(0, 5000); break; }
-            lastErr = '텍스트 없음';
-          } catch (e) { lastErr = e.message; }
-        }
-
-        if (!pageText) throw new Error('이 URL은 자동 분석이 어렵습니다.\n카카오, BC카드, 네이버 등 앱 기반 청첩장은 URL 분석이 지원되지 않아요.\n📸 대신 청첩장 화면을 캡처해서 사진 업로드를 이용해 주세요!');
-
-        // Groq API 호출 (텍스트 모드)
-        const rawText = await callGroqText(AI_PROMPT + '\n\n---\n\n' + pageText);
-        const jsonStr = rawText.replace(/```json|```/g, '').trim();
-        const info = JSON.parse(jsonStr);
-
-        clearInterval(dotTimer);
-        showAiDone(applyAiResult(info));
-
-      } catch (err) {
-        clearInterval(dotTimer);
-        showAiError('분석에 실패했습니다: ' + err.message + ' — URL이 올바른지 확인해 주세요.');
-      }
-    }
-
-    // ── AI 자동 입력 ──────────────────────────────────────────
-    async function handleAiUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      // 미리보기
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        document.getElementById('ai-preview-img').src = e.target.result;
-        document.getElementById('ai-preview-wrap').style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-
-      // 상태 초기화
-      document.getElementById('ai-done').style.display    = 'none';
-      document.getElementById('ai-error').style.display   = 'none';
-      document.getElementById('ai-loading').style.display = 'block';
-
-      // 로딩 점 애니메이션
-      let dots = 0;
-      const loadingEl = document.getElementById('ai-loading-dots');
-      const dotTimer = setInterval(() => {
-        dots = (dots + 1) % 4;
-        loadingEl.textContent = '⏳ AI가 내용을 읽고 있습니다' + '.'.repeat(dots);
-      }, 400);
-
-      try {
-        // 이미지 압축 후 base64 변환
-        const compressed = await compressImage(file);
-        const base64 = await new Promise((resolve) => {
-          const r = new FileReader();
-          r.onload = (e) => resolve(e.target.result.split(',')[1]);
-          r.readAsDataURL(compressed);
-        });
-
-        const mimeType = 'image/jpeg'; // 압축 후 항상 jpeg
-
-        const visionPrompt = `이 이미지는 한국의 청첩장(결혼 초대장) 또는 부고장(장례 알림)입니다.
-아래 JSON 형식으로 정보를 추출해주세요. 없는 정보는 null로 처리하세요.
-날짜는 반드시 YYYY-MM-DD 형식으로, 연도가 없으면 2026년으로 추정하세요.
-
-{
-  "type": "wedding 또는 funeral",
-  "recipient": "받는 사람 이름 (신랑신부 이름 또는 고인 이름)",
-  "address": "행사 장소 전체 주소 (예식장/장례식장 주소)",
-  "date": "날짜 YYYY-MM-DD",
-  "time": "시간 (예: 오전 11시)",
-  "sender": "보내는 사람 관련 이름/단체",
-  "ribbon": "리본 문구 제안 (결혼이면 축하 문구, 장례면 근조 문구)"
-}
-
-JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
-
-        // Groq Vision API 호출
-        const rawText = await callGroqVision(visionPrompt, base64, mimeType);
-        const jsonStr = rawText.replace(/```json|```/g, '').trim();
-        const info = JSON.parse(jsonStr);
-
-        clearInterval(dotTimer);
-        showAiDone(applyAiResult(info));
-
-      } catch (err) {
-        clearInterval(dotTimer);
-        showAiError('읽기에 실패했습니다. 사진이 선명한지 확인하거나 직접 입력해 주세요.<br><small style="color:#999">' + err.message.replace(/\n/g, '<br>') + '</small>');
-      }
-    }
 
     // Header
     const header = document.getElementById('site-header');
@@ -822,20 +405,18 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
       const selected = select.options[select.selectedIndex];
       const price1 = selected.getAttribute('data-price');
       const price2 = selected.getAttribute('data-price2');
-      const qty = parseInt(document.getElementById('quantity').value) || 1;
+      const quantityInput = document.getElementById('quantity');
+      const qty = Number(quantityInput.value);
+      const validQuantity = Number.isSafeInteger(qty) && qty >= 1;
+      quantityInput.setCustomValidity(validQuantity ? '' : '수량은 1 이상의 정수로 입력해 주세요.');
+      if (!validQuantity) { document.getElementById('price-display').style.display = 'none'; return; }
       const gradeGroup = document.getElementById('grade-group');
       const priceDisplay = document.getElementById('price-display');
 
       if (!price1) { gradeGroup.style.display = 'none'; priceDisplay.style.display = 'none'; return; }
 
-      if (price2) {
-        gradeGroup.style.display = 'block';
-        const gradePrice = parseInt(document.getElementById('grade').value);
-        document.getElementById('price-total').textContent = (gradePrice * qty).toLocaleString() + '원';
-      } else {
-        gradeGroup.style.display = 'none';
-        document.getElementById('price-total').textContent = (parseInt(price1) * qty).toLocaleString() + '원';
-      }
+      gradeGroup.style.display = 'none';
+      document.getElementById('price-total').textContent = (Number(price1) * qty).toLocaleString() + '원';
       priceDisplay.style.display = 'block';
     }
 
@@ -843,10 +424,10 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
 
     // Placeholder
     const placeholders = {
-      '조문': `예시)\n고인: 홍길동\n발인일: 2025년 5월 10일\n장소: OO병원 장례식장 1호실\n리본 문구: 삼가 고인의 명복을 빕니다\n보내는 분: OO회사 임직원 일동`,
-      '결혼': `예시)\n행사명: 홍길동 · 김영희 결혼식\n행사일: 2025년 5월 10일\n장소: OO웨딩홀\n리본 문구: 결혼을 진심으로 축하합니다\n보내는 분: OO 드림`,
-      '개업': `예시)\n상호명: OO상회\n행사일: 2025년 5월 10일\n장소: 서울시 OO구 OO동\n리본 문구: 개업을 진심으로 축하드립니다\n보내는 분: OO 일동`,
-      '생일': `예시)\n받는 분: 홍길동\n행사일: 2025년 5월 10일\n배송 주소: 서울시 OO구 OO동\n리본 문구: 생일을 진심으로 축하해요\n보내는 분: OO 드림`,
+      '조문': `예시)\n고인: 홍길동\n발인일: 날짜를 입력해 주세요\n장소: OO병원 장례식장 1호실\n리본 문구: 삼가 고인의 명복을 빕니다\n보내는 분: OO회사 임직원 일동`,
+      '결혼': `예시)\n행사명: 홍길동 · 김영희 결혼식\n행사일: 날짜를 입력해 주세요\n장소: OO웨딩홀\n리본 문구: 결혼을 진심으로 축하합니다\n보내는 분: OO 드림`,
+      '개업': `예시)\n상호명: OO상회\n행사일: 날짜를 입력해 주세요\n장소: 서울시 OO구 OO동\n리본 문구: 개업을 진심으로 축하드립니다\n보내는 분: OO 일동`,
+      '생일': `예시)\n받는 분: 홍길동\n행사일: 날짜를 입력해 주세요\n배송 주소: 서울시 OO구 OO동\n리본 문구: 생일을 진심으로 축하해요\n보내는 분: OO 드림`,
       '기타': `리본 문구, 특별 요청사항, 기타 문의사항을 자유롭게 입력해 주세요.`,
       '': `용도를 먼저 선택하시면 예시 문구가 나타납니다.`
     };
@@ -868,7 +449,8 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
         range.selectNodeContents(document.getElementById('order-text-display'));
         window.getSelection().removeAllRanges();
         window.getSelection().addRange(range);
-        document.execCommand('copy');
+        const ok = document.execCommand('copy');
+        if (!ok) { btn.textContent = '직접 선택해 복사'; return; }
         window.getSelection().removeAllRanges();
         btn.textContent = '✅ 복사됨';
         setTimeout(() => { btn.textContent = '📋 복사'; }, 2000);
@@ -876,7 +458,8 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
     }
 
     // 성공 화면 표시
-    function showSuccess(orderText) {
+    function showSuccess(orderText, copied) {
+      document.getElementById("copy-status").textContent = copied ? "주문 내용을 복사했습니다. 카카오톡에 붙여넣어 주세요." : "자동 복사를 완료하지 못했습니다. 아래 복사 버튼을 누르거나 내용을 직접 선택해 복사해 주세요.";
       const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
       document.getElementById('orderFormCard').style.display = 'none';
@@ -890,6 +473,12 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
       window.scrollTo({ top: successEl.offsetTop - 120, behavior: 'smooth' });
     }
 
+    function localToday() { const d = new Date(); return [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-'); }
+    document.getElementById('delivery-date').min = localToday();
+    const chosenKey = new URLSearchParams(location.search).get('product');
+    const chosenOption = Array.from(document.getElementById('product').options).find(o => o.dataset.key === chosenKey);
+    if (chosenOption) { chosenOption.selected = true; calcPrice(); }
+    function editOrder() { document.getElementById('success-msg').style.display = 'none'; document.getElementById('orderFormCard').style.display = 'block'; document.getElementById('name').focus(); }
     // Submit
     async function submitOrder() {
       const name      = document.getElementById('name').value.trim();
@@ -905,13 +494,18 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
       const purpose   = document.getElementById('purpose').value;
       const message   = document.getElementById('message').value.trim();
       const priceEl   = document.getElementById('price-total');
-      const price     = priceEl ? priceEl.textContent : '';
+      const price = priceEl && document.getElementById('price-display').style.display !== 'none' ? priceEl.textContent : '';
 
       if (!name || !phone || !product || !recipient) {
         alert('이름, 연락처, 상품, 받는 사람은 필수 입력 항목입니다.');
         return;
       }
 
+      const qty = Number(quantity);
+      if (!Number.isSafeInteger(qty) || qty < 1) { alert('수량은 1 이상의 정수로 입력해 주세요.'); return; }
+      if (!/^0[0-9]{8,10}$/.test(phone.replace(/[ -]/g, ''))) { alert('연락처를 정확히 입력해 주세요.'); return; }
+      if (date && date < localToday()) { alert('희망 배송일은 오늘 이후로 선택해 주세요.'); return; }
+      calcPrice();
       const purposeMap = {
         '조문': '근조/장례식장', '결혼': '결혼 축하',
         '개업': '개업/취임 축하', '생일': '생일/기념일', '기타': '기타'
@@ -929,17 +523,19 @@ JSON만 반환하고 다른 텍스트는 쓰지 마세요.`;
 ──────────────────${sender ? `\n✍️ 발송명의: ${sender}` : ''}${ribbon ? `\n🎀 리본문구: ${ribbon}` : ''}${message ? `\n📝 요청사항:\n${message}` : ''}
 ──────────────────`;
 
+      let copied = false;
       // ── 클립보드 복사 ──
       try {
         await navigator.clipboard.writeText(orderText);
+        copied = true;
       } catch (e) {
         // 클립보드 권한 없으면 텍스트박스에서 수동 복사
       }
 
-      showSuccess(orderText);
+      showSuccess(orderText, copied);
     }
   </script>
 
-  <script src="renewal.js"></script>
+  <script src="renewal.js?v=20260908-2"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://breezecompany.co.kr/og-image.png" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="renewal.css" />
+  <link rel="stylesheet" href="renewal.css?v=20260908-2" />
   <script src="products.js"></script>
 </head>
 <body>
@@ -133,7 +133,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 브리즈컴퍼니. All rights reserved.</p>
+        <p>© 2026 브리즈컴퍼니. All rights reserved.</p>
         <p class="biz-info">사업자등록번호: 539-37-01600 | 대표: 신아영</p>
       </div>
     </div>
@@ -141,19 +141,20 @@
 
   <script>
     (function() {
+      const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
       const grid = document.getElementById('price-grid-dynamic');
       (window.BZ_PRODUCTS || []).forEach(g => {
         const items = g.items.map(item => {
           const priceText = !item.price ? '가격 문의'
-            : item.price2 ? `${item.price.toLocaleString()}원 / ${item.price2.toLocaleString()}원`
+            : item.price2 ? `${item.price.toLocaleString()}원 (정가 ${item.price2.toLocaleString()}원)`
             : `${item.price.toLocaleString()}원`;
           return `<div class="price-item"><div class="price-item-left">
-            <p class="price-item-name">${item.name}</p>
-            <p class="price-item-use">${item.use}</p>
+            <p class="price-item-name">${esc(item.name)}</p>
+            <p class="price-item-use">${esc(item.use)}</p>
           </div><p class="price-item-price">${priceText}</p></div>`;
         }).join('');
         grid.innerHTML += `<div class="price-card"><div class="price-card-head">
-          <span class="cat-emoji">${g.emoji}</span><h3>${g.group}</h3><p>${g.desc}</p>
+          <span class="cat-emoji">${g.emoji}</span><h3>${esc(g.group)}</h3><p>${esc(g.desc)}</p>
         </div><div class="price-items">${items}</div></div>`;
       });
     })();
@@ -172,6 +173,6 @@
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   </script>
 
-  <script src="renewal.js"></script>
+  <script src="renewal.js?v=20260908-2"></script>
 </body>
 </html>

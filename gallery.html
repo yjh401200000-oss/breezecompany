@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://breezecompany.co.kr/og-image.png" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="renewal.css" />
+  <link rel="stylesheet" href="renewal.css?v=20260908-2" />
 </head>
 <body>
 
@@ -75,7 +75,7 @@
       <div class="gallery-grid" id="galleryGrid">
         <div style="grid-column:1/-1;text-align:center;color:#aaa;padding:60px 0;font-size:14px;">⏳ 사진을 불러오는 중...</div>
 
-        <div class="gallery-item reveal" data-cat="wreath" data-title="○○ 사업장 개업식" data-desc="3단 축하 실속형 화환 납품 · 대구 수성구">
+        <div class="gallery-item reveal" role="button" tabindex="0" data-cat="wreath" data-title="○○ 사업장 개업식" data-desc="3단 축하 실속형 화환 납품 · 대구 수성구">
           <div class="gallery-item-img-wrap">
             <div class="gallery-item-placeholder" style="background:linear-gradient(135deg,#eaf4ee,#c8e6d0);">🎋</div>
             <div class="gallery-item-overlay"><span>크게 보기 ↗</span></div>
@@ -297,7 +297,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 브리즈컴퍼니. All rights reserved.</p>
+        <p>© 2026 브리즈컴퍼니. All rights reserved.</p>
         <p class="biz-info">사업자등록번호: 539-37-01600 | 대표: 신아영</p>
       </div>
     </div>
@@ -377,6 +377,7 @@
       grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
       // 필터 재적용
       applyFilter();
+      grid.querySelectorAll('.gallery-item').forEach(item => item.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(item); } }));
       // 클릭 이벤트 연결
       grid.querySelectorAll('.gallery-item').forEach(item => item.addEventListener('click', () => openLb(item)));
     }
@@ -436,6 +437,6 @@
     // 키보드 ESC
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
   </script>
-  <script src="renewal.js"></script>
+  <script src="renewal.js?v=20260908-2"></script>
 </body>
 </html>

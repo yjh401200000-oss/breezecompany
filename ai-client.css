@@ -1,0 +1,10 @@
+.bz-ai-panel { border:1px solid var(--bz-line,#d5d8df); padding:18px; margin:20px 0; background:var(--bz-surface-2,#f1f2f4); }
+.bz-ai-panel summary { cursor:pointer; font-weight:700; font-size:16px; }
+.bz-ai-panel p,.bz-ai-panel label { font-size:14px; line-height:1.75; margin:12px 0; }
+.bz-ai-panel label { display:block; }
+.bz-ai-panel .bz-ai-agree { width:18px; height:18px; vertical-align:middle; margin-right:6px; }
+.bz-ai-panel input[type=file] { display:block; width:100%; font-size:14px; margin-top:8px; }
+.bz-ai-panel button { margin-top:12px; font-size:14px; }
+.bz-ai-panel button:disabled { opacity:.55; cursor:not-allowed; }
+.bz-ai-result { border-top:1px solid var(--bz-line,#d5d8df); padding-top:16px; margin-top:16px; overflow-wrap:anywhere; }
+.bz-ai-challenge { min-height:0; max-width:100%; overflow:auto; }

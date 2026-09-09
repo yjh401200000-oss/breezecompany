@@ -27,5 +27,5 @@ assert.equal(cleanResult({date:'2026-02-31'},'order').date,'');assert.equal(clea
 let record;const store={get:async()=>record,put:async(_,v)=>{record=v;}};const daily=new DailyBudget({storage:{transaction:fn=>fn(store)}},{AI_DAILY_LIMIT:'2'});
 for(const code of [200,200,429])assert.equal((await daily.fetch(new Request('https://budget/consume',{method:'POST'}))).status,code);
 const failed=createWorker(async(url)=>url.includes('siteverify')?Response.json({success:true,hostname:'www.breezecompany.co.kr',action:'breeze-ai'}):new Response('secret-provider-detail',{status:401}));
-const error=await failed.fetch(req(),env);assert.equal(error.status,502);assert(!(await error.text()).includes('secret-provider-detail'));
+const error=await failed.fetch(req(),env);assert.equal(error.status,502);const errorBody=await error.json();assert.equal(errorBody.code,'AI_UPSTREAM_401');assert(!JSON.stringify(errorBody).includes('secret-provider-detail'));
 console.log('PASS: origin, secret readiness, task/input limits, captcha verification, rate/daily budget, output schema, secret-safe errors');
